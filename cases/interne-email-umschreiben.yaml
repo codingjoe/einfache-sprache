@@ -23,8 +23,8 @@ cases:
           patterns:
             - '(?i)Freitag'
             - '(15\.12\.2026|15\. Dezember 2026)'
-            - '(?i)Schnittstelle\\w*'
-            - '(?i)(anpass\\w*|zurückmeld\\w*|rückmeld\\w*)'
+            - '(?i)Schnittstelle\w*'
+            - '(?i)(anpass\w*|zurückmeld\w*|rückmeld\w*)'
       - NichtsErfunden:
           patterns:
             - '(?i)(in Kenntnis|hiermit|Jour fixe)'

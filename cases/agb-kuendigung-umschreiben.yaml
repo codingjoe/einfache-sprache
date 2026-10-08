@@ -18,7 +18,7 @@ cases:
       - InhaltBewahrt:
           patterns:
             # Zahlwort oder Ziffer, die Tatsache zählt, nicht die Schreibweise.
-            - '(?i)\b(zwölf|12)\s+Monate\b'
+            - '(?i)((zwölf|12)\s+Monate|ein\s+Jahr)'
             - '(?i)\b(drei|3)\s+Monate\b'
             - '(?i)(Textform|Brief|E-Mail|schriftlich)'
             # Ein Rechenbeispiel mit Datum wurde ausdruecklich verlangt.

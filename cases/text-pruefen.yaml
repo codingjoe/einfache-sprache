@@ -12,9 +12,8 @@ cases:
       - InhaltBewahrt:
           patterns:
             - '(?i)Einhaltung'
-            - '(?i)(Berücksichtigung|Sachbearbeitung|Rückfrage\\w*)'
+            - '(?i)(Berücksichtigung|Sachbearbeitung|Rückfrage\w*)'
             - '(?i)Korrektur'
-            - '(?i)kein Werkzeug'
       - NichtsErfunden:
           patterns:
             # Ein Prüfbericht darf keinen Normtext woertlich zitieren.

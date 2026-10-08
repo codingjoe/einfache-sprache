@@ -184,6 +184,8 @@ Korrektur: "…" (zwei Sätze)
 1. Prüfe, ob der Text sagt, was die Person tun soll.
 1. Sag einmal, dass kein Werkzeug die Einhaltung der Norm garantieren kann, wenn der Nutzer Konformität verlangt hat.
 
+**Der Hinweis gehört in die Antwort, nie in den Text.** Ein Satz wie "Kein Werkzeug kann die Einhaltung der Norm garantieren" ist eine Aussage über deine Arbeit. In einem Bescheid, einer AGB-Klausel oder einer Patienteninfo hat er nichts zu suchen, denn dort spricht die Organisation zu den Lesenden. Im Testlauf hat ein Modell genau diesen Satz an das Ende einer Kündigungsklausel gehängt. Damit hat es die Rechtsfolge verwässert und sich zwei Regelverstöße eingehandelt. Prüfe zum Schluss: Steht im Text etwas über dich, das Modell, die Norm oder Werkzeuge? Dann streichen.
+
 ## Grenzen
 
 - **Das ist nicht Leichte Sprache.** Leichte Sprache richtet sich an Menschen mit Lernschwierigkeiten und folgt anderen Regeln, unter anderem DIN SPEC 33429. DIN 8581-1 grenzt diese Zielgruppe ausdrücklich aus. Wenn jemand Leichte Sprache braucht, sag das und arbeite nicht heimlich in Einfacher Sprache weiter. Vergleiche `references/leichte-sprache.md`.

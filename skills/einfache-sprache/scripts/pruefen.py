@@ -204,8 +204,14 @@ FUNKTIONSVERB = re.compile(
 )
 GENITIV = re.compile(r"\b(?:des|dessen|deren)\s+\w{3,}(?:es|s|en)\b", re.IGNORECASE)
 KONJUNKTIV = re.compile(
-    r"\b(?:wäre|wären|hätte|hätten|würde|würden|könnte|könnten|müsste|müssten|"
-    r"dürfte|dürften|sollte|sollten|wollte|wollten|ginge|käme|bräuchte)\b",
+    r"\b(?:wäre|wären|hätte|hätten|würde|würden|ginge|käme|bräuchte)\b",
+    re.IGNORECASE,
+)
+# Modalformen sind mehrdeutig. "Wann Sie uns anrufen sollten" ist kein
+# Konjunktiv, sondern ein Relativsatz. Deshalb nur ein Hinweis.
+MODALFORM = re.compile(
+    r"\b(?:könnte|könnten|müsste|müssten|dürfte|dürften|sollte|sollten|"
+    r"wollte|wollten|möge|mögen)\b",
     re.IGNORECASE,
 )
 ES_FORMEL = re.compile(
@@ -470,6 +476,7 @@ MUSTER_HART: list[tuple[str, re.Pattern[str]]] = [
 # richtig, deshalb ein Hinweis und kein Verstoß.
 MUSTER_HINWEIS: list[tuple[str, re.Pattern[str]]] = [
     ("Amtsbezeichnung", AMTSBEZEICHNUNG),
+    ("Modalform", MODALFORM),
 ]
 
 
@@ -516,10 +523,19 @@ def woerter_pruefen(
 
 
 def naechstes_passiv(satz: str) -> str | None:
-    """Erkennt eine Passivform im Satz und gibt sie als Text zurück."""
+    """Erkennt eine Passivform im Satz und gibt sie als Text zurück.
+
+    Ein Mittelwort nach "werden" ist nicht immer ein Passiv. In "Werden Ihre
+    Beine dick und geschwollen?" ist "geschwollen" ein Eigenschaftswort, das
+    mit "dick" koordiniert ist. Ein "und" oder "oder" direkt davor ist deshalb
+    ein Ausschlussgrund.
+    """
     for m in WERDEN.finditer(satz):
         teil = PARTIZIP.search(satz[m.end() :][:60])
         if teil:
+            davor = satz[: m.end() + teil.start()].rstrip()
+            if re.search(r"\b(und|oder|sowie)$", davor):
+                continue
             return f"{m.group(0)} {teil.group(0)}"
     return None
 
@@ -595,6 +611,8 @@ def pruefe(text: str, max_satzlaenge: int = 20) -> tuple[list[Befund], dict]:
 
 HINWEISE = (
     "Amtsbezeichnung",
+    "Kommazahl",
+    "Modalform",
     "Genitiv",
     "Klammer",
     "Kurze Uhrzeit",

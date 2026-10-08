@@ -24,7 +24,7 @@ cases:
             - '(?i)\b(monat|dienstag|donnerstag|Kurs|Training)\b.{0,30}\b\d{1,2}[:.]?\d{0,2}\b'
       - NenntZielgruppe:
           patterns:
-            - '(?i)(TSV Bogenhausen|Altersgruppe\\w*|Breitensport)'
+            - '(?i)(TSV Bogenhausen|Altersgruppe\w*|Breitensport)'
       - Wortbudget:
           min_woerter: 45
           max_woerter: 110

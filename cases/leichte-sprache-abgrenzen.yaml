@@ -13,8 +13,8 @@ cases:
       - InhaltBewahrt:
           patterns:
             - '(?i)Leichte Sprache'
-            - '(?i)(reicht nicht|nicht aus|andere Zielgruppe|eigenes Regelwerk|DIN SPEC|Prüfgruppe|geprüft)'
-            - '(?i)(anbiet\\w*|kann ich|Wenn Sie möchten|möglich\\w*)'
+            - '(?i)(reicht nicht|nicht aus|andere Zielgruppe|andere Regeln|eigenes Regelwerk|DIN SPEC|Prüfgruppe|prüf\w*|Fachperson|Fachkraft)'
+            - '(?i)(anbiet\w*|kann ich|Wenn Sie möchten|möglich\w*)'
       - NichtsErfunden:
           patterns:
             # Der 1. Juli 2026 und die zwoelf Monate duerfen nicht verschwinden
