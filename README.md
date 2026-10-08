@@ -1,4 +1,4 @@
-# /einfache-sprache
+# `/einfache-sprache`
 
 Ein AI-Skill, der deutsche Texte in **Einfache Sprache nach DIN 8581-1** bringt.
 
