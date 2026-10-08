@@ -14,9 +14,10 @@ Aufruf:
 from __future__ import annotations
 
 import argparse
+import asyncio
 import os
 import sys
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 from typing import Any
 
@@ -74,9 +75,9 @@ def build_agent(instructions: str, name: str, model: Model) -> Agent[None, str]:
     )
 
 
-def task(agent: Agent[None, str]) -> Callable[[str], str]:
-    def run(prompt: str) -> str:
-        return agent.run_sync(prompt).output
+def task(agent: Agent[None, str]) -> Callable[[str], Awaitable[str]]:
+    async def run(prompt: str) -> str:
+        return (await agent.run(prompt)).output
 
     return run
 
@@ -90,15 +91,22 @@ def case_files(only: str | None) -> list[Path]:
     return dateien
 
 
-def evaluate(
+async def evaluate(
     path: Path, model: Model, repeats: int, konfiguration: str, skill: Skill
 ) -> EvaluationReport[str, str, Any]:
+    """Fährt einen Fall asynchron.
+
+    Bewusst asynchron und nicht über `evaluate_sync`. `run_sync` legt je Aufruf
+    eine eigene Ereignisschleife an, und der HTTP-Client, den der Anbieter hält,
+    bleibt an die erste gebunden. Ab dem zweiten Fall bricht das mit "bound to a
+    different event loop" ab. Eine Schleife für den ganzen Lauf vermeidet das.
+    """
     dataset = Dataset[str, str, Any].from_file(path, custom_evaluator_types=RULES)
     if konfiguration == "mit":
         agent = build_agent(skill.instructions_with_references(), path.stem, model)
     else:
         agent = build_agent(BASELINE_INSTRUCTIONS, f"{path.stem}-ohne", model)
-    return dataset.evaluate_sync(
+    return await dataset.evaluate(
         task(agent), repeat=repeats, max_concurrency=MAX_CONCURRENCY, progress=False
     )
 
@@ -203,6 +211,55 @@ def selbsttest() -> int:
     return 1 if fehler else 0
 
 
+def zeige_texte(report: EvaluationReport[str, str, Any], bezeichnung: str) -> None:
+    """Zeigt Aufgabe und Ergebnis im Klartext.
+
+    Bei einem Schreib-Skill ist der erzeugte deutsche Text das Ergebnis. Eine
+    Tabelle mit Häkchen sagt nicht, ob der Text brauchbar ist. Deshalb steht er
+    mit im Bericht, damit ein Mensch ihn lesen kann.
+    """
+    for case in report.cases:
+        ergebnis = "<kein Ergebnis>"
+        if case.output is not None:
+            ergebnis = str(case.output)
+        print(f"--- {bezeichnung}: {case.name} ---")
+        print("AUFGABE:")
+        print(str(case.inputs).strip())
+        print()
+        print("ERGEBNIS:")
+        print(ergebnis.strip())
+        print()
+
+
+async def fahre(
+    dateien: list[Path],
+    model: Model,
+    repeats: int,
+    konfigurationen: tuple[str, ...],
+    skill: Skill,
+) -> dict[str, tuple[int, int, float]]:
+    """Fährt alle Fälle für jede Konfiguration und zählt die Urteile."""
+    ergebnisse: dict[str, tuple[int, int, float]] = {}
+    for konfiguration in konfigurationen:
+        bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
+        print(f"===== Lauf {bezeichnung} =====")
+        zaehler = {"bestanden": 0, "gesamt": 0}
+        for path in dateien:
+            report = await evaluate(path, model, repeats, konfiguration, skill)
+            report.print(width=100, include_output=False, include_reasons=True)
+            for failure in report.failures:
+                print(f"{failure.name}: {failure.error_message}")
+            zaehle(report, zaehler)
+            zeige_texte(report, bezeichnung)
+        ergebnisse[konfiguration] = (
+            zaehler["bestanden"],
+            zaehler["gesamt"],
+            quote(zaehler),
+        )
+        print()
+    return ergebnisse
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="einfache_sprache_evals")
     parser.add_argument(
@@ -233,37 +290,22 @@ def main(argv: list[str] | None = None) -> int:
     model = build_model(model_name)
     skill = Skill.read()
     dateien = case_files(None)
+    konfigurationen = (args.nur,) if args.nur else CONFIGURATIONS
 
     print(f"Modell: {model_name}   Richter: {judge_name}   Wiederholungen: {repeats}")
     print(f"Fälle: {len(dateien)} aus {CASES_DIR}")
     print()
 
-    konfigurationen = (args.nur,) if args.nur else CONFIGURATIONS
-    ergebnisse: dict[str, tuple[int, int, float]] = {}
-    for konfiguration in konfigurationen:
-        bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
-        print(f"===== Lauf {bezeichnung} =====")
-        zaehler = {"bestanden": 0, "gesamt": 0}
-        for path in dateien:
-            report = evaluate(path, model, repeats, konfiguration, skill)
-            report.print(width=100, include_output=False, include_reasons=True)
-            for failure in report.failures:
-                print(f"{failure.name}: {failure.error_message}")
-            zaehle(report, zaehler)
-        ergebnisse[konfiguration] = (
-            zaehler["bestanden"],
-            zaehler["gesamt"],
-            quote(zaehler),
-        )
-        print()
+    ergebnisse = asyncio.run(fahre(dateien, model, repeats, konfigurationen, skill))
 
     print("===== Ergebnis =====")
     for konfiguration, (bestanden, gesamt, rate) in ergebnisse.items():
         bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
         print(f"{bezeichnung:<12} {bestanden}/{gesamt}  {rate:.1%}")
     if len(ergebnisse) == 2 and ergebnisse["ohne"][1]:
-        delta = ergebnisse["mit"][2] - ergebnisse["ohne"][2]
-        print(f"{'Unterschied':<12} {delta:+.1%}")
+        print(
+            f"{'Unterschied':<12} {ergebnisse['mit'][2] - ergebnisse['ohne'][2]:+.1%}"
+        )
     return (
         1
         if any(bestanden < gesamt for bestanden, gesamt, _ in ergebnisse.values())

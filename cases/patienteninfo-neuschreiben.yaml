@@ -22,9 +22,9 @@ cases:
             - '(?i)morgens'
             - '(?i)(schwindelig|schwindel)'
             - '(?i)(langsam aufstehen|langsam auf)'
-            - '(?i)(nicht (allein |eigenmächtig |einfach )?(absetzen|ab))'
-            - '(?i)(schwellung|anschwell|geschwollen)'
-            - '(?i)(anrufen|melden|Praxis)'
+            - '(?i)(nicht\\s+(allein\\s+|eigenmächtig\\s+|einfach\\s+)?(absetz\\w*|ab))'
+            - '(?i)schwell\\w*|angeschwollen'
+            - '(?i)(anruf\\w*|meld\\w*|Praxis)'
       - Wortbudget:
           min_woerter: 100
           max_woerter: 220

@@ -23,7 +23,7 @@ cases:
           patterns:
             - '640[.,]00'
             - 'Grenze'
-            - '(?i)(widerspruch|vorgehen|einspruch|beschwerde|rechtsbehelf)'
+            - '(?i)(widerspruch\\w*|vorgeh\\w*|einspruch\\w*|beschwerd\\w*|rechtsbehelf\\w*)'
       - NichtsErfunden:
           patterns:
             # Kein Datum und keine Frist in der Quelle, also darf hier keine stehen.

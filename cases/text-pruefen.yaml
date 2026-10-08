@@ -12,7 +12,7 @@ cases:
       - InhaltBewahrt:
           patterns:
             - '(?i)Einhaltung'
-            - '(?i)(Berücksichtigung|Sachbearbeitung|Rückfragen)'
+            - '(?i)(Berücksichtigung|Sachbearbeitung|Rückfrage\\w*)'
             - '(?i)Korrektur'
             - '(?i)kein Werkzeug'
       - NichtsErfunden:
