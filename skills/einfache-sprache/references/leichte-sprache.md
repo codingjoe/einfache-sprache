@@ -4,17 +4,17 @@ Diese Unterscheidung ist die häufigste Verwechslung, und sie ist folgenreich. W
 
 ## Der Unterschied
 
-| | Einfache Sprache | Leichte Sprache |
-|---|---|---|
+|            | Einfache Sprache                                                                                       | Leichte Sprache                                                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Zielgruppe | breite Öffentlichkeit, Menschen mit wenig Vorwissen, Menschen mit Deutsch als Zweitsprache, Fachfremde | Menschen mit Lernschwierigkeiten, Menschen mit kognitiven Beeinträchtigungen, Menschen mit Hörbeeinträchtigung, teils Menschen mit geringer Lesekompetenz |
-| Niveau | Standardsprache, vereinfacht | deutlich unter Standardsprache, eigene Varietät |
-| Norm | DIN 8581-1:2024-05, dazu DIN ISO 24495-1:2024-03 | DIN SPEC 33429 (März 2025), dazu Regelwerke wie das des Netzwerks Leichte Sprache |
-| Satzlänge | 15 bis 20 Wörter | meist 8 bis 10 Wörter |
-| Sätze | ein bis zwei Nebensätze möglich | ein Satz pro Zeile, ein Gedanke pro Satz, häufig eine Zeile pro Aussage |
-| Wortschatz | bekannte Wörter, Fachwörter erklärt | nur Alltagswörter, Fachwörter ersetzt oder erklärt, keine bildhafte Sprache |
-| Komposita | auflösen oder mit Bindestrich gliedern | trennen und mit Bindestrich schreiben, zum Beispiel "Bundes-Tag" |
-| Typografie | lesefreundlich, Hervorhebungen sparsam | eigene Vorgaben, oft größere Schrift, Bilder, Prüfzeichen |
-| Prüfung | Zielgruppentest vorgesehen | Prüfung durch Prüfgruppen mit Betroffenen ist Kernbestandteil |
+| Niveau     | Standardsprache, vereinfacht                                                                           | deutlich unter Standardsprache, eigene Varietät                                                                                                           |
+| Norm       | DIN 8581-1:2024-05, dazu DIN ISO 24495-1:2024-03                                                       | DIN SPEC 33429 (März 2025), dazu Regelwerke wie das des Netzwerks Leichte Sprache                                                                         |
+| Satzlänge  | 15 bis 20 Wörter                                                                                       | meist 8 bis 10 Wörter                                                                                                                                     |
+| Sätze      | ein bis zwei Nebensätze möglich                                                                        | ein Satz pro Zeile, ein Gedanke pro Satz, häufig eine Zeile pro Aussage                                                                                   |
+| Wortschatz | bekannte Wörter, Fachwörter erklärt                                                                    | nur Alltagswörter, Fachwörter ersetzt oder erklärt, keine bildhafte Sprache                                                                               |
+| Komposita  | auflösen oder mit Bindestrich gliedern                                                                 | trennen und mit Bindestrich schreiben, zum Beispiel "Bundes-Tag"                                                                                          |
+| Typografie | lesefreundlich, Hervorhebungen sparsam                                                                 | eigene Vorgaben, oft größere Schrift, Bilder, Prüfzeichen                                                                                                 |
+| Prüfung    | Zielgruppentest vorgesehen                                                                             | Prüfung durch Prüfgruppen mit Betroffenen ist Kernbestandteil                                                                                             |
 
 **Wichtig:** DIN 8581-1 grenzt Menschen mit kognitiven Beeinträchtigungen ausdrücklich aus ihrer Zielgruppe aus. Regeln und Prinzipien der Leichten Sprache sind deshalb nicht Inhalt dieser Norm. Wer eine Zielgruppe mit Lernschwierigkeiten erreichen muss, braucht Leichte Sprache und nicht diesen Skill.
 
@@ -37,9 +37,9 @@ Der zweite Grund: Leichte Sprache hat eigene Qualitätsverfahren. Ein Text, der 
 ## Was du in diesem Fall tust
 
 1. Sag, dass hier Leichte Sprache gebraucht wird und dieser Skill dafür nicht ausreicht.
-2. Biete an, was du trotzdem leisten kannst: den Inhalt ordnen, Fachbegriffe finden, eine erste Fassung in Einfacher Sprache als Grundlage für die Leichte-Fassung, oder Text und Bilder vorbereiten.
-3. Verweise auf die zuständigen Regelwerke und auf Organisationen, die Leichte Sprache prüfen.
-4. Schreib niemals "Leichte Sprache" über einen Text, der nach diesem Skill entstanden ist.
+1. Biete an, was du trotzdem leisten kannst: den Inhalt ordnen, Fachbegriffe finden, eine erste Fassung in Einfacher Sprache als Grundlage für die Leichte-Fassung, oder Text und Bilder vorbereiten.
+1. Verweise auf die zuständigen Regelwerke und auf Organisationen, die Leichte Sprache prüfen.
+1. Schreib niemals "Leichte Sprache" über einen Text, der nach diesem Skill entstanden ist.
 
 ## Kann man beides anbieten
 

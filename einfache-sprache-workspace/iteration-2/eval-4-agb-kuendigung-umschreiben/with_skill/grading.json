@@ -1,40 +1,40 @@
 {
   "expectations": [
     {
-      "text": "Die zwölf Monate Verlängerung stehen im Text",
+      "evidence": "zw\u00f6lf Monate genannt",
       "passed": true,
-      "evidence": "zwölf Monate genannt"
+      "text": "Die zw\u00f6lf Monate Verl\u00e4ngerung stehen im Text"
     },
     {
-      "text": "Die Frist von drei Monaten steht im Text",
+      "evidence": "drei Monate genannt",
       "passed": true,
-      "evidence": "drei Monate genannt"
+      "text": "Die Frist von drei Monaten steht im Text"
     },
     {
-      "text": "Textform oder Kündigungswege genannt",
+      "evidence": "Textform erkl\u00e4rt",
       "passed": true,
-      "evidence": "Textform erklärt"
+      "text": "Textform oder K\u00fcndigungswege genannt"
     },
     {
-      "text": "Datumsbeispiel rechnet die Frist vor",
+      "evidence": "Datumsbeispiel vorhanden",
       "passed": true,
-      "evidence": "Datumsbeispiel vorhanden"
+      "text": "Datumsbeispiel rechnet die Frist vor"
     },
     {
-      "text": "Kein Satz länger als 20 Wörter",
+      "evidence": "l\u00e4ngster Satz: 11 W\u00f6rter",
       "passed": true,
-      "evidence": "längster Satz: 11 Wörter"
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
     },
     {
-      "text": "Sagt, was bei versäumter Frist passiert",
+      "evidence": "Folge der Fristvers\u00e4umnis genannt",
       "passed": true,
-      "evidence": "Folge der Fristversäumnis genannt"
+      "text": "Sagt, was bei vers\u00e4umter Frist passiert"
     }
   ],
   "summary": {
-    "passed": 6,
     "failed": 0,
-    "total": 6,
-    "pass_rate": 1.0
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
   }
 }

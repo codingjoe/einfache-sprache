@@ -1,0 +1,42 @@
+name: behoerdenbescheid-umschreiben
+cases:
+  - name: bescheid-fuer-die-mutter
+    inputs: |
+      Kannst du mir diesen Absatz aus einem Bescheid vom Jobcenter so umschreiben,
+      dass ihn meine Mutter versteht? Sie ist 68 und hat kein Studium, aber sie ist
+      nicht dement oder so, sie liest nur nicht gern Behördendeutsch. Bitte in
+      Einfacher Sprache.
+
+      "Aufgrund der Tatsache, dass die Berücksichtigung der tatsächlichen
+      Unterkunftskosten die nach § 22 Abs. 1 Satz 1 SGB II maßgebliche
+      Angemessenheitsgrenze überschreitet, werden die Kosten der Unterkunft
+      lediglich in Höhe von 640,00 EUR monatlich anerkannt; eine vollständige
+      Übernahme der tatsächlichen Aufwendungen ist nicht möglich."
+
+      Wichtig: die 640 Euro und die Tatsache, dass es eine Grenze gibt, müssen drin
+      bleiben. Und sie soll wissen, was sie jetzt tun kann.
+    evaluators:
+      - KeineHartenVerstoesse
+      - LaengsterSatz:
+          max_woerter: 20
+      - InhaltBewahrt:
+          patterns:
+            - '640[.,]00'
+            - 'Grenze'
+            - '(?i)(widerspruch|vorgehen|einspruch|beschwerde|rechtsbehelf)'
+      - NichtsErfunden:
+          patterns:
+            # Kein Datum und keine Frist in der Quelle, also darf hier keine stehen.
+            - '\b\d{1,2}\.\s?(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\b'
+            - '(?i)\b(innerhalb|binnen)\s+von\s+\w+\s+(Tagen|Wochen|Monaten)\b'
+      - HatUeberschrift
+      - LLMJudge:
+          rubric: |
+            Der Text muss den Inhalt des Bescheids für eine 68-jährige Leserin ohne
+            Vorwissen zugänglich machen. Verlangt sind: die 640,00 Euro stehen da, die
+            Angemessenheitsgrenze wird erklärt statt nur genannt, und die Leserin
+            erfährt, was sie tun kann. Kein Satz über 20 Wörter. Verboten ist alles,
+            was das Modell aus der Luft geholt hat, insbesondere ein Datum, eine
+            Frist oder ein Widerspruchsrecht, das im Quelltext nicht steht.
+          include_input: true
+          assertion: false

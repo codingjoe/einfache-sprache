@@ -1,40 +1,40 @@
 {
   "expectations": [
     {
-      "text": "Alle vier Inhalte enthalten",
+      "evidence": "alle vier gefunden",
       "passed": true,
-      "evidence": "alle vier gefunden"
+      "text": "Alle vier Inhalte enthalten"
     },
     {
-      "text": "Absetzen ist als Warnung formuliert",
+      "evidence": "kein Warnhinweis",
       "passed": false,
-      "evidence": "kein Warnhinweis"
+      "text": "Absetzen ist als Warnung formuliert"
     },
     {
-      "text": "Der Text hat eine Überschrift",
+      "evidence": "Fettzeile als \u00dcberschrift",
       "passed": false,
-      "evidence": "Fettzeile als Überschrift"
+      "text": "Der Text hat eine \u00dcberschrift"
     },
     {
-      "text": "Höchstens 200 Wörter",
+      "evidence": "31 W\u00f6rter",
       "passed": true,
-      "evidence": "31 Wörter"
+      "text": "H\u00f6chstens 200 W\u00f6rter"
     },
     {
-      "text": "Kein Satz länger als 20 Wörter",
+      "evidence": "l\u00e4ngster Satz: 10 W\u00f6rter",
       "passed": true,
-      "evidence": "längster Satz: 10 Wörter"
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
     },
     {
-      "text": "Aktiv und direkte Anrede",
+      "evidence": "Passiv: 0, Anrede: False",
       "passed": false,
-      "evidence": "Passiv: 0, Anrede: False"
+      "text": "Aktiv und direkte Anrede"
     }
   ],
   "summary": {
-    "passed": 3,
     "failed": 3,
-    "total": 6,
-    "pass_rate": 0.5
+    "pass_rate": 0.5,
+    "passed": 3,
+    "total": 6
   }
 }

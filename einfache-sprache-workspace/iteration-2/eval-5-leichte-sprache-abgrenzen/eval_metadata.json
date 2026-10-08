@@ -1,13 +1,13 @@
 {
+  "assertions": [
+    "Der Skill benennt ausdr\u00fccklich, dass Leichte Sprache hier gebraucht wird und Einfache Sprache nicht reicht",
+    "Der Skill verweist auf ein eigenes Regelwerk oder Pr\u00fcfverfahren f\u00fcr Leichte Sprache, etwa DIN SPEC 33429 oder Pr\u00fcfgruppen",
+    "Der Skill nennt den gelieferten Text nicht Leichte Sprache",
+    "Der Skill bietet dennoch konkrete Hilfe an, etwa eine Fassung in Einfacher Sprache oder Vorbereitung f\u00fcr die Pr\u00fcfgruppe",
+    "Die zw\u00f6lf Monate und der 01.07.2026 bleiben erhalten, wenn ein Text geliefert wird",
+    "Der Skill bittet um Entscheidung oder Information, statt das Ziel still umzudeuten"
+  ],
   "eval_id": 5,
   "eval_name": "leichte-sprache-abgrenzen",
-  "prompt": "Meine Oma hat eine beginnende Demenz und versteht unsere Briefe vom Amt überhaupt nicht mehr. Kannst du mir den Text hier in Leichte Sprache umschreiben? Sie soll ihn allein lesen können.\n\n\"Die Bewilligung der Leistungen erfolgt ab dem 01.07.2026 für einen Bewilligungszeitraum von zwölf Monaten. Etwaige Änderungen der Einkommensverhältnisse sind unverzüglich mitzuteilen.\"",
-  "assertions": [
-    "Der Skill benennt ausdrücklich, dass Leichte Sprache hier gebraucht wird und Einfache Sprache nicht reicht",
-    "Der Skill verweist auf ein eigenes Regelwerk oder Prüfverfahren für Leichte Sprache, etwa DIN SPEC 33429 oder Prüfgruppen",
-    "Der Skill nennt den gelieferten Text nicht Leichte Sprache",
-    "Der Skill bietet dennoch konkrete Hilfe an, etwa eine Fassung in Einfacher Sprache oder Vorbereitung für die Prüfgruppe",
-    "Die zwölf Monate und der 01.07.2026 bleiben erhalten, wenn ein Text geliefert wird",
-    "Der Skill bittet um Entscheidung oder Information, statt das Ziel still umzudeuten"
-  ]
+  "prompt": "Meine Oma hat eine beginnende Demenz und versteht unsere Briefe vom Amt \u00fcberhaupt nicht mehr. Kannst du mir den Text hier in Leichte Sprache umschreiben? Sie soll ihn allein lesen k\u00f6nnen.\n\n\"Die Bewilligung der Leistungen erfolgt ab dem 01.07.2026 f\u00fcr einen Bewilligungszeitraum von zw\u00f6lf Monaten. Etwaige \u00c4nderungen der Einkommensverh\u00e4ltnisse sind unverz\u00fcglich mitzuteilen.\""
 }

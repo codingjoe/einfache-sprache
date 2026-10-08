@@ -1,13 +1,13 @@
 {
-  "eval_id": 0,
-  "eval_name": "behoerdenbescheid-umschreiben",
-  "prompt": "Kannst du mir diesen Absatz aus einem Bescheid vom Jobcenter so umschreiben, dass ihn meine Mutter versteht? Sie ist 68 und hat kein Studium, aber sie ist nicht dement oder so, sie liest nur nicht gern Behördendeutsch. Bitte in Einfacher Sprache.\n\n\"Aufgrund der Tatsache, dass die Berücksichtigung der tatsächlichen Unterkunftskosten die nach § 22 Abs. 1 Satz 1 SGB II maßgebliche Angemessenheitsgrenze überschreitet, werden die Kosten der Unterkunft lediglich in Höhe von 640,00 EUR monatlich anerkannt; eine vollständige Übernahme der tatsächlichen Aufwendungen ist nicht möglich.\"\n\nWichtig: die 640 Euro und die Tatsache, dass es eine Grenze gibt, müssen drin bleiben. Und sie soll wissen, was sie jetzt tun kann.",
   "assertions": [
     "Der Betrag 640,00 Euro steht im Text",
-    "Der Text enthält kein Semikolon",
+    "Der Text enth\u00e4lt kein Semikolon",
     "Der Text ist im Aktiv formuliert, keine Form von werden plus Mittelwort als Passiv",
-    "Kein Satz ist länger als 20 Wörter",
-    "Der Text nennt eine Handlungsmöglichkeit für die Leserin, etwa Widerspruch oder ein Gespräch",
-    "Der Text erklärt die Angemessenheitsgrenze, statt sie nur zu nennen"
-  ]
+    "Kein Satz ist l\u00e4nger als 20 W\u00f6rter",
+    "Der Text nennt eine Handlungsm\u00f6glichkeit f\u00fcr die Leserin, etwa Widerspruch oder ein Gespr\u00e4ch",
+    "Der Text erkl\u00e4rt die Angemessenheitsgrenze, statt sie nur zu nennen"
+  ],
+  "eval_id": 0,
+  "eval_name": "behoerdenbescheid-umschreiben",
+  "prompt": "Kannst du mir diesen Absatz aus einem Bescheid vom Jobcenter so umschreiben, dass ihn meine Mutter versteht? Sie ist 68 und hat kein Studium, aber sie ist nicht dement oder so, sie liest nur nicht gern Beh\u00f6rdendeutsch. Bitte in Einfacher Sprache.\n\n\"Aufgrund der Tatsache, dass die Ber\u00fccksichtigung der tats\u00e4chlichen Unterkunftskosten die nach \u00a7 22 Abs. 1 Satz 1 SGB II ma\u00dfgebliche Angemessenheitsgrenze \u00fcberschreitet, werden die Kosten der Unterkunft lediglich in H\u00f6he von 640,00 EUR monatlich anerkannt; eine vollst\u00e4ndige \u00dcbernahme der tats\u00e4chlichen Aufwendungen ist nicht m\u00f6glich.\"\n\nWichtig: die 640 Euro und die Tatsache, dass es eine Grenze gibt, m\u00fcssen drin bleiben. Und sie soll wissen, was sie jetzt tun kann."
 }

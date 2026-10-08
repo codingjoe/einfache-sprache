@@ -116,10 +116,10 @@ Dosierungen sind gesetzt. Schreibe sie zweimal, wenn es die Klarheit erhöht: ei
 > Sie kommen nicht in Ihr Konto? Dann setzen Sie ein neues Passwort.
 >
 > 1. Öffnen Sie die Anmeldeseite.
-> 2. Klicken Sie auf "Passwort vergessen".
-> 3. Geben Sie Ihre E-Mail-Adresse ein.
-> 4. Prüfen Sie Ihr E-Mail-Postfach. Wir schicken Ihnen einen Link.
-> 5. Klicken Sie den Link an und geben Sie ein neues Passwort ein.
+> 1. Klicken Sie auf "Passwort vergessen".
+> 1. Geben Sie Ihre E-Mail-Adresse ein.
+> 1. Prüfen Sie Ihr E-Mail-Postfach. Wir schicken Ihnen einen Link.
+> 1. Klicken Sie den Link an und geben Sie ein neues Passwort ein.
 >
 > Der Link gilt eine Stunde.
 
@@ -136,8 +136,8 @@ Dosierungen sind gesetzt. Schreibe sie zweimal, wenn es die Klarheit erhöht: ei
 > **Nachher:**
 >
 > 1. Nehmen Sie die Transportsicherung ab. Sie ist hinten am Gerät.
-> 2. Prüfen Sie die Spannung auf dem Typenschild. Dort steht zum Beispiel "230 V".
-> 3. Stecken Sie den Stecker in eine Steckdose mit Schutzkontakt. Diese Steckdosen haben zwei Löcher und einen Metallstift.
+> 1. Prüfen Sie die Spannung auf dem Typenschild. Dort steht zum Beispiel "230 V".
+> 1. Stecken Sie den Stecker in eine Steckdose mit Schutzkontakt. Diese Steckdosen haben zwei Löcher und einen Metallstift.
 >
 > **Achtung:** Stecken Sie den Stecker erst ein, wenn die Spannung passt. Sonst geht das Gerät kaputt.
 

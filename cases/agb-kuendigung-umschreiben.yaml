@@ -1,0 +1,43 @@
+name: agb-kuendigung-umschreiben
+cases:
+  - name: kuendigungsklausel-fuer-kunden
+    inputs: |
+      Das ist unsere Kündigungsklausel in den AGB. Ein Kunde hat sich beschwert, er
+      habe sie nicht verstanden. Kannst du sie in Einfache Sprache bringen? Sie muss
+      aber rechtlich dasselbe bedeuten.
+
+      "Das Vertragsverhältnis verlängert sich nach Ablauf der vereinbarten Laufzeit
+      um jeweils zwölf Monate, sofern es nicht von einer der Parteien mit einer Frist
+      von drei Monaten zum Ende der jeweiligen Laufzeit in Textform gekündigt wird."
+
+      Bitte auch ein Beispiel mit Datum, damit klar ist, wann man kündigen muss.
+    evaluators:
+      - KeineHartenVerstoesse
+      - LaengsterSatz:
+          max_woerter: 20
+      - InhaltBewahrt:
+          patterns:
+            - '(?i)zwölf Monate'
+            - '(?i)drei Monate'
+            - '(?i)(Textform|Brief|E-Mail|schriftlich)'
+            # Ein Rechenbeispiel mit Datum wurde ausdruecklich verlangt.
+            - '\b\d{1,2}\.\d{1,2}\.\d{4}\b|\b\d{1,2}\.\s?(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\b'
+            - '(?i)(zu spät|nicht rechtzeitig|verlängert sich)'
+      - NichtsErfunden:
+          # Andere Fristen als die aus der Quelle duerfen nicht auftauchen.
+          - '(?i)\b(fünf|sechs|sechzehn|achtzehn|vierundzwanzig)\s+Monate\b'
+          - '(?i)\b(ein|einen)\s+Monat\b'
+      - HatUeberschrift
+      - LLMJudge:
+          rubric: |
+            Eine AGB-Kündigungsklausel in Einfacher Sprache. Verlangt ist: die zwölf
+            Monate Verlängerung, die Frist von drei Monaten, die Textform und ein
+            Datumsbeispiel, das die Frist vorrechnet. Die Rechtsfolge darf nicht
+            abgeschwächt werden, und der Text muss sagen, was passiert, wenn die Frist
+            versäumt wird. Kein Satz über 20 Wörter. Andere Fristen als drei und zwölf
+            Monate gelten als Fehler.
+          include_input: true
+          score:
+            evaluation_name: Rechtstreue
+            include_reason: true
+          assertion: false

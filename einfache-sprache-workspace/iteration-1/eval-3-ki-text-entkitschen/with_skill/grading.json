@@ -1,35 +1,35 @@
 {
   "expectations": [
     {
-      "text": "Kein Werbe-Sprech mehr",
+      "evidence": "alle entfernt",
       "passed": true,
-      "evidence": "alle entfernt"
+      "text": "Kein Werbe-Sprech mehr"
     },
     {
-      "text": "Ungefähr 60 bis 100 Wörter",
+      "evidence": "62 W\u00f6rter",
       "passed": true,
-      "evidence": "62 Wörter"
+      "text": "Ungef\u00e4hr 60 bis 100 W\u00f6rter"
     },
     {
-      "text": "Nennt Verein oder Altersgruppen",
+      "evidence": "Vereinsname oder Altersgruppen genannt",
       "passed": true,
-      "evidence": "Vereinsname oder Altersgruppen genannt"
+      "text": "Nennt Verein oder Altersgruppen"
     },
     {
-      "text": "Erfindet keine Zahlen oder Termine",
+      "evidence": "keine erfundenen Angaben",
       "passed": true,
-      "evidence": "keine erfundenen Angaben"
+      "text": "Erfindet keine Zahlen oder Termine"
     },
     {
-      "text": "Kein Satz länger als 20 Wörter",
+      "evidence": "l\u00e4ngster Satz: 10 W\u00f6rter",
       "passed": true,
-      "evidence": "längster Satz: 10 Wörter"
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
     }
   ],
   "summary": {
-    "passed": 5,
     "failed": 0,
-    "total": 5,
-    "pass_rate": 1.0
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
   }
 }

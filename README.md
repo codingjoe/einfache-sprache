@@ -22,8 +22,8 @@ Dann einen beliebigen Text geben und sagen: "bitte in Einfacher Sprache".
 
 ## So sieht das aus
 
-| Ohne Skill (echter Bescheidtext) | Mit Skill |
-|---|---|
+| Ohne Skill (echter Bescheidtext)                                                                                                                                                                                                                                                                                                              | Mit Skill                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Aufgrund der Tatsache, dass die Berücksichtigung der tatsächlichen Unterkunftskosten die nach § 22 Abs. 1 Satz 1 SGB II maßgebliche Angemessenheitsgrenze überschreitet, werden die Kosten der Unterkunft lediglich in Höhe von 640,00 EUR monatlich anerkannt; eine vollständige Übernahme der tatsächlichen Aufwendungen ist nicht möglich. | **Ihre Miete wird nur zum Teil übernommen**<br><br>Für Mieten gibt es eine Grenze. Bei Ihnen liegt diese Grenze bei 640,00 Euro im Monat.<br><br>Ihre Miete ist höher als die Grenze. Deshalb übernehmen wir nur 640,00 Euro. Den Betrag darüber zahlen wir nicht.<br><br>**Was Sie tun können**<br><br>Sie können gegen diesen Bescheid vorgehen. Wie das geht, steht in der Rechtsbehelfsbelehrung. Das ist der letzte Teil des Bescheids. |
 
 Ein Satz von 44 Wörtern mit Semikolon, vier Substantivierungen und einem Passiv. Daraus werden zwölf Sätze, der längste mit 11 Wörtern. Die 640,00 Euro stehen weiterhin da.
@@ -36,26 +36,26 @@ Der Skill hat zwei Register. Das eine gilt für den Text, den du schreibst. Das 
 
 **Der Text**
 
-| Regel | Was sie verhindert |
-|---|---|
-| 15 Wörter anstreben, 20 nicht überschreiten | Den Schachtelsatz, in dem die Frist untergeht |
-| Höchstens ein Komma pro Satz | Die Verschachtelung, die man zweimal lesen muss |
-| Verben statt Substantivierungen | "die Prüfung erfolgt" statt "wir prüfen" |
-| Aktiv statt Passiv | Die Handlung ohne handelnde Person |
-| Sag, was zu tun ist | Den Text, nach dem man nicht weiß, was morgen zu tun ist |
-| Zahlen konkret, keine Abkürzung | "zeitnah" und "z. B." statt "innerhalb von 14 Tagen" |
-| Ein Begriff pro Sache | Antrag, Gesuch und Ersuchen für dieselbe Sache |
-| Fachbegriff beim ersten Mal erklären | Das Wort, das man nachschlagen müsste |
-| Füllwörter streichen | "ganzheitlich", "nahtlos", "spielt eine entscheidende Rolle" |
+| Regel                                       | Was sie verhindert                                           |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| 15 Wörter anstreben, 20 nicht überschreiten | Den Schachtelsatz, in dem die Frist untergeht                |
+| Höchstens ein Komma pro Satz                | Die Verschachtelung, die man zweimal lesen muss              |
+| Verben statt Substantivierungen             | "die Prüfung erfolgt" statt "wir prüfen"                     |
+| Aktiv statt Passiv                          | Die Handlung ohne handelnde Person                           |
+| Sag, was zu tun ist                         | Den Text, nach dem man nicht weiß, was morgen zu tun ist     |
+| Zahlen konkret, keine Abkürzung             | "zeitnah" und "z. B." statt "innerhalb von 14 Tagen"         |
+| Ein Begriff pro Sache                       | Antrag, Gesuch und Ersuchen für dieselbe Sache               |
+| Fachbegriff beim ersten Mal erklären        | Das Wort, das man nachschlagen müsste                        |
+| Füllwörter streichen                        | "ganzheitlich", "nahtlos", "spielt eine entscheidende Rolle" |
 
 **Die Antwort**
 
-| Regel | Was sie verhindert |
-|---|---|
-| Erster Satz ist die Antwort | Die Vorrede |
-| Kein Gedankenstrich, kein Semikolon | Den zusammengeschobenen Gedanken |
+| Regel                                   | Was sie verhindert                            |
+| --------------------------------------- | --------------------------------------------- |
+| Erster Satz ist die Antwort             | Die Vorrede                                   |
+| Kein Gedankenstrich, kein Semikolon     | Den zusammengeschobenen Gedanken              |
 | Fachbegriff in wenigen Wörtern erklären | Die Erklärung, die selbst erklärt werden muss |
-| Keine Floskeln | "Ich hoffe, das hilft" |
+| Keine Floskeln                          | "Ich hoffe, das hilft"                        |
 
 Die vollständige Sammlung liegt in `skills/einfache-sprache/references/`. Die Regeln sind dort mit **[N]** für Norminhalt, **[B]** für bewährte Praxis und **[H]** für Hausregel gekennzeichnet. Wer einen Text prüft, kann so erkennen, ob eine Regel aus der Norm kommt oder aus dem Handwerk.
 
@@ -81,14 +81,14 @@ Sieben Testfälle, jeder gegen den Ausgangstext gestellt und mit demselben Prüf
 
 Der Prüfer trennt harte Verstöße von Hinweisen. Ein harter Verstoß ist ein Satz über 20 Wörtern, ein Semikolon, ein Passiv oder ein Amtswort. Ein Hinweis ist eine Prüfstelle, die oft richtig ist, etwa eine Verneinung in einer Warnung. Die Tabelle zeigt nur die harten Verstöße, weil sie die belastbare Zahl sind.
 
-| Aufgabe | Ausgangstext | Mit Skill | Veränderung |
-|---|---:|---:|---:|
-| Bescheid umschreiben | 18,2 | 0,9 | −95 % |
-| Patienteninfo neu schreiben | 0,0 | 0,0 | keine, die Quelle war schon klar |
-| Modelltext entkitschen | 14,6 | 0,0 | −100 % |
-| AGB-Kündigungsklausel | 5,7 | 0,0 | −100 % |
-| Interne E-Mail | 8,1 | 0,0 | −100 % |
-| **Mittel** | **10,7** | **0,3** | **−97 %** |
+| Aufgabe                     | Ausgangstext | Mit Skill |                      Veränderung |
+| --------------------------- | -----------: | --------: | -------------------------------: |
+| Bescheid umschreiben        |         18,2 |       0,0 |                           −100 % |
+| Patienteninfo neu schreiben |          0,0 |       0,0 | keine, die Quelle war schon klar |
+| Modelltext entkitschen      |         14,6 |       0,0 |                           −100 % |
+| AGB-Kündigungsklausel       |          5,7 |       0,0 |                           −100 % |
+| Interne E-Mail              |          8,1 |       0,0 |                           −100 % |
+| **Mittel**                  |     **10,7** |   **0,0** |                       **−100 %** |
 
 Werte sind harte Verstöße pro 100 Wörter. Nachrechnen:
 
@@ -98,13 +98,15 @@ python3 skills/einfache-sprache/scripts/pruefen.py einfache-sprache-workspace/it
 
 Die Patienteninfo ist der ehrliche Gegenfall. Ihr Ausgangstext bestand schon aus kurzen Sätzen ohne Amtswörter, deshalb gab es nichts zu verbessern. Einfache Sprache lässt sich nicht an jeder Quelle beweisen.
 
-Drei Dinge, die diese Tabelle nicht zeigt.
+Die Tabelle stammt aus der Handmessung in `einfache-sprache-workspace/`. Die ausführbare Suite liegt in `cases/` und läuft über `uv run --locked einfache_sprache_evals` gegen ein Modell. Sie misst jeden Fall zweimal, mit und ohne Skill, damit die Baseline ein echter Modellversuch ist.
 
-Erstens lief kein Modellversuch ohne Skill, weil in der Entwicklungsumgebung keine Unteragenten zur Verfügung standen. Die Baseline ist deshalb der Ausgangstext und nicht ein zweiter Modellversuch. Die Zahlen messen also, wie viel der Skill am Text verbessert, und nicht, wie viel ein Modell ohne Skill hinbekommt.
+Die Tabelle zeigt drei Dinge nicht.
+
+Erstens lief für sie kein Modellversuch ohne Skill, weil in der Entwicklungsumgebung keine Unteragenten zur Verfügung standen. Die Baseline ist dort der Ausgangstext. Die ausführbare Suite holt das nach.
 
 Zweitens ist der siebte Testfall ein Grenzfall ohne Prüferzahl. Er prüft, ob der Skill erkennt, dass eine Leserin mit Demenz Leichte Sprache braucht, und ob er das sagt, statt still das Falsche zu liefern.
 
-Drittens sind die verbleibenden Treffer im Skill-Ergebnis begründete Ausnahmen. Der Genitiv in "im § 22 des Sozialgesetzbuchs II" ist eine Fundstelle, die die Leserin zum Widerspruch braucht, und bleibt deshalb stehen.
+Drittens bleiben im Skill-Ergebnis nur noch Hinweise übrig, keine harten Verstöße. Der Genitiv in "im § 22 des Sozialgesetzbuchs II" ist eine Fundstelle, die die Leserin zum Widerspruch braucht, und bleibt deshalb stehen.
 
 ## Was Einfache Sprache nicht ist
 

@@ -7,8 +7,8 @@ Einfache Sprache richtet sich an Menschen ohne Vorwissen, aber mit normaler Lese
 Was ich Ihnen anbieten kann:
 
 1. Eine Fassung in Einfacher Sprache. Das ist ein Zwischenschritt und eine brauchbare Grundlage für die Leichte-Fassung.
-2. Ein Gespräch darüber, welche Teile Ihre Oma wirklich braucht. Beim Lesen mit Demenz hilft oft weniger Umfang mehr als einfachere Wörter.
-3. Eine Vorlage, mit der eine Prüfgruppe arbeiten kann.
+1. Ein Gespräch darüber, welche Teile Ihre Oma wirklich braucht. Beim Lesen mit Demenz hilft oft weniger Umfang mehr als einfachere Wörter.
+1. Eine Vorlage, mit der eine Prüfgruppe arbeiten kann.
 
 Noch ein Hinweis: Für Bescheide gibt es bei vielen Behörden schon eine Fassung in Leichter Sprache. Fragen Sie dort nach, bevor Sie selbst eine bauen.
 

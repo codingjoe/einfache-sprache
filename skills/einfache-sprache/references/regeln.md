@@ -6,11 +6,11 @@ Dieser Katalog ist für den Prüfmodus. Er sammelt die Regeln nach Ebene, mit Be
 
 Der Normtext von DIN 8581-1 ist kostenpflichtig und steht hier nicht zur Verfügung. Dieser Katalog arbeitet deshalb mit drei Kennzeichnungen. Sie sind der wichtigste Teil dieses Dokuments, weil sie verhindern, dass eine Hausregel als Normzitat ausgegeben wird.
 
-| Zeichen | Bedeutung |
-|---|---|
+| Zeichen | Bedeutung                                                                                                                                                               |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **[N]** | Belegt als Inhalt von DIN 8581-1 oder DIN ISO 24495-1, über die öffentliche DIN-Beschreibung, die DIN-Presseerklärung und Fachveröffentlichungen zum Normungsverfahren. |
-| **[B]** | Bewährte Praxis aus der Fachliteratur und der Arbeit von Übersetzungsbüros. Fachlich anerkannt, aber nicht als Normtext belegt. |
-| **[H]** | Hausregel dieses Skills. Nützlich, aber ausdrücklich nicht Teil der Norm. |
+| **[B]** | Bewährte Praxis aus der Fachliteratur und der Arbeit von Übersetzungsbüros. Fachlich anerkannt, aber nicht als Normtext belegt.                                         |
+| **[H]** | Hausregel dieses Skills. Nützlich, aber ausdrücklich nicht Teil der Norm.                                                                                               |
 
 Wo eine konkrete Zahl genannt wird, obwohl die Norm sie nicht öffentlich beziffert, steht das dabei. Verkaufe keine [H]-Regel als [N]-Regel, und behaupte nie, einen Normabschnitt wörtlich zu zitieren.
 
@@ -24,36 +24,40 @@ Sie grenzt ihre Zielgruppe ausdrücklich ab: Menschen mit kognitiven Beeinträch
 
 Die Anwendung ist freiwillig. § 11 BGG verlangt "einfache und verständliche Sprache", nennt die Norm aber nicht. Eine Normbezeichnung im Auftrag macht einen Text also nicht automatisch rechtlich ausreichend.
 
----
+______________________________________________________________________
 
 ## A. Die vier Grundsätze [N]
 
 Aus DIN ISO 24495-1, übernommen von DIN 8581-1. Diese Grundsätze schlagen jede Einzelregel.
 
 ### A1. Relevanz
+
 Die Lesenden bekommen, was sie brauchen.
 
 Nicht: was das Amt loswerden will. Sondern: was die Person zur Entscheidung oder zur Handlung braucht.
 Prüffrage: Welche Frage hat die lesende Person? Beantwortet der Text sie?
 
 ### A2. Auffindbarkeit
+
 Die Lesenden finden leicht, was sie suchen.
 
 Frist, Betrag und Handlungsaufforderung gehören nach vorne, nicht in den dritten Absatz. Überschriften benennen den Inhalt, nicht das Thema.
 Prüffrage: Findet jemand die Frist in fünf Sekunden?
 
 ### A3. Verständlichkeit
+
 Die Lesenden verstehen leicht, was sie finden.
 
 Sprache, Struktur und Gestaltung dienen diesem Ziel. Siehe Abschnitt B.
 
 ### A4. Anwendbarkeit
+
 Die Lesenden können die Information einfach nutzen.
 
 Der Text sagt, was zu tun ist: welche Handlung, bis wann, wo, mit welchen Unterlagen.
 Prüffrage: Weiß die Person nach dem Lesen, was sie morgen tun soll?
 
----
+______________________________________________________________________
 
 ## B. Sprachspezifische Festlegungen
 
@@ -80,18 +84,18 @@ Nachher:
 
 ### B2. Satzebene
 
-| Regel | Kennzeichen |
-|---|---|
-| Sätze möglichst kurz, 15 bis 20 Wörter | [N] Länge ist als Gegenstand der Norm belegt, die Zahl 15 bis 20 stammt aus der Fachliteratur [B] |
-| Möglichst nur ein Komma pro Satz | [B] |
-| Keine Einschübe, keine Schachtelsätze | [N] |
-| Eindeutige Sätze, eine Aussage pro Satz | [N] |
-| Aktiv, Passiv vermeiden | [N] |
-| Präsens bevorzugen | [N] |
-| Verben statt Substantivierungen | [B] |
-| Kein Genitiv | [B] |
-| Subjekt und Verb nah zusammen | [B] |
-| Verneinungen vermeiden | [B] |
+| Regel                                   | Kennzeichen                                                                                       |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Sätze möglichst kurz, 15 bis 20 Wörter  | [N] Länge ist als Gegenstand der Norm belegt, die Zahl 15 bis 20 stammt aus der Fachliteratur [B] |
+| Möglichst nur ein Komma pro Satz        | [B]                                                                                               |
+| Keine Einschübe, keine Schachtelsätze   | [N]                                                                                               |
+| Eindeutige Sätze, eine Aussage pro Satz | [N]                                                                                               |
+| Aktiv, Passiv vermeiden                 | [N]                                                                                               |
+| Präsens bevorzugen                      | [N]                                                                                               |
+| Verben statt Substantivierungen         | [B]                                                                                               |
+| Kein Genitiv                            | [B]                                                                                               |
+| Subjekt und Verb nah zusammen           | [B]                                                                                               |
+| Verneinungen vermeiden                  | [B]                                                                                               |
 
 **Satzlänge.** Die Zahl ist eine Zielmarke, kein Gesetz. Ein Satz mit 22 Wörtern, der klar ist, ist besser als zwei Satzfragmente, die den Zusammenhang zerschneiden. Die Grenze dient dem Prüfen. Über 25 Wörtern wird es fast immer schwer.
 
@@ -102,6 +106,7 @@ Nachher: Sie müssen noch Unterlagen nachreichen. Welche das sind, steht in Absa
 **Passiv.** Prüfmuster: eine Form von *werden* plus Mittelwort. "Der Antrag **wird geprüft**." Aktiv: "Die Behörde prüft den Antrag." Passiv bleibt erlaubt, wenn der Handelnde unbekannt oder gleichgültig ist: "Der Bahnhof wird umgebaut."
 
 **Substantivierung.** Die wirksamste Einzelregel im Deutschen. Endungen und Wendungen, die auf Nominalstil deuten:
+
 - **-ung**: Prüfung, Genehmigung, Berücksichtigung, Durchführung, Anwendung
 - **-heit, -keit, -igkeit**: Möglichkeit, Notwendigkeit, Schwierigkeit
 - **-tion**: Information, Organisation, Dokumentation
@@ -124,15 +129,15 @@ Nachher: Es fehlen noch Unterlagen. Wir können Ihren Antrag erst bearbeiten, we
 
 ### B3. Wortebene
 
-| Regel | Kennzeichen |
-|---|---|
-| Kurze, bekannte Wörter | [N] |
-| Fremdwörter vermeiden, wo es deutsche Wörter gibt | [N] |
-| Schwierige und lange, zusammengesetzte Wörter erklären | [N] |
-| Lange Wörter mit Bindestrich gliedern | [N] |
-| Keine Sprichwörter, keine Ironie, keine Metaphern | [B] |
-| Abkürzungen ausschreiben | [B] |
-| Keine Synonyme wechseln | [B] |
+| Regel                                                  | Kennzeichen |
+| ------------------------------------------------------ | ----------- |
+| Kurze, bekannte Wörter                                 | [N]         |
+| Fremdwörter vermeiden, wo es deutsche Wörter gibt      | [N]         |
+| Schwierige und lange, zusammengesetzte Wörter erklären | [N]         |
+| Lange Wörter mit Bindestrich gliedern                  | [N]         |
+| Keine Sprichwörter, keine Ironie, keine Metaphern      | [B]         |
+| Abkürzungen ausschreiben                               | [B]         |
+| Keine Synonyme wechseln                                | [B]         |
 
 **Wortlänge.** Die Norm behandelt Wortlänge und Wortbekanntheit. Eine Kompositagrenze nennt sie nicht öffentlich. In der Praxis gilt: ab etwa 20 Zeichen lohnt der zweite Blick.
 
@@ -160,7 +165,7 @@ Die Norm sieht Tests mit Angehörigen der Zielgruppe vor, um die Verständlichke
 
 Ein Test ersetzt kein Regelwissen, und Regelwissen ersetzt keinen Test. Ein Text, der alle Regeln hält und im Test scheitert, ist nicht verständlich. Ein Text, der im Test besteht, ist verständlich, auch wenn er eine Hausregel bricht.
 
----
+______________________________________________________________________
 
 ## C. Zeitformen
 
@@ -172,7 +177,7 @@ Ein Test ersetzt kein Regelwissen, und Regelwissen ersetzt keinen Test. Ein Text
 - Perfekt vermeiden, wo die Vergangenheit genauso klar ist. "Wir haben den Fehler gefunden" wird zu "Wir fanden den Fehler" oder besser "Der Fehler ist gefunden". Im Bericht ist Perfekt aber normal, und manche Formen sind ohne Perfekt nicht sagbar.
 - Das Futur ist selten nötig. "Wir prüfen Ihren Antrag" schlägt "Wir werden Ihren Antrag prüfen".
 
----
+______________________________________________________________________
 
 ## D. Hausregeln dieses Skills [H]
 
@@ -197,36 +202,38 @@ Richtig: "Zu spät geschickte Unterlagen können wir nicht mehr berücksichtigen
 
 ### D2. Paragrafen und Amtsbezeichnungen
 
-| Fall | Vorgehen |
-|---|---|
-| § 22 SGB II, wenn der Inhalt schon im Text steht | Weglassen. "Die Grenze steht im Gesetz." |
-| § 22 SGB II, wenn die Lesenden ihn brauchen | Behalten und erklären. "Die Grenze steht im § 22 des Sozialgesetzbuchs II. Das ist das Gesetz, nach dem wir Ihre Miete berechnen." |
-| Rechtsbehelfsbelehrung, Widerspruchsbescheid, Bekanntgabe | Behalten, weil es die Überschriften im Dokument sind. Beim ersten Mal erklären. |
-| Fachbegriff als Sache (Bemessungsgrenze, Insolvenz) | Behalten, beim ersten Mal erklären, danach weiterverwenden. |
+| Fall                                                      | Vorgehen                                                                                                                           |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| § 22 SGB II, wenn der Inhalt schon im Text steht          | Weglassen. "Die Grenze steht im Gesetz."                                                                                           |
+| § 22 SGB II, wenn die Lesenden ihn brauchen               | Behalten und erklären. "Die Grenze steht im § 22 des Sozialgesetzbuchs II. Das ist das Gesetz, nach dem wir Ihre Miete berechnen." |
+| Rechtsbehelfsbelehrung, Widerspruchsbescheid, Bekanntgabe | Behalten, weil es die Überschriften im Dokument sind. Beim ersten Mal erklären.                                                    |
+| Fachbegriff als Sache (Bemessungsgrenze, Insolvenz)       | Behalten, beim ersten Mal erklären, danach weiterverwenden.                                                                        |
 
 Faustregel: Eine Fundstelle wird nicht durch ein Alltagswort ersetzt, wenn die Leserin die Stelle nachschlagen oder zitieren muss.
 
----
+**Für den Prüfmodus wichtig:** `scripts/pruefen.py` führt die Amtsbezeichnungen in einer eigenen Kategorie `Amtsbezeichnung` und zählt sie als Hinweis, nicht als harten Verstoß. Wer einen Bescheid prüft, in dem `Rechtsbehelfsbelehrung` steht, sieht also einen Hinweis und keinen Fehler. Die Frage lautet dann: steht die Erklärung daneben?
+
+______________________________________________________________________
 
 ## E. Prüfliste zum Abhaken
 
 1. Zielgruppe in einem Satz benennbar?
-2. Handlungsziel des Textes in einem Satz benennbar?
-3. Alle Fristen, Beträge, Rechtsfolgen und Sicherheitshinweise gegen die Quelle geprüft?
-4. Steht jede Zahl im Ergebnis auch in der Quelle? Keine erfundene Angabe?
-5. Frist oder Handlungsaufforderung in den ersten drei Sätzen?
-6. Alle Sätze höchstens 20 Wörter?
-7. Höchstens ein Komma pro Satz?
-8. Aktiv, Präsens, Verb statt Substantivierung?
-9. Abkürzungen ausgeschrieben?
-10. Fachbegriffe beim ersten Mal erklärt und im Glossar?
-11. Paragrafen nur dort, wo die Lesenden sie brauchen?
-12. Amtsbezeichnungen als Wegweiser erhalten und erklärt?
-13. Ein Begriff pro Sache im ganzen Dokument?
-14. Überschriften sagen den Inhalt?
-15. Absätze mit einem Thema?
-16. `scripts/pruefen.py` gelaufen?
-17. Steht im Text, was die Person tun soll?
+1. Handlungsziel des Textes in einem Satz benennbar?
+1. Alle Fristen, Beträge, Rechtsfolgen und Sicherheitshinweise gegen die Quelle geprüft?
+1. Steht jede Zahl im Ergebnis auch in der Quelle? Keine erfundene Angabe?
+1. Frist oder Handlungsaufforderung in den ersten drei Sätzen?
+1. Alle Sätze höchstens 20 Wörter?
+1. Höchstens ein Komma pro Satz?
+1. Aktiv, Präsens, Verb statt Substantivierung?
+1. Abkürzungen ausgeschrieben?
+1. Fachbegriffe beim ersten Mal erklärt und im Glossar?
+1. Paragrafen nur dort, wo die Lesenden sie brauchen?
+1. Amtsbezeichnungen als Wegweiser erhalten und erklärt?
+1. Ein Begriff pro Sache im ganzen Dokument?
+1. Überschriften sagen den Inhalt?
+1. Absätze mit einem Thema?
+1. `scripts/pruefen.py` gelaufen?
+1. Steht im Text, was die Person tun soll?
 
 ## F. Quellen
 

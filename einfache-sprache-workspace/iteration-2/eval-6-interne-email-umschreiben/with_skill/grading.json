@@ -1,40 +1,40 @@
 {
   "expectations": [
     {
-      "text": "Die Frist Freitag steht im Text",
+      "evidence": "Freitag genannt",
       "passed": true,
-      "evidence": "Freitag genannt"
+      "text": "Die Frist Freitag steht im Text"
     },
     {
-      "text": "Das Datum der Migration steht im Text",
+      "evidence": "Migrationsdatum genannt",
       "passed": true,
-      "evidence": "Migrationsdatum genannt"
+      "text": "Das Datum der Migration steht im Text"
     },
     {
-      "text": "Sagt konkret, was zurückgemeldet werden soll",
+      "evidence": "konkrete R\u00fcckmeldung beschrieben",
       "passed": true,
-      "evidence": "konkrete Rückmeldung beschrieben"
+      "text": "Sagt konkret, was zur\u00fcckgemeldet werden soll"
     },
     {
-      "text": "Kein Satz länger als 20 Wörter",
+      "evidence": "l\u00e4ngster Satz: 10 W\u00f6rter",
       "passed": true,
-      "evidence": "längster Satz: 10 Wörter"
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
     },
     {
-      "text": "Kürzer als die Quelle von 65 Wörtern",
+      "evidence": "57 W\u00f6rter",
       "passed": true,
-      "evidence": "57 Wörter"
+      "text": "K\u00fcrzer als die Quelle von 65 W\u00f6rtern"
     },
     {
-      "text": "Floskeln sind entfernt",
+      "evidence": "keine Beh\u00f6rdenfloskel",
       "passed": true,
-      "evidence": "keine Behördenfloskel"
+      "text": "Floskeln sind entfernt"
     }
   ],
   "summary": {
-    "passed": 6,
     "failed": 0,
-    "total": 6,
-    "pass_rate": 1.0
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
   }
 }

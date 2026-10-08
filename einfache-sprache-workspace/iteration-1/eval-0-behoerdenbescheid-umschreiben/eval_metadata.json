@@ -1,12 +1,12 @@
 {
-  "eval_id": 0,
-  "eval_name": "eval-0-behoerdenbescheid-umschreiben",
   "assertions": [
     "Der Betrag 640,00 Euro steht im Text",
-    "Der Text enthält kein Semikolon",
+    "Der Text enth\u00e4lt kein Semikolon",
     "Aktiv formuliert, kein Passiv",
-    "Kein Satz länger als 20 Wörter",
-    "Nennt eine Handlungsmöglichkeit",
-    "Erklärt die Angemessenheitsgrenze"
-  ]
+    "Kein Satz l\u00e4nger als 20 W\u00f6rter",
+    "Nennt eine Handlungsm\u00f6glichkeit",
+    "Erkl\u00e4rt die Angemessenheitsgrenze"
+  ],
+  "eval_id": 0,
+  "eval_name": "eval-0-behoerdenbescheid-umschreiben"
 }

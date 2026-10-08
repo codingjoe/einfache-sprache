@@ -1,40 +1,40 @@
 {
   "expectations": [
     {
-      "text": "Benennt, dass Leichte Sprache gebraucht wird",
+      "evidence": "Abgrenzung ausdr\u00fccklich benannt",
       "passed": true,
-      "evidence": "Abgrenzung ausdrücklich benannt"
+      "text": "Benennt, dass Leichte Sprache gebraucht wird"
     },
     {
-      "text": "Verweist auf Regelwerk oder Prüfverfahren",
+      "evidence": "DIN SPEC 33429 und Pr\u00fcfgruppe genannt",
       "passed": true,
-      "evidence": "DIN SPEC 33429 und Prüfgruppe genannt"
+      "text": "Verweist auf Regelwerk oder Pr\u00fcfverfahren"
     },
     {
-      "text": "Nennt den gelieferten Text nicht Leichte Sprache",
+      "evidence": "Beispieltext ist als Einfache Sprache bezeichnet",
       "passed": true,
-      "evidence": "Beispieltext ist als Einfache Sprache bezeichnet"
+      "text": "Nennt den gelieferten Text nicht Leichte Sprache"
     },
     {
-      "text": "Bietet dennoch konkrete Hilfe an",
+      "evidence": "Hilfsangebot vorhanden",
       "passed": true,
-      "evidence": "Hilfsangebot vorhanden"
+      "text": "Bietet dennoch konkrete Hilfe an"
     },
     {
-      "text": "Zwölf Monate und 1. Juli 2026 bleiben erhalten",
+      "evidence": "Datum und Laufzeit erhalten",
       "passed": true,
-      "evidence": "Datum und Laufzeit erhalten"
+      "text": "Zw\u00f6lf Monate und 1. Juli 2026 bleiben erhalten"
     },
     {
-      "text": "Bittet um Entscheidung, statt still umzudeuten",
+      "evidence": "R\u00fcckfrage oder Wahlm\u00f6glichkeit angeboten",
       "passed": true,
-      "evidence": "Rückfrage oder Wahlmöglichkeit angeboten"
+      "text": "Bittet um Entscheidung, statt still umzudeuten"
     }
   ],
   "summary": {
-    "passed": 6,
     "failed": 0,
-    "total": 6,
-    "pass_rate": 1.0
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
   }
 }

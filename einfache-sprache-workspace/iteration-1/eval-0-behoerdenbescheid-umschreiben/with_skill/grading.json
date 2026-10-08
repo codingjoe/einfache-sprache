@@ -1,40 +1,40 @@
 {
   "expectations": [
     {
-      "text": "Der Betrag 640,00 Euro steht im Text",
+      "evidence": "Suchlauf nach '640,00 Euro'",
       "passed": true,
-      "evidence": "Suchlauf nach '640,00 Euro'"
+      "text": "Der Betrag 640,00 Euro steht im Text"
     },
     {
-      "text": "Der Text enthält kein Semikolon",
+      "evidence": "Semikolon: 0",
       "passed": true,
-      "evidence": "Semikolon: 0"
+      "text": "Der Text enth\u00e4lt kein Semikolon"
     },
     {
-      "text": "Aktiv formuliert, kein Passiv",
+      "evidence": "Passiv-Treffer: 0",
       "passed": true,
-      "evidence": "Passiv-Treffer: 0"
+      "text": "Aktiv formuliert, kein Passiv"
     },
     {
-      "text": "Kein Satz länger als 20 Wörter",
+      "evidence": "l\u00e4ngster Satz: 11 W\u00f6rter",
       "passed": true,
-      "evidence": "längster Satz: 11 Wörter"
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
     },
     {
-      "text": "Nennt eine Handlungsmöglichkeit",
+      "evidence": "Handlungshinweis im Text",
       "passed": true,
-      "evidence": "Handlungshinweis im Text"
+      "text": "Nennt eine Handlungsm\u00f6glichkeit"
     },
     {
-      "text": "Erklärt die Angemessenheitsgrenze",
+      "evidence": "Grenze wird benannt und erl\u00e4utert",
       "passed": true,
-      "evidence": "Grenze wird benannt und erläutert"
+      "text": "Erkl\u00e4rt die Angemessenheitsgrenze"
     }
   ],
   "summary": {
-    "passed": 6,
     "failed": 0,
-    "total": 6,
-    "pass_rate": 1.0
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
   }
 }

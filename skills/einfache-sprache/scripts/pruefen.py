@@ -23,39 +23,74 @@ from __future__ import annotations
 
 import argparse
 import json
+import pathlib
 import re
 import sys
 
 # --- Schutzliste: Punkte, die keinen Satz beenden -------------------------
 
 ABKUERZUNGEN = [
-    "z. B.", "z.B.", "u. a.", "u.a.", "d. h.", "d.h.", "o. Ä.", "o.Ä.",
-    "i. d. R.", "i.d.R.", "u. U.", "u.U.", "ggf.", "evtl.", "inkl.",
-    "bzw.", "usw.", "etc.", "sog.", "ca.", "zzgl.", "lt.", "Abt.", "Az.",
-    "Nr.", "vgl.", "bspw.", "max.", "min.", "Dr.", "Prof.", "St.",
-    "e. V.", "e.V.", "GmbH", "Abs.", "Art.", "S.", "ff.", "bzw",
+    "z. B.",
+    "z.B.",
+    "u. a.",
+    "u.a.",
+    "d. h.",
+    "d.h.",
+    "o. Ä.",
+    "o.Ä.",
+    "i. d. R.",
+    "i.d.R.",
+    "u. U.",
+    "u.U.",
+    "ggf.",
+    "evtl.",
+    "inkl.",
+    "bzw.",
+    "usw.",
+    "etc.",
+    "sog.",
+    "ca.",
+    "zzgl.",
+    "lt.",
+    "Abt.",
+    "Az.",
+    "Nr.",
+    "vgl.",
+    "bspw.",
+    "max.",
+    "min.",
+    "Dr.",
+    "Prof.",
+    "St.",
+    "e. V.",
+    "e.V.",
+    "GmbH",
+    "Abs.",
+    "Art.",
+    "S.",
+    "ff.",
+    "bzw",
 ]
 MONATE = (
-    "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|"
-    "November|Dezember"
+    "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember"
 )
 
 ABK_PATTERN = re.compile(
     "|".join(re.escape(a) for a in sorted(ABKUERZUNGEN, key=len, reverse=True))
 )
 ORDINAL = re.compile(rf"\b\d{{1,2}}\.\s*(?={MONATE})")
-TOKEN = re.compile(
-    rf"(?:{ABK_PATTERN.pattern}|\b\d{{1,2}}\.\s*(?={MONATE})|\S+)"
-)
+TOKEN = re.compile(rf"(?:{ABK_PATTERN.pattern}|\b\d{{1,2}}\.\s*(?={MONATE})|\S+)")
 
 # --- Einzelne Regelprüfungen ---------------------------------------------
 
-WERDEN = re.compile(r"\b(?:wird|werden|wurde|wurden|worden|werde|werdet)\b", re.I)
+WERDEN = re.compile(
+    r"\b(?:wird|werden|wurde|wurden|worden|werde|werdet)\b", re.IGNORECASE
+)
 PARTIZIP = re.compile(
     r"\b(?:ge\w{2,}(?:t|en)|be\w{2,}(?:t|en)|ver\w{2,}(?:t|en)|er\w{2,}(?:t|en)|"
     r"ent\w{2,}(?:t|en)|zer\w{2,}(?:t|en)|miss\w{2,}(?:t|en)|über\w{3,}(?:t|en)|"
     r"unter\w{3,}(?:t|en)|\w{3,}iert)\b",
-    re.I,
+    re.IGNORECASE,
 )
 NOMINAL_SICHER = re.compile(
     r"\b(?:Berücksichtigung|Einhaltung|Durchführung|Inanspruchnahme|Genehmigung|"
@@ -67,61 +102,133 @@ NOMINAL_SICHER = re.compile(
     r"Mitwirkungspflicht|Fristversäumnis|Rückantwort|Entscheidungsfindung|"
     r"Zurverfügungstellung|Berichtserstattung|Sachverhaltsdarstellung|"
     r"\w{5,}(?:tion|tät|ismus|ierung))\b",
-    re.I,
+    re.IGNORECASE,
 )
 ALLTAGSWORT = {
-    "bewegung", "schwellung", "nebenwirkung", "wohnung", "zeitung", "rechnung",
-    "ordnung", "meinung", "übung", "kleidung", "wirkung", "hoffnung",
-    "erinnerung", "sammlung", "stimmung", "leitung", "sitzung", "ausbildung",
-    "weiterbildung", "umgebung", "nahrung", "erfahrung", "anmeldung",
-    "erklärung", "zahlung", "prüfung", "richtung", "versicherung", "leistung",
-    "verbindung", "abteilung", "ausstattung", "ausstellung", "bedeutung",
-    "bedingung", "begleitung", "behandlung", "bestellung", "betreuung",
-    "bezeichnung", "darstellung", "einrichtung", "einstellung", "entschädigung",
-    "entwicklung", "erholung", "erweiterung", "finanzierung", "förderung",
-    "freundschaft", "gebühr", "haltung", "handlung", "herstellung",
-    "information", "kleidung", "kündigung", "lieferung", "lösung", "meldung",
-    "möglichkeit", "notwendigkeit", "planung", "reinigung", "sammlung",
-    "sicherheit", "gesundheit", "krankheit", "wahrheit", "wirklichkeit",
-    "spannung", "stellung", "teilnahme", "umstellung", "unterkunft",
-    "veranstaltung", "veränderung", "verfügung", "verletzung", "verordnung",
-    "versammlung", "verwaltung", "vorbereitung", "vorsorge", "wartung",
-    "werbung", "wohnung", "zahlung", "zeitung", "zufriedenheit", "zulassung",
-    "zusammenarbeit", "erlaubnis",
+    "bewegung",
+    "schwellung",
+    "nebenwirkung",
+    "wohnung",
+    "zeitung",
+    "rechnung",
+    "ordnung",
+    "meinung",
+    "übung",
+    "kleidung",
+    "wirkung",
+    "hoffnung",
+    "erinnerung",
+    "sammlung",
+    "stimmung",
+    "leitung",
+    "sitzung",
+    "ausbildung",
+    "weiterbildung",
+    "umgebung",
+    "nahrung",
+    "erfahrung",
+    "anmeldung",
+    "erklärung",
+    "zahlung",
+    "prüfung",
+    "richtung",
+    "versicherung",
+    "leistung",
+    "verbindung",
+    "abteilung",
+    "ausstattung",
+    "ausstellung",
+    "bedeutung",
+    "bedingung",
+    "begleitung",
+    "behandlung",
+    "bestellung",
+    "betreuung",
+    "bezeichnung",
+    "darstellung",
+    "einrichtung",
+    "einstellung",
+    "entschädigung",
+    "entwicklung",
+    "erholung",
+    "erweiterung",
+    "finanzierung",
+    "förderung",
+    "freundschaft",
+    "gebühr",
+    "haltung",
+    "handlung",
+    "herstellung",
+    "information",
+    "kündigung",
+    "lieferung",
+    "lösung",
+    "meldung",
+    "möglichkeit",
+    "notwendigkeit",
+    "planung",
+    "reinigung",
+    "sicherheit",
+    "gesundheit",
+    "krankheit",
+    "wahrheit",
+    "wirklichkeit",
+    "spannung",
+    "stellung",
+    "teilnahme",
+    "umstellung",
+    "unterkunft",
+    "veranstaltung",
+    "veränderung",
+    "verfügung",
+    "verletzung",
+    "verordnung",
+    "versammlung",
+    "verwaltung",
+    "vorbereitung",
+    "vorsorge",
+    "wartung",
+    "werbung",
+    "zufriedenheit",
+    "zulassung",
+    "zusammenarbeit",
+    "erlaubnis",
 }
-NOMINAL_PRUEFEN = re.compile(r"\b\w{5,}(?:ung|heit|keit|igkeit)\b", re.I)
+NOMINAL_PRUEFEN = re.compile(r"\b\w{5,}(?:ung|heit|keit|igkeit)\b", re.IGNORECASE)
 FUNKTIONSVERB = re.compile(
     r"\b(?:erfolgt|erfolgen|erfolgte|erfolgten|findet\s+\S+\s+statt|finden\s+\S+\s+statt|"
     r"vornimmt|vornehmen|vorgenommen|durchführt|durchführen|durchgeführt|"
     r"zur\s+Verfügung|in\s+Anspruch|zur\s+Anwendung|zur\s+Kenntnis|"
     r"zur\s+Folge|in\s+Kraft|zur\s+Anwendung\s+kommt)\b",
-    re.I,
+    re.IGNORECASE,
 )
-GENITIV = re.compile(r"\b(?:des|dessen|deren)\s+\w{3,}(?:es|s|en)\b", re.I)
+GENITIV = re.compile(r"\b(?:des|dessen|deren)\s+\w{3,}(?:es|s|en)\b", re.IGNORECASE)
 KONJUNKTIV = re.compile(
     r"\b(?:wäre|wären|hätte|hätten|würde|würden|könnte|könnten|müsste|müssten|"
     r"dürfte|dürften|sollte|sollten|wollte|wollten|ginge|käme|bräuchte)\b",
-    re.I,
+    re.IGNORECASE,
 )
 ES_FORMEL = re.compile(
     r"\bes\s+(?:ist|wird|sind|werden|besteht|bestehen|gilt|gelten|handelt\s+sich|"
     r"erfolgt|erfolgen|wird\s+gebeten|wird\s+empfohlen)\b",
-    re.I,
+    re.IGNORECASE,
 )
 NEGATION = re.compile(
     r"\b(?:nicht|kein|keine|keinen|keinem|keiner|keines|niemals|nie|niemand|"
     r"ohne|unzulässig|unmöglich|unterlassen)\b",
-    re.I,
+    re.IGNORECASE,
 )
 KLAMMER = re.compile(r"\([^)]{1,80}\)")
 SEMIKOLON = re.compile(r";")
-GEDANKENSTRICH = re.compile(r"—|(?<!\d)–(?!\d)|(?<= )--(?= )|(?<=[^\s\d]) - (?=[^\s\d])")
+GEDANKENSTRICH = re.compile(
+    r"—|(?<!\d)–(?!\d)|(?<= )--(?= )|(?<=[^\s\d]) - (?=[^\s\d])"
+)
 LANGS_WORT = re.compile(r"\b[A-Za-zÄÖÜäöüß]{21,}\b")
 
 DATUM_KURZ = re.compile(r"\b\d{1,2}\.\d{1,2}\.\d{2}(?!\d)\b")
 UHRZEIT_KURZ = re.compile(r"\b\d{1,2}\.\d{2}\s?(?:h|Uhr)\b")
 EINHEIT_OHNE_LZ = re.compile(
-    r"\b\d+(?:kg|km|cm|mm|ml|mg|kW|MB|GB|TB|kWh)\b", re.I
+    r"\b\d+(?:kg|km|cm|mm|ml|mg|kW|MB|GB|TB|kWh)\b", re.IGNORECASE
 )
 
 AMTSDEUTSCH = re.compile(
@@ -130,13 +237,22 @@ AMTSDEUTSCH = re.compile(
     r"seitens|erfolgt|erfolgen|vorzunehmen|vornehmen|durchzuführen|durchführen|"
     r"unentgeltlich|entgeltlich|Aufwendungen|Entgelte|Rückfragen|Rückantwort|"
     r"Zusendung|Übersendung|Einwendung|Sachverhalt|Fragestellung|Problemstellung|"
-    r"Thematik|Maßnahme|Vorgang|Mitwirkungspflicht|Fristversäumnis|Bestandskraft|"
-    r"Bekanntgabe|Erwerb|Abnahme|Anlieferung|Inbetriebnahme|Außerbetriebnahme|"
-    r"Gewährleistung|Zuwendung|Fördermittel|Terminierung|Verpflichtung|Beurteilung|"
-    r"Abwicklung|Kenntnisnahme|Inanspruchnahme|Antragstellung|Genehmigung|"
-    r"Erfordernis|Notwendigkeit|Berücksichtigung|Zurverfügungstellung|"
-    r"Rechtsbehelfsbelehrung|Widerspruchsfrist|Bemessungsgrenze)\b",
-    re.I,
+    r"Thematik|Maßnahme|Vorgang|Erwerb|Abnahme|Anlieferung|Inbetriebnahme|"
+    r"Außerbetriebnahme|Gewährleistung|Zuwendung|Fördermittel|Terminierung|"
+    r"Verpflichtung|Beurteilung|Abwicklung|Kenntnisnahme|Inanspruchnahme|"
+    r"Antragstellung|Genehmigung|Erfordernis|Notwendigkeit|Berücksichtigung|"
+    r"Zurverfügungstellung|Sachbearbeitung)\b",
+    re.IGNORECASE,
+)
+# Amtsbezeichnungen sind die Ueberschriften im Dokument. Der Skill sagt, man
+# soll sie behalten und erklaeren, weil die Leserin die Stelle sonst nicht
+# findet. Sie duerfen deshalb kein harter Verstoss sein, sondern nur ein
+# Hinweis: steht die Erklaerung daneben?
+AMTSBEZEICHNUNG = re.compile(
+    r"\b(?:Rechtsbehelf\w*|Widerspruchsbescheid|Widerspruchsfrist|Bekanntgabe|"
+    r"Bestandskraft|Mitwirkungspflicht|Fristversäumnis|Bemessungsgrenze|"
+    r"Angemessenheitsgrenze|Bewilligungszeitraum)\b",
+    re.IGNORECASE,
 )
 FACHJARGON = re.compile(
     r"\b(?:administrieren|Applikation|approbieren|evaluieren|implementieren|"
@@ -146,7 +262,7 @@ FACHJARGON = re.compile(
     r"Selektion|Sequenz|Strategie|Transformation|Variante|Kriterium|Priorität|"
     r"Relevanz|Ressource|Terminologie|Kompetenz|Konzeption|Zertifikat|Option|"
     r"Kontext|Fokus|Aspekt|Indikator|Sektor|Synergie|Mehrwert)\b",
-    re.I,
+    re.IGNORECASE,
 )
 SLOP = re.compile(
     r"\b(?:nahtlos|reibungslos|mühelos|ganzheitlich|robust|leistungsstark|innovativ|"
@@ -159,14 +275,14 @@ SLOP = re.compile(
     r"es\s+ist\s+wichtig|es\s+ist\s+erwähnenswert|es\s+lohnt\s+sich|"
     r"es\s+handelt\s+sich\s+um|in\s+der\s+heutigen\s+Zeit|im\s+Zeitalter|"
     r"eine\s+Vielzahl|eine\s+Reihe\s+von|zum\s+jetzigen\s+Zeitpunkt)\b",
-    re.I,
+    re.IGNORECASE,
 )
 FUELLWOERTER = re.compile(
     r"\b(?:wirklich|eigentlich|grundsätzlich|durchaus|gewissermaßen|sozusagen|quasi|"
     r"letztlich|schlichtweg|keineswegs|mitunter|durchweg|im\s+Grunde|"
     r"letzten\s+Endes|mehr\s+oder\s+weniger|an\s+sich|für\s+sich\s+genommen|"
     r"praktisch\s+gesehen|in\s+der\s+Gesamtschau|nicht\s+zuletzt)\b",
-    re.I,
+    re.IGNORECASE,
 )
 REDEWENDUNG = re.compile(
     r"\b(?:am\s+Ball\s+bleiben|Weichen\s+stellen|aufs\s+Gleis|ins\s+Rollen|"
@@ -174,7 +290,7 @@ REDEWENDUNG = re.compile(
     r"Daumen\s+drücken|an\s+der\s+Quelle\s+sitzen|Luft\s+nach\s+oben|"
     r"im\s+gleichen\s+Boot|Sand\s+ins\s+Getriebe|Eigentor|"
     r"mit\s+Kanonen\s+auf\s+Spatzen|ins\s+Boot\s+holen|Hand\s+in\s+Hand)\b",
-    re.I,
+    re.IGNORECASE,
 )
 ABK_IM_TEXT = re.compile(
     r"(?:\bz\.\s?B\.|\bu\.\s?a\.|\bd\.\s?h\.|\bo\.\s?Ä\.|\bi\.\s?d\.\s?R\.|"
@@ -214,18 +330,18 @@ def entschuetzen(text: str, store: list[str]) -> str:
 
 def entferne_code(text: str) -> str:
     """Blendet Code, YAML-Kopf und Trennzeilen aus, ohne Zeilen zu verschieben."""
-    text = re.sub(r"```.*?```", lambda m: "\n" * m.group(0).count("\n"), text, flags=re.S)
+    text = re.sub(
+        r"```.*?```", lambda m: "\n" * m.group(0).count("\n"), text, flags=re.DOTALL
+    )
     text = re.sub(r"`[^`\n]+`", " CODE ", text)
     text = re.sub(r"https?://\S+", " URL ", text)
-    text = re.sub(r"^\s*\|[\s:|-]+\|\s*$", "", text, flags=re.M)
+    text = re.sub(r"^\s*\|[\s:|-]+\|\s*$", "", text, flags=re.MULTILINE)
     # YAML-Kopfzeile ist Metadaten, kein Fließtext.
     if text.startswith("---"):
         ende = text.find("\n---", 3)
         if ende != -1:
             kopf = text[: ende + 4]
-            text = "".join(
-                "\n" if z == "\n" else " " for z in kopf
-            ) + text[ende + 4 :]
+            text = "".join("\n" if z == "\n" else " " for z in kopf) + text[ende + 4 :]
     return text
 
 
@@ -271,7 +387,7 @@ def bloecke(text: str) -> list[tuple[int, bool, list[str]]]:
 
 
 def saetze(text: str) -> list[tuple[int, str]]:
-    """Liste aus (Zeilennummer, Satz). Überschriften bleiben enthalten."""
+    """Zerlegt den Text in Sätze, je mit der Zeilennummer des Anfangs."""
     geschuetzt, store = schuetzen(text)
     ergebnis: list[tuple[int, str]] = []
     for start, ist_ueberschrift, zeilen in bloecke(geschuetzt):
@@ -302,7 +418,9 @@ def ist_ueberschrift(zeilen: list[str], zeile_nr: int) -> bool:
     if not (1 <= zeile_nr <= len(zeilen)):
         return False
     zeile = zeilen[zeile_nr - 1].strip()
-    return zeile.startswith("#") or (zeile.startswith("**") and zeile.endswith("**") and len(zeile) > 4)
+    return zeile.startswith("#") or (
+        zeile.startswith("**") and zeile.endswith("**") and len(zeile) > 4
+    )
 
 
 class Befund:
@@ -319,6 +437,124 @@ def kuerzen(text: str, laenge: int = 70) -> str:
     return text if len(text) <= laenge else text[:laenge] + "…"
 
 
+def komma(zahl: float) -> str:
+    """Deutsche Schreibweise, also Komma statt Punkt im Dezimalbruch."""
+    return str(zahl).replace(".", ",")
+
+
+# Die Muster in Prüfreihenfolge. Der erste Treffer auf einer Stelle gewinnt,
+# weil er die genauere Erklärung liefert.
+MUSTER_HART: list[tuple[str, re.Pattern[str]]] = [
+    ("Amtsdeutsch", AMTSDEUTSCH),
+    ("Fachjargon", FACHJARGON),
+    ("AI-Sprech", SLOP),
+    ("Funktionsverb", FUNKTIONSVERB),
+    ("Nominalstil", NOMINAL_SICHER),
+    ("Genitiv", GENITIV),
+    ("Konjunktiv", KONJUNKTIV),
+    ("Es-Formel", ES_FORMEL),
+    ("Klammer", KLAMMER),
+    ("Negation", NEGATION),
+    ("Füllwort", FUELLWOERTER),
+    ("Redewendung", REDEWENDUNG),
+    ("Abkürzung", ABK_IM_TEXT),
+    ("Langes Wort", LANGS_WORT),
+    ("Kurzes Datum", DATUM_KURZ),
+    ("Kurze Uhrzeit", UHRZEIT_KURZ),
+    ("Einheit ohne Leerzeichen", EINHEIT_OHNE_LZ),
+    ("Semikolon", SEMIKOLON),
+    ("Gedankenstrich", GEDANKENSTRICH),
+]
+
+# Amtsbezeichnungen sind die Wegweiser im Dokument. Behalten und erklären ist
+# richtig, deshalb ein Hinweis und kein Verstoß.
+MUSTER_HINWEIS: list[tuple[str, re.Pattern[str]]] = [
+    ("Amtsbezeichnung", AMTSBEZEICHNUNG),
+]
+
+
+def frei(start: int, ende: int, belegte_spannen: list[tuple[int, int]]) -> bool:
+    """Wahr, wenn die Stelle noch keinem anderen Befund zugeordnet ist.
+
+    Ein Wort wie "Rechtsbehelfsbelehrung" trifft mehrere Muster. Ohne diese
+    Prüfung erschiene es dreimal und würde die Verstoßzahl künstlich aufblasen.
+    """
+    return all(not (start < e and s < ende) for s, e in belegte_spannen)
+
+
+def woerter_pruefen(
+    text: str,
+    befunde: list[Befund],
+    belegte_spannen: list[tuple[int, int]],
+    max_satzlaenge: int,
+    zeilen: list[str],
+) -> None:
+    """Prüft Satzebene und Wortebene und füllt Befunde und Spans."""
+    for name, muster in MUSTER_HART + MUSTER_HINWEIS:
+        for m in muster.finditer(text):
+            if not frei(m.start(), m.end(), belegte_spannen):
+                continue
+            belegte_spannen.append((m.start(), m.end()))
+            befunde.append(
+                Befund(name, kuerzen(m.group(0)), text.count("\n", 0, m.start()) + 1)
+            )
+
+    # Ein Wort auf -ung ist kein Nominalstil, solange es ein Alltagswort ist.
+    for m in NOMINAL_PRUEFEN.finditer(text):
+        if m.group(0).lower() in ALLTAGSWORT:
+            continue
+        if not frei(m.start(), m.end(), belegte_spannen):
+            continue
+        belegte_spannen.append((m.start(), m.end()))
+        befunde.append(
+            Befund(
+                "Substantivierung prüfen",
+                kuerzen(m.group(0)),
+                text.count("\n", 0, m.start()) + 1,
+            )
+        )
+
+
+def naechstes_passiv(satz: str) -> str | None:
+    """Erkennt eine Passivform im Satz und gibt sie als Text zurück."""
+    for m in WERDEN.finditer(satz):
+        teil = PARTIZIP.search(satz[m.end() :][:60])
+        if teil:
+            return f"{m.group(0)} {teil.group(0)}"
+    return None
+
+
+def satz_pruefen(
+    text: str, zeilen: list[str], befunde: list[Befund], max_satzlaenge: int
+) -> None:
+    """Prüft die Merkmale, die nur ein ganzer Satz hat."""
+    for zeile_nr, satz in saetze(text):
+        if ist_ueberschrift(zeilen, zeile_nr):
+            continue
+        woerter = tokens(satz)
+        if len(woerter) > max_satzlaenge:
+            befunde.append(
+                Befund("Satzlänge", kuerzen(f"{len(woerter)} Wörter: {satz}"), zeile_nr)
+            )
+        if satz.count(",") > 1:
+            befunde.append(
+                Befund(
+                    "Kommazahl", kuerzen(f"{satz.count(',')} Kommas: {satz}"), zeile_nr
+                )
+            )
+        if WERDEN.search(satz):
+            passiv = naechstes_passiv(satz)
+            if passiv:
+                befunde.append(Befund("Passiv", passiv, zeile_nr))
+
+    for name, *muster in SYNONYMGRUPPEN:
+        treffer = [m for m in muster if re.search(m, text, re.IGNORECASE)]
+        if len(treffer) > 1:
+            befunde.append(
+                Befund("Synonymwechsel", f"{name}: {len(treffer)} Bezeichnungen", 0)
+            )
+
+
 def pruefe(text: str, max_satzlaenge: int = 20) -> tuple[list[Befund], dict]:
     roh = text
     text = entferne_code(text)
@@ -326,83 +562,8 @@ def pruefe(text: str, max_satzlaenge: int = 20) -> tuple[list[Befund], dict]:
     befunde: list[Befund] = []
     belegte_spannen: list[tuple[int, int]] = []
 
-    def add(kategorie: str, inhalt: str, zeile: int) -> None:
-        befunde.append(Befund(kategorie, kuerzen(inhalt), zeile))
-
-    def frei(start: int, ende: int) -> bool:
-        """Wahr, wenn die Stelle noch keinem anderen Befund zugeordnet ist.
-
-        Ein Wort wie "Rechtsbehelfsbelehrung" trifft mehrere Muster. Ohne
-        diese Prüfung erschiene es dreimal und würde die Verstoßzahl
-        künstlich aufblasen.
-        """
-        for s, e in belegte_spannen:
-            if start < e and s < ende:
-                return False
-        return True
-
-    # Satzebene
-    for zeile_nr, satz in saetze(text):
-        if ist_ueberschrift(zeilen, zeile_nr):
-            continue
-        woerter = tokens(satz)
-        if len(woerter) > max_satzlaenge:
-            add("Satzlänge", f"{len(woerter)} Wörter: {satz}", zeile_nr)
-        if satz.count(",") > 1:
-            add("Kommazahl", f"{satz.count(',')} Kommas: {satz}", zeile_nr)
-        if WERDEN.search(satz):
-            for m in WERDEN.finditer(satz):
-                if PARTIZIP.search(satz[m.end():][:60]):
-                    add("Passiv", m.group(0), zeile_nr)
-                    break
-
-    # Wort- und Musterebene, in dieser Reihenfolge. Der erste Treffer auf
-    # einer Stelle gewinnt, weil er die genauere Erklärung liefert.
-    for name, muster in [
-        ("Amtsdeutsch", AMTSDEUTSCH),
-        ("Fachjargon", FACHJARGON),
-        ("AI-Sprech", SLOP),
-        ("Funktionsverb", FUNKTIONSVERB),
-        ("Nominalstil", NOMINAL_SICHER),
-        ("Genitiv", GENITIV),
-        ("Konjunktiv", KONJUNKTIV),
-        ("Es-Formel", ES_FORMEL),
-        ("Klammer", KLAMMER),
-        ("Negation", NEGATION),
-        ("Füllwort", FUELLWOERTER),
-        ("Redewendung", REDEWENDUNG),
-        ("Abkürzung", ABK_IM_TEXT),
-        ("Langes Wort", LANGS_WORT),
-        ("Kurzes Datum", DATUM_KURZ),
-        ("Kurze Uhrzeit", UHRZEIT_KURZ),
-        ("Einheit ohne Leerzeichen", EINHEIT_OHNE_LZ),
-        ("Semikolon", SEMIKOLON),
-        ("Gedankenstrich", GEDANKENSTRICH),
-    ]:
-        for m in muster.finditer(text):
-            if not frei(m.start(), m.end()):
-                continue
-            belegte_spannen.append((m.start(), m.end()))
-            zeile = text.count("\n", 0, m.start()) + 1
-            add(name, m.group(0), zeile)
-
-    # Nur ein Hinweis, kein Verstoß: gewöhnliche Wörter mit -ung, -heit oder
-    # -keit sind kein Nominalstil. Sie werden getrennt gemeldet.
-    for m in NOMINAL_PRUEFEN.finditer(text):
-        if m.group(0).lower() in ALLTAGSWORT:
-            continue
-        if not frei(m.start(), m.end()):
-            continue
-        belegte_spannen.append((m.start(), m.end()))
-        zeile = text.count("\n", 0, m.start()) + 1
-        add("Substantivierung prüfen", m.group(0), zeile)
-
-    for name, *muster in SYNONYMGRUPPEN:
-        treffer = [p.pattern for p in (re.compile(m, re.I) for m in muster) if p.search(text)]
-        if len(treffer) > 1:
-            befunde.append(
-                Befund("Synonymwechsel", f"{name}: {len(treffer)} Bezeichnungen im Text", 0)
-            )
+    satz_pruefen(text, zeilen, befunde, max_satzlaenge)
+    woerter_pruefen(text, befunde, belegte_spannen, max_satzlaenge, zeilen)
 
     zaehlbar = tokens(text)
     saetze_liste = [s for z, s in saetze(text) if not ist_ueberschrift(zeilen, z)]
@@ -422,7 +583,9 @@ def pruefe(text: str, max_satzlaenge: int = 20) -> tuple[list[Befund], dict]:
         "verstoesse_pro_100_woerter": round(len(befunde) / len(zaehlbar) * 100, 1)
         if zaehlbar
         else 0.0,
-        "harte_pro_100_woerter": round((len(befunde) - hinweise) / len(zaehlbar) * 100, 1)
+        "harte_pro_100_woerter": round(
+            (len(befunde) - hinweise) / len(zaehlbar) * 100, 1
+        )
         if zaehlbar
         else 0.0,
         "zeichen": len(roh),
@@ -431,13 +594,14 @@ def pruefe(text: str, max_satzlaenge: int = 20) -> tuple[list[Befund], dict]:
 
 
 HINWEISE = (
-    "Negation",
+    "Amtsbezeichnung",
     "Genitiv",
-    "Langes Wort",
-    "Substantivierung prüfen",
     "Klammer",
-    "Kurzes Datum",
     "Kurze Uhrzeit",
+    "Kurzes Datum",
+    "Langes Wort",
+    "Negation",
+    "Substantivierung prüfen",
 )
 
 
@@ -445,14 +609,16 @@ def bericht(pfad: str, befunde: list[Befund], statistik: dict) -> str:
     zeilen = [
         f"Prüfbericht: {pfad}",
         "",
-        f"Wörter: {statistik['woerter']}   Sätze: {statistik['saetze']}   "
-        f"Ø Satzlänge: {str(statistik['mittlere_satzlaenge']).replace('.', ',')} Wörter   "
-        f"längster Satz: {statistik['laengster_satz']} Wörter",
-        f"Verstöße pro 100 Wörter: "
-        f"{str(statistik['verstoesse_pro_100_woerter']).replace('.', ',')}   "
-        f"davon harte Verstöße: "
-        f"{str(statistik['harte_pro_100_woerter']).replace('.', ',')}   "
-        f"({statistik['hinweise']} von {statistik['verstoesse']} Treffern sind Hinweise)",
+        (
+            f"Wörter: {statistik['woerter']}   Sätze: {statistik['saetze']}   "
+            f"Ø Satzlänge: {komma(statistik['mittlere_satzlaenge'])} Wörter   "
+            f"längster Satz: {statistik['laengster_satz']} Wörter"
+        ),
+        (
+            f"Verstöße pro 100 Wörter: {komma(statistik['verstoesse_pro_100_woerter'])}   "
+            f"davon harte Verstöße: {komma(statistik['harte_pro_100_woerter'])}   "
+            f"({statistik['hinweise']} von {statistik['verstoesse']} Treffern sind Hinweise)"
+        ),
     ]
     if not befunde:
         zeilen += ["", "Keine Musterverstöße gefunden. Das ist kein Normurteil."]
@@ -535,7 +701,10 @@ def selbsttest() -> int:
         if kat not in gefunden:
             print(f"FEHLER: Schlechter Text meldet {kat} nicht")
             fehler += 1
-    if stat_schlecht["verstoesse_pro_100_woerter"] <= stat_gut["verstoesse_pro_100_woerter"]:
+    if (
+        stat_schlecht["verstoesse_pro_100_woerter"]
+        <= stat_gut["verstoesse_pro_100_woerter"]
+    ):
         print("FEHLER: Schlechter Text hat nicht mehr Verstöße als der gute")
         fehler += 1
 
@@ -559,7 +728,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("datei", nargs="?", help="Textdatei, oder - für die Standardeingabe")
     p.add_argument("--text", help="Text direkt übergeben")
     p.add_argument("--json", action="store_true", help="Ausgabe als JSON")
-    p.add_argument("--satzlaenge", type=int, default=20, help="Obergrenze (Standard 20)")
+    p.add_argument(
+        "--satzlaenge", type=int, default=20, help="Obergrenze (Standard 20)"
+    )
     p.add_argument("--selbsttest", action="store_true", help="Prüfer selbst testen")
     p.add_argument("--hilfe", "-h", action="store_true", help="Hilfe zeigen")
     args = p.parse_args(argv)
@@ -576,7 +747,7 @@ def main(argv: list[str] | None = None) -> int:
         text, pfad = sys.stdin.read(), "<Standardeingabe>"
     else:
         try:
-            text = open(args.datei, encoding="utf-8").read()
+            text = pathlib.Path(args.datei).read_text(encoding="utf-8")
         except OSError as exc:
             print(f"Datei nicht lesbar: {exc}", file=sys.stderr)
             return 1

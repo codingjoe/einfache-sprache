@@ -30,9 +30,9 @@ Deutsch verständlich schreiben, ohne den Inhalt zu verlieren. Die Regeln stamme
 Alles Weitere dient diesen vier Sätzen aus DIN ISO 24495-1:
 
 1. Die Lesenden bekommen, was sie brauchen. (**Relevanz**)
-2. Die Lesenden finden leicht, was sie suchen. (**Auffindbarkeit**)
-3. Die Lesenden verstehen leicht, was sie finden. (**Verständlichkeit**)
-4. Die Lesenden können die Information einfach nutzen. (**Anwendbarkeit**)
+1. Die Lesenden finden leicht, was sie suchen. (**Auffindbarkeit**)
+1. Die Lesenden verstehen leicht, was sie finden. (**Verständlichkeit**)
+1. Die Lesenden können die Information einfach nutzen. (**Anwendbarkeit**)
 
 Diese Reihenfolge zählt. Eine Regel, die einem Grundsatz widerspricht, ist falsch angewendet. Ein Satz mit 15 Wörtern, der die falsche Information bringt, ist kein guter Satz in Einfacher Sprache. Und ein Text, der nicht sagt, was die Person tun soll, ist gescheitert, auch wenn jedes Wort kurz ist.
 
@@ -41,8 +41,8 @@ Diese Reihenfolge zählt. Eine Regel, die einem Grundsatz widerspricht, ist fals
 Drei Fragen klären, bevor du die erste Zeile schreibst. Die Antworten steuern jede weitere Entscheidung.
 
 1. **Wer liest das?** Vorwissen und Alltag der Zielgruppe. Nicht "die Öffentlichkeit", sondern zum Beispiel: Eltern, die einen Kita-Platz suchen.
-2. **Was muss die Person danach tun können?** Frist einhalten, Formular ausfüllen, Medikament richtig nehmen, Widerspruch einlegen.
-3. **Was darf nicht verloren gehen?** Fristen, Beträge, Rechtsfolgen, Dosierungen, Sicherheitshinweise. Diese Angaben sind gesetzt. Du darfst sie erklären, nie weglassen oder verwässern.
+1. **Was muss die Person danach tun können?** Frist einhalten, Formular ausfüllen, Medikament richtig nehmen, Widerspruch einlegen.
+1. **Was darf nicht verloren gehen?** Fristen, Beträge, Rechtsfolgen, Dosierungen, Sicherheitshinweise. Diese Angaben sind gesetzt. Du darfst sie erklären, nie weglassen oder verwässern.
 
 Wenn Zielgruppe oder Zweck unklar sind, frag nach. Ein Text in Einfacher Sprache für die falsche Zielgruppe schadet mehr als ein schwerer Text, weil er Verständnis vorspiegelt.
 
@@ -104,6 +104,7 @@ Drei Sorten schwerer Wörter brauchen unterschiedliche Behandlung. Wer sie gleic
 **Fachbegriffe der Sache.** "Bemessungsgrenze", "Insolvenz", "Widerspruchsfrist". Sie bleiben stehen, weil sie die Sache sind. Beim ersten Mal in einem eigenen kurzen Satz erklären, danach weiterverwenden.
 
 **Paragrafen und Gesetzesnamen.** "§ 22 Abs. 1 Satz 1 SGB II" ist eine Fundstelle, keine Aussage. Sie beweist, dass die Entscheidung eine Grundlage hat. Zwei Möglichkeiten:
+
 - Weglassen, wenn der Inhalt schon im Text steht. "Die Grenze steht im Gesetz" reicht für die Lesenden.
 - Behalten, wenn die Lesenden die Stelle brauchen, etwa um sie nachzuschlagen oder im Widerspruch zu zitieren. Dann danach erklären: "Die Grenze steht im § 22 des Sozialgesetzbuchs II. Das ist das Gesetz, nach dem wir Ihre Miete berechnen."
 
@@ -139,12 +140,12 @@ Nenne die Paragrafen nicht in jedem Satz. Ein Bescheid wird nicht dadurch verst�
 Jede Chat-Antwort folgt diesen Regeln. Wer in schwerer Sprache erklärt, wie Einfache Sprache geht, ist unglaubwürdig.
 
 1. **Erster Satz ist die Antwort.** Keine Vorrede, kein "Gerne helfe ich Ihnen dabei".
-2. **Kurze Sätze.** Dieselbe 20-Wort-Grenze wie im Text.
-3. **Keine Gedankenstriche, keine Semikolons.** Nenne die Beziehung mit einem Wort, oder schreib zwei Sätze.
-4. **Fachbegriff beim ersten Mal erklären**, in wenigen Wörtern. "Die Widerspruchsfrist, also die Zeit für Ihren Einspruch, beträgt einen Monat."
-5. **Keine Floskeln.** Kein "Ich hoffe, das hilft", kein "Sag Bescheid, wenn du Fragen hast", kein "Wie schön, dass du fragst".
-6. **Prosa statt Wand.** Überschriften, Listen und Fettungen nur, wenn sie wirklich Struktur tragen. Für eine kurze Antwort reichen Sätze.
-7. **Ehrlich bleiben.** Wenn der Text rechtlich oder fachlich heikel ist, sag das. Einfache Sprache darf keine Haftung erfinden.
+1. **Kurze Sätze.** Dieselbe 20-Wort-Grenze wie im Text.
+1. **Keine Gedankenstriche, keine Semikolons.** Nenne die Beziehung mit einem Wort, oder schreib zwei Sätze.
+1. **Fachbegriff beim ersten Mal erklären**, in wenigen Wörtern. "Die Widerspruchsfrist, also die Zeit für Ihren Einspruch, beträgt einen Monat."
+1. **Keine Floskeln.** Kein "Ich hoffe, das hilft", kein "Sag Bescheid, wenn du Fragen hast", kein "Wie schön, dass du fragst".
+1. **Prosa statt Wand.** Überschriften, Listen und Fettungen nur, wenn sie wirklich Struktur tragen. Für eine kurze Antwort reichen Sätze.
+1. **Ehrlich bleiben.** Wenn der Text rechtlich oder fachlich heikel ist, sag das. Einfache Sprache darf keine Haftung erfinden.
 
 Vorher: `Ich hoffe, das hilft! Zusammenfassend lässt sich sagen, dass der Antrag in der Regel innerhalb einer Frist von einem Monat nach Bekanntgabe des Bescheids schriftlich oder zur Niederschrift einzulegen ist.`
 
@@ -154,10 +155,10 @@ Nachher: `Sie können gegen den Bescheid Einspruch einlegen. Sie haben dafür ei
 
 Wenn du einen Text prüfen sollst, statt ihn umzuschreiben:
 
-1. **Zählbare Regeln messen.** Erst `scripts/pruefen.py` laufen lassen. Das Skript findet Satzlänge, Passiv, Nominalstil, Genitiv, Amtsdeutsch, Abkürzungen und Redewendungen und gibt Verstöße pro 100 Wörter aus.
-2. **Regeln nachschlagen.** `references/regeln.md` aufschlagen, bevor du eine Regel zitierst. Nie eine Nummer aus dem Gedächtnis nennen.
-3. **Jeden Fund melden als:** Regel, Fundstelle, Korrekturvorschlag. Ein Befund ohne Verbesserungsvorschlag hilft niemandem.
-4. **Die vier Grundsätze nicht vergessen.** Ein Text kann alle zählbaren Regeln einhalten und trotzdem am Thema vorbeigehen. Prüfe zusätzlich, ob die Lesenden die Information finden, verstehen und nutzen können.
+1. **Zählbare Regeln messen.** Erst `scripts/pruefen.py` laufen lassen. Das Skript findet Satzlänge, Passiv, Nominalstil, Genitiv, Amtsdeutsch, Abkürzungen und Redewendungen. Es trennt harte Verstöße von Hinweisen und gibt die Fundstellen mit Zeilennummer aus. Kategorien wie Negation, Genitiv, Amtsbezeichnung und langes Wort sind Hinweise: eine Verneinung in einer Warnung, ein Genitiv auf einem Gesetzesnamen und ein erklärter Amtsbegriff sind oft richtig. Prüfe sie, statt sie zu melden.
+1. **Regeln nachschlagen.** `references/regeln.md` aufschlagen, bevor du eine Regel zitierst. Nie eine Nummer aus dem Gedächtnis nennen.
+1. **Jeden Fund melden als:** Regel, Fundstelle, Korrekturvorschlag. Ein Befund ohne Verbesserungsvorschlag hilft niemandem.
+1. **Die vier Grundsätze nicht vergessen.** Ein Text kann alle zählbaren Regeln einhalten und trotzdem am Thema vorbeigehen. Prüfe zusätzlich, ob die Lesenden die Information finden, verstehen und nutzen können.
 
 Format für einen Prüfbericht:
 
@@ -175,13 +176,13 @@ Korrektur: "…" (zwei Sätze)
 ## Selbstprüfung vor der Abgabe
 
 1. Zähle die Wörter in deinen drei längsten Sätzen. Über 20: teilen.
-2. Suche nach `;`, `–`, `—`, `z. B.`, `u. a.`, `usw.`, `bzw.`, `erfolgt`, `erfolgen`, `vornehmen`, `durchführen`, `wird` und `werden`. Jeder Treffer braucht einen Grund, sonst umbauen.
-3. Suche nach den Füllwörtern aus `references/wortliste.md`. Streichen, wenn sie keine Tatsache tragen.
-4. Lies jeden Absatz und frag: Welche eine Frage beantwortet er?
-5. Prüfe jede Zahl, jede Frist, jeden Betrag und jede Rechtsfolge gegen die Quelle. Einfachere Sprache darf keine Zahl verändern.
-6. Prüfe, ob du eine Angabe erfunden hast. Vergleiche jede Zahl in deinem Text mit der Quelle. Steht sie nicht in der Quelle, wird sie zur Lücke im Text.
-7. Prüfe, ob der Text sagt, was die Person tun soll.
-8. Sag einmal, dass kein Werkzeug die Einhaltung der Norm garantieren kann, wenn der Nutzer Konformität verlangt hat.
+1. Suche nach `;`, `–`, `—`, `z. B.`, `u. a.`, `usw.`, `bzw.`, `erfolgt`, `erfolgen`, `vornehmen`, `durchführen`, `wird` und `werden`. Jeder Treffer braucht einen Grund, sonst umbauen.
+1. Suche nach den Füllwörtern aus `references/wortliste.md`. Streichen, wenn sie keine Tatsache tragen.
+1. Lies jeden Absatz und frag: Welche eine Frage beantwortet er?
+1. Prüfe jede Zahl, jede Frist, jeden Betrag und jede Rechtsfolge gegen die Quelle. Einfachere Sprache darf keine Zahl verändern.
+1. Prüfe, ob du eine Angabe erfunden hast. Vergleiche jede Zahl in deinem Text mit der Quelle. Steht sie nicht in der Quelle, wird sie zur Lücke im Text.
+1. Prüfe, ob der Text sagt, was die Person tun soll.
+1. Sag einmal, dass kein Werkzeug die Einhaltung der Norm garantieren kann, wenn der Nutzer Konformität verlangt hat.
 
 ## Grenzen
 

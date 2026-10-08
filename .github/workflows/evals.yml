@@ -1,0 +1,62 @@
+name: evals
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Ollama model to score with
+        default: gemma4:cloud
+permissions:
+  contents: read
+concurrency:
+  group: evals-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0
+      - name: Run the cases
+        env:
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+          EVALS_MODEL: ${{ inputs.model || 'gemma4:cloud' }}
+        run: uv run --locked einfache_sprache_evals | tee report.txt
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: evals-report
+          path: report.txt
+  comment:
+    needs: evals
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: evals-report
+      - name: Post the report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          {
+            echo '## einfache-sprache evals'
+            echo
+            echo '```text'
+            cat report.txt
+            echo '```'
+          } > body.md
+          comment_id=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PULL_REQUEST_NUMBER/comments" \
+            --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("## einfache-sprache evals")) | .id' \
+            | tail -1)
+          if [ -n "$comment_id" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$comment_id" -F body=@body.md > /dev/null
+          else
+            gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PULL_REQUEST_NUMBER/comments" -F body=@body.md > /dev/null
+          fi

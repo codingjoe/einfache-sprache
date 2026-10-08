@@ -52,7 +52,7 @@ Was passiert ist: Aus der Vorschrift ist eine Liste geworden. "Einkommensverhäl
 **Nachher:**
 
 > 1. Nehmen Sie die Transportsicherung ab. Sie ist hinten am Gerät.
-> 2. Stecken Sie den Stecker in eine Steckdose mit Schutzkontakt.
+> 1. Stecken Sie den Stecker in eine Steckdose mit Schutzkontakt.
 >
 > **Achtung:** Stecken Sie den Stecker erst ein, wenn die Spannung passt. Sonst geht das Gerät kaputt.
 
@@ -97,6 +97,7 @@ Was passiert ist: "unter Einhaltung einer Frist von drei Monaten zum Ende des je
 Vorher ein typisches Modell-Ergebnis, ohne diesen Skill erzeugt.
 
 **Vorher — 10 Verstöße auf 66 Wörter:**
+
 > Die Digitalisierung spielt eine entscheidende Rolle für moderne Verwaltungen. Durch die nahtlose Integration digitaler Lösungen können Behörden ihre Prozesse optimieren und einen echten Mehrwert für die Bürger schaffen. Es ist wichtig zu beachten, dass eine ganzheitliche Strategie erforderlich ist, die nicht nur technische, sondern auch organisatorische Aspekte berücksichtigt. Zusammenfassend lässt sich sagen, dass ein solcher Ansatz die Effizienz maßgeblich steigert und die Zufriedenheit der Nutzer erhöht.
 
 **Nachher:**

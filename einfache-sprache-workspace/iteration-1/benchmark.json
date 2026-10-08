@@ -1,495 +1,495 @@
 {
   "metadata": {
-    "skill_name": "einfache-sprache",
-    "skill_path": "/Users/johannes/GitHub/copilot-worktrees/einfache-sprache/codingjoe-verbose-memory/skills/einfache-sprache",
-    "executor_model": "kein Unteragent verfügbar",
     "analyzer_model": "keiner",
-    "timestamp": "2026-10-08T00:00:00Z",
+    "baseline": "Ausgangstext, kein Modellversuch ohne Skill",
     "evals_run": [
       0,
       1,
       2,
       3
     ],
+    "executor_model": "kein Unteragent verf\u00fcgbar",
     "runs_per_configuration": 1,
-    "baseline": "Ausgangstext, kein Modellversuch ohne Skill"
+    "skill_name": "einfache-sprache",
+    "skill_path": "/Users/johannes/GitHub/copilot-worktrees/einfache-sprache/codingjoe-verbose-memory/skills/einfache-sprache",
+    "timestamp": "2026-10-08T00:00:00Z"
   },
-  "runs": [
-    {
-      "eval_id": 0,
-      "eval_name": "eval-0-behoerdenbescheid-umschreiben",
-      "configuration": "with_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 1.0,
-        "passed": 6,
-        "failed": 0,
-        "total": 6,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": 3.9,
-        "hard_violations_per_100_words": 1.0,
-        "words": 102,
-        "longest_sentence": 11
-      },
-      "expectations": [
-        {
-          "text": "Der Betrag 640,00 Euro steht im Text",
-          "passed": true,
-          "evidence": "Suchlauf nach '640,00 Euro'"
-        },
-        {
-          "text": "Der Text enthält kein Semikolon",
-          "passed": true,
-          "evidence": "Semikolon: 0"
-        },
-        {
-          "text": "Aktiv formuliert, kein Passiv",
-          "passed": true,
-          "evidence": "Passiv-Treffer: 0"
-        },
-        {
-          "text": "Kein Satz länger als 20 Wörter",
-          "passed": true,
-          "evidence": "längster Satz: 11 Wörter"
-        },
-        {
-          "text": "Nennt eine Handlungsmöglichkeit",
-          "passed": true,
-          "evidence": "Handlungshinweis im Text"
-        },
-        {
-          "text": "Erklärt die Angemessenheitsgrenze",
-          "passed": true,
-          "evidence": "Grenze wird benannt und erläutert"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 0,
-      "eval_name": "eval-0-behoerdenbescheid-umschreiben",
-      "configuration": "without_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 0.0,
-        "passed": 0,
-        "failed": 6,
-        "total": 6,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": 22.7,
-        "hard_violations_per_100_words": 18.2,
-        "words": 44,
-        "longest_sentence": 44
-      },
-      "expectations": [
-        {
-          "text": "Der Betrag 640,00 Euro steht im Text",
-          "passed": false,
-          "evidence": "Suchlauf nach '640,00 Euro'"
-        },
-        {
-          "text": "Der Text enthält kein Semikolon",
-          "passed": false,
-          "evidence": "Semikolon: 1"
-        },
-        {
-          "text": "Aktiv formuliert, kein Passiv",
-          "passed": false,
-          "evidence": "Passiv-Treffer: 1"
-        },
-        {
-          "text": "Kein Satz länger als 20 Wörter",
-          "passed": false,
-          "evidence": "längster Satz: 44 Wörter"
-        },
-        {
-          "text": "Nennt eine Handlungsmöglichkeit",
-          "passed": false,
-          "evidence": "kein Handlungshinweis"
-        },
-        {
-          "text": "Erklärt die Angemessenheitsgrenze",
-          "passed": false,
-          "evidence": "Grenze wird benannt und erläutert"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 1,
-      "eval_name": "eval-1-patienteninfo-neuschreiben",
-      "configuration": "with_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 1.0,
-        "passed": 6,
-        "failed": 0,
-        "total": 6,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": 0.8,
-        "hard_violations_per_100_words": 0.0,
-        "words": 127,
-        "longest_sentence": 9
-      },
-      "expectations": [
-        {
-          "text": "Alle vier Inhalte enthalten",
-          "passed": true,
-          "evidence": "alle vier gefunden"
-        },
-        {
-          "text": "Absetzen ist als Warnung formuliert",
-          "passed": true,
-          "evidence": "Warnhinweis vorhanden"
-        },
-        {
-          "text": "Der Text hat eine Überschrift",
-          "passed": true,
-          "evidence": "Fettzeile als Überschrift"
-        },
-        {
-          "text": "Höchstens 200 Wörter",
-          "passed": true,
-          "evidence": "127 Wörter"
-        },
-        {
-          "text": "Kein Satz länger als 20 Wörter",
-          "passed": true,
-          "evidence": "längster Satz: 9 Wörter"
-        },
-        {
-          "text": "Aktiv und direkte Anrede",
-          "passed": true,
-          "evidence": "Passiv: 0, Anrede: True"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 1,
-      "eval_name": "eval-1-patienteninfo-neuschreiben",
-      "configuration": "without_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 0.5,
-        "passed": 3,
-        "failed": 3,
-        "total": 6,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": 6.5,
-        "hard_violations_per_100_words": 0.0,
-        "words": 31,
-        "longest_sentence": 10
-      },
-      "expectations": [
-        {
-          "text": "Alle vier Inhalte enthalten",
-          "passed": true,
-          "evidence": "alle vier gefunden"
-        },
-        {
-          "text": "Absetzen ist als Warnung formuliert",
-          "passed": false,
-          "evidence": "kein Warnhinweis"
-        },
-        {
-          "text": "Der Text hat eine Überschrift",
-          "passed": false,
-          "evidence": "Fettzeile als Überschrift"
-        },
-        {
-          "text": "Höchstens 200 Wörter",
-          "passed": true,
-          "evidence": "31 Wörter"
-        },
-        {
-          "text": "Kein Satz länger als 20 Wörter",
-          "passed": true,
-          "evidence": "längster Satz: 10 Wörter"
-        },
-        {
-          "text": "Aktiv und direkte Anrede",
-          "passed": false,
-          "evidence": "Passiv: 0, Anrede: False"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 2,
-      "eval_name": "eval-2-text-pruefen",
-      "configuration": "with_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 1.0,
-        "passed": 5,
-        "failed": 0,
-        "total": 5,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": null,
-        "hard_violations_per_100_words": null,
-        "words": null,
-        "longest_sentence": null
-      },
-      "expectations": [
-        {
-          "text": "Benennt die Substantivierungen",
-          "passed": true,
-          "evidence": "genannt: Einhaltung, Sachbearbeitung, Rückfragen"
-        },
-        {
-          "text": "Bemängelt die fehlende Zahl bei der Frist",
-          "passed": true,
-          "evidence": "fehlende Zahl wird bemängelt"
-        },
-        {
-          "text": "Jeder Befund hat einen Korrekturvorschlag",
-          "passed": true,
-          "evidence": "5 Korrekturvorschläge"
-        },
-        {
-          "text": "Erfindet keine Paragrafennummer",
-          "passed": true,
-          "evidence": "kein erfundener Paragraf"
-        },
-        {
-          "text": "Hinweis, dass kein Werkzeug Konformität garantiert",
-          "passed": true,
-          "evidence": "Konformitätshinweis vorhanden"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 2,
-      "eval_name": "eval-2-text-pruefen",
-      "configuration": "without_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 0.4,
-        "passed": 2,
-        "failed": 3,
-        "total": 5,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": null,
-        "hard_violations_per_100_words": null,
-        "words": null,
-        "longest_sentence": null
-      },
-      "expectations": [
-        {
-          "text": "Benennt die Substantivierungen",
-          "passed": true,
-          "evidence": "genannt: Einhaltung, Sachbearbeitung, Rückfragen"
-        },
-        {
-          "text": "Bemängelt die fehlende Zahl bei der Frist",
-          "passed": false,
-          "evidence": "fehlende Zahl wird bemängelt"
-        },
-        {
-          "text": "Jeder Befund hat einen Korrekturvorschlag",
-          "passed": false,
-          "evidence": "0 Korrekturvorschläge"
-        },
-        {
-          "text": "Erfindet keine Paragrafennummer",
-          "passed": true,
-          "evidence": "kein erfundener Paragraf"
-        },
-        {
-          "text": "Hinweis, dass kein Werkzeug Konformität garantiert",
-          "passed": false,
-          "evidence": "Konformitätshinweis vorhanden"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 3,
-      "eval_name": "eval-3-ki-text-entkitschen",
-      "configuration": "with_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 1.0,
-        "passed": 5,
-        "failed": 0,
-        "total": 5,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": 0.0,
-        "hard_violations_per_100_words": 0.0,
-        "words": 62,
-        "longest_sentence": 10
-      },
-      "expectations": [
-        {
-          "text": "Kein Werbe-Sprech mehr",
-          "passed": true,
-          "evidence": "alle entfernt"
-        },
-        {
-          "text": "Ungefähr 60 bis 100 Wörter",
-          "passed": true,
-          "evidence": "62 Wörter"
-        },
-        {
-          "text": "Nennt Verein oder Altersgruppen",
-          "passed": true,
-          "evidence": "Vereinsname oder Altersgruppen genannt"
-        },
-        {
-          "text": "Erfindet keine Zahlen oder Termine",
-          "passed": true,
-          "evidence": "keine erfundenen Angaben"
-        },
-        {
-          "text": "Kein Satz länger als 20 Wörter",
-          "passed": true,
-          "evidence": "längster Satz: 10 Wörter"
-        }
-      ],
-      "notes": []
-    },
-    {
-      "eval_id": 3,
-      "eval_name": "eval-3-ki-text-entkitschen",
-      "configuration": "without_skill",
-      "run_number": 1,
-      "result": {
-        "pass_rate": 0.4,
-        "passed": 2,
-        "failed": 3,
-        "total": 5,
-        "time_seconds": 0.0,
-        "tokens": 0,
-        "tool_calls": 1,
-        "errors": 0,
-        "violations_per_100_words": 16.7,
-        "hard_violations_per_100_words": 14.6,
-        "words": 48,
-        "longest_sentence": 22
-      },
-      "expectations": [
-        {
-          "text": "Kein Werbe-Sprech mehr",
-          "passed": false,
-          "evidence": "übrig: Mehrwert, nahtlos, ganzheitlich, entscheidende Rolle, Dimension"
-        },
-        {
-          "text": "Ungefähr 60 bis 100 Wörter",
-          "passed": false,
-          "evidence": "48 Wörter"
-        },
-        {
-          "text": "Nennt Verein oder Altersgruppen",
-          "passed": true,
-          "evidence": "Vereinsname oder Altersgruppen genannt"
-        },
-        {
-          "text": "Erfindet keine Zahlen oder Termine",
-          "passed": true,
-          "evidence": "keine erfundenen Angaben"
-        },
-        {
-          "text": "Kein Satz länger als 20 Wörter",
-          "passed": false,
-          "evidence": "längster Satz: 22 Wörter"
-        }
-      ],
-      "notes": []
-    }
-  ],
+  "notes": [],
   "run_summary": {
+    "delta": {
+      "hard_violations_per_100_words": -10.93,
+      "pass_rate": 0.67,
+      "violations_per_100_words": -13.73
+    },
     "with_skill": {
+      "hard_violations_per_100_words": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0,
+        "stddev": 0.0
+      },
       "pass_rate": {
+        "max": 1.0,
         "mean": 1.0,
-        "stddev": 0.0,
         "min": 1.0,
-        "max": 1.0
+        "stddev": 0.0
       },
       "time_seconds": {
+        "max": 0.0,
         "mean": 0.0,
-        "stddev": 0.0,
         "min": 0.0,
-        "max": 0.0
+        "stddev": 0.0
       },
       "tokens": {
+        "max": 0,
         "mean": 0.0,
-        "stddev": 0.0,
         "min": 0,
-        "max": 0
+        "stddev": 0.0
       },
       "violations_per_100_words": {
+        "max": 3.9,
         "mean": 1.57,
-        "stddev": 1.68,
         "min": 0.0,
-        "max": 3.9
-      },
-      "hard_violations_per_100_words": {
-        "mean": 0.33,
-        "stddev": 0.47,
-        "min": 0.0,
-        "max": 1.0
+        "stddev": 1.68
       }
     },
     "without_skill": {
-      "pass_rate": {
-        "mean": 0.33,
-        "stddev": 0.19,
+      "hard_violations_per_100_words": {
+        "max": 18.2,
+        "mean": 10.93,
         "min": 0.0,
-        "max": 0.5
+        "stddev": 7.87
+      },
+      "pass_rate": {
+        "max": 0.5,
+        "mean": 0.33,
+        "min": 0.0,
+        "stddev": 0.19
       },
       "time_seconds": {
+        "max": 0.0,
         "mean": 0.0,
-        "stddev": 0.0,
         "min": 0.0,
-        "max": 0.0
+        "stddev": 0.0
       },
       "tokens": {
+        "max": 0,
         "mean": 0.0,
-        "stddev": 0.0,
         "min": 0,
-        "max": 0
+        "stddev": 0.0
       },
       "violations_per_100_words": {
+        "max": 22.7,
         "mean": 15.3,
-        "stddev": 6.69,
         "min": 6.5,
-        "max": 22.7
-      },
-      "hard_violations_per_100_words": {
-        "mean": 10.93,
-        "stddev": 7.87,
-        "min": 0.0,
-        "max": 18.2
+        "stddev": 6.69
       }
-    },
-    "delta": {
-      "pass_rate": 0.67,
-      "violations_per_100_words": -13.73,
-      "hard_violations_per_100_words": -10.6
     }
   },
-  "notes": []
+  "runs": [
+    {
+      "configuration": "with_skill",
+      "eval_id": 0,
+      "eval_name": "eval-0-behoerdenbescheid-umschreiben",
+      "expectations": [
+        {
+          "evidence": "Suchlauf nach '640,00 Euro'",
+          "passed": true,
+          "text": "Der Betrag 640,00 Euro steht im Text"
+        },
+        {
+          "evidence": "Semikolon: 0",
+          "passed": true,
+          "text": "Der Text enth\u00e4lt kein Semikolon"
+        },
+        {
+          "evidence": "Passiv-Treffer: 0",
+          "passed": true,
+          "text": "Aktiv formuliert, kein Passiv"
+        },
+        {
+          "evidence": "l\u00e4ngster Satz: 11 W\u00f6rter",
+          "passed": true,
+          "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+        },
+        {
+          "evidence": "Handlungshinweis im Text",
+          "passed": true,
+          "text": "Nennt eine Handlungsm\u00f6glichkeit"
+        },
+        {
+          "evidence": "Grenze wird benannt und erl\u00e4utert",
+          "passed": true,
+          "text": "Erkl\u00e4rt die Angemessenheitsgrenze"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "hard_violations_per_100_words": 0.0,
+        "longest_sentence": 11,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 6,
+        "violations_per_100_words": 3.9,
+        "words": 102
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill",
+      "eval_id": 0,
+      "eval_name": "eval-0-behoerdenbescheid-umschreiben",
+      "expectations": [
+        {
+          "evidence": "Suchlauf nach '640,00 Euro'",
+          "passed": false,
+          "text": "Der Betrag 640,00 Euro steht im Text"
+        },
+        {
+          "evidence": "Semikolon: 1",
+          "passed": false,
+          "text": "Der Text enth\u00e4lt kein Semikolon"
+        },
+        {
+          "evidence": "Passiv-Treffer: 1",
+          "passed": false,
+          "text": "Aktiv formuliert, kein Passiv"
+        },
+        {
+          "evidence": "l\u00e4ngster Satz: 44 W\u00f6rter",
+          "passed": false,
+          "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+        },
+        {
+          "evidence": "kein Handlungshinweis",
+          "passed": false,
+          "text": "Nennt eine Handlungsm\u00f6glichkeit"
+        },
+        {
+          "evidence": "Grenze wird benannt und erl\u00e4utert",
+          "passed": false,
+          "text": "Erkl\u00e4rt die Angemessenheitsgrenze"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 6,
+        "hard_violations_per_100_words": 18.2,
+        "longest_sentence": 44,
+        "pass_rate": 0.0,
+        "passed": 0,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 6,
+        "violations_per_100_words": 22.7,
+        "words": 44
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill",
+      "eval_id": 1,
+      "eval_name": "eval-1-patienteninfo-neuschreiben",
+      "expectations": [
+        {
+          "evidence": "alle vier gefunden",
+          "passed": true,
+          "text": "Alle vier Inhalte enthalten"
+        },
+        {
+          "evidence": "Warnhinweis vorhanden",
+          "passed": true,
+          "text": "Absetzen ist als Warnung formuliert"
+        },
+        {
+          "evidence": "Fettzeile als \u00dcberschrift",
+          "passed": true,
+          "text": "Der Text hat eine \u00dcberschrift"
+        },
+        {
+          "evidence": "127 W\u00f6rter",
+          "passed": true,
+          "text": "H\u00f6chstens 200 W\u00f6rter"
+        },
+        {
+          "evidence": "l\u00e4ngster Satz: 9 W\u00f6rter",
+          "passed": true,
+          "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+        },
+        {
+          "evidence": "Passiv: 0, Anrede: True",
+          "passed": true,
+          "text": "Aktiv und direkte Anrede"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "hard_violations_per_100_words": 0.0,
+        "longest_sentence": 9,
+        "pass_rate": 1.0,
+        "passed": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 6,
+        "violations_per_100_words": 0.8,
+        "words": 127
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill",
+      "eval_id": 1,
+      "eval_name": "eval-1-patienteninfo-neuschreiben",
+      "expectations": [
+        {
+          "evidence": "alle vier gefunden",
+          "passed": true,
+          "text": "Alle vier Inhalte enthalten"
+        },
+        {
+          "evidence": "kein Warnhinweis",
+          "passed": false,
+          "text": "Absetzen ist als Warnung formuliert"
+        },
+        {
+          "evidence": "Fettzeile als \u00dcberschrift",
+          "passed": false,
+          "text": "Der Text hat eine \u00dcberschrift"
+        },
+        {
+          "evidence": "31 W\u00f6rter",
+          "passed": true,
+          "text": "H\u00f6chstens 200 W\u00f6rter"
+        },
+        {
+          "evidence": "l\u00e4ngster Satz: 10 W\u00f6rter",
+          "passed": true,
+          "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+        },
+        {
+          "evidence": "Passiv: 0, Anrede: False",
+          "passed": false,
+          "text": "Aktiv und direkte Anrede"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 3,
+        "hard_violations_per_100_words": 0.0,
+        "longest_sentence": 10,
+        "pass_rate": 0.5,
+        "passed": 3,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 6,
+        "violations_per_100_words": 6.5,
+        "words": 31
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill",
+      "eval_id": 2,
+      "eval_name": "eval-2-text-pruefen",
+      "expectations": [
+        {
+          "evidence": "genannt: Einhaltung, Sachbearbeitung, R\u00fcckfragen",
+          "passed": true,
+          "text": "Benennt die Substantivierungen"
+        },
+        {
+          "evidence": "fehlende Zahl wird bem\u00e4ngelt",
+          "passed": true,
+          "text": "Bem\u00e4ngelt die fehlende Zahl bei der Frist"
+        },
+        {
+          "evidence": "5 Korrekturvorschl\u00e4ge",
+          "passed": true,
+          "text": "Jeder Befund hat einen Korrekturvorschlag"
+        },
+        {
+          "evidence": "kein erfundener Paragraf",
+          "passed": true,
+          "text": "Erfindet keine Paragrafennummer"
+        },
+        {
+          "evidence": "Konformit\u00e4tshinweis vorhanden",
+          "passed": true,
+          "text": "Hinweis, dass kein Werkzeug Konformit\u00e4t garantiert"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "hard_violations_per_100_words": null,
+        "longest_sentence": null,
+        "pass_rate": 1.0,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 5,
+        "violations_per_100_words": null,
+        "words": null
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill",
+      "eval_id": 2,
+      "eval_name": "eval-2-text-pruefen",
+      "expectations": [
+        {
+          "evidence": "genannt: Einhaltung, Sachbearbeitung, R\u00fcckfragen",
+          "passed": true,
+          "text": "Benennt die Substantivierungen"
+        },
+        {
+          "evidence": "fehlende Zahl wird bem\u00e4ngelt",
+          "passed": false,
+          "text": "Bem\u00e4ngelt die fehlende Zahl bei der Frist"
+        },
+        {
+          "evidence": "0 Korrekturvorschl\u00e4ge",
+          "passed": false,
+          "text": "Jeder Befund hat einen Korrekturvorschlag"
+        },
+        {
+          "evidence": "kein erfundener Paragraf",
+          "passed": true,
+          "text": "Erfindet keine Paragrafennummer"
+        },
+        {
+          "evidence": "Konformit\u00e4tshinweis vorhanden",
+          "passed": false,
+          "text": "Hinweis, dass kein Werkzeug Konformit\u00e4t garantiert"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 3,
+        "hard_violations_per_100_words": null,
+        "longest_sentence": null,
+        "pass_rate": 0.4,
+        "passed": 2,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 5,
+        "violations_per_100_words": null,
+        "words": null
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "with_skill",
+      "eval_id": 3,
+      "eval_name": "eval-3-ki-text-entkitschen",
+      "expectations": [
+        {
+          "evidence": "alle entfernt",
+          "passed": true,
+          "text": "Kein Werbe-Sprech mehr"
+        },
+        {
+          "evidence": "62 W\u00f6rter",
+          "passed": true,
+          "text": "Ungef\u00e4hr 60 bis 100 W\u00f6rter"
+        },
+        {
+          "evidence": "Vereinsname oder Altersgruppen genannt",
+          "passed": true,
+          "text": "Nennt Verein oder Altersgruppen"
+        },
+        {
+          "evidence": "keine erfundenen Angaben",
+          "passed": true,
+          "text": "Erfindet keine Zahlen oder Termine"
+        },
+        {
+          "evidence": "l\u00e4ngster Satz: 10 W\u00f6rter",
+          "passed": true,
+          "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 0,
+        "hard_violations_per_100_words": 0.0,
+        "longest_sentence": 10,
+        "pass_rate": 1.0,
+        "passed": 5,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 5,
+        "violations_per_100_words": 0.0,
+        "words": 62
+      },
+      "run_number": 1
+    },
+    {
+      "configuration": "without_skill",
+      "eval_id": 3,
+      "eval_name": "eval-3-ki-text-entkitschen",
+      "expectations": [
+        {
+          "evidence": "\u00fcbrig: Mehrwert, nahtlos, ganzheitlich, entscheidende Rolle, Dimension",
+          "passed": false,
+          "text": "Kein Werbe-Sprech mehr"
+        },
+        {
+          "evidence": "48 W\u00f6rter",
+          "passed": false,
+          "text": "Ungef\u00e4hr 60 bis 100 W\u00f6rter"
+        },
+        {
+          "evidence": "Vereinsname oder Altersgruppen genannt",
+          "passed": true,
+          "text": "Nennt Verein oder Altersgruppen"
+        },
+        {
+          "evidence": "keine erfundenen Angaben",
+          "passed": true,
+          "text": "Erfindet keine Zahlen oder Termine"
+        },
+        {
+          "evidence": "l\u00e4ngster Satz: 22 W\u00f6rter",
+          "passed": false,
+          "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+        }
+      ],
+      "notes": [],
+      "result": {
+        "errors": 0,
+        "failed": 3,
+        "hard_violations_per_100_words": 14.6,
+        "longest_sentence": 22,
+        "pass_rate": 0.4,
+        "passed": 2,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "total": 5,
+        "violations_per_100_words": 16.7,
+        "words": 48
+      },
+      "run_number": 1
+    }
+  ]
 }

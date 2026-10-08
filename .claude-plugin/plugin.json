@@ -1,0 +1,22 @@
+{
+  "name": "einfache-sprache",
+  "displayName": "Einfache Sprache",
+  "description": "Write and check German text in Einfache Sprache to DIN 8581-1. Short sentences, active voice, no officialese, every technical term explained.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Johannes Maron",
+    "email": "security@codingjoe.dev"
+  },
+  "homepage": "https://github.com/codingjoe/einfache-sprache",
+  "repository": "https://github.com/codingjoe/einfache-sprache",
+  "license": "AGPL-3.0-or-later",
+  "keywords": [
+    "german",
+    "plain-language",
+    "einfache-sprache",
+    "accessibility",
+    "din-8581",
+    "officialese",
+    "barrierefreiheit"
+  ]
+}
