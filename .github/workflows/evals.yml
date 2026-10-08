@@ -5,7 +5,7 @@ on:
     inputs:
       models:
         description: Comma separated Ollama models to score with
-        default: gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud,glm-5.3-flash:cloud
+        default: gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud
 permissions:
   contents: read
 concurrency:
@@ -24,7 +24,7 @@ jobs:
         env:
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
           EVALS_GLEICHZEITIG: ${{ vars.EVALS_GLEICHZEITIG || '6' }}
-          EVALS_MODELS: ${{ inputs.models || 'gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud,glm-5.3-flash:cloud' }}
+          EVALS_MODELS: ${{ inputs.models || 'gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud' }}
           EVALS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         # pipefail, sonst schlägt nur tee fehl und ein kaputter Lauf sieht grün aus
         run: |

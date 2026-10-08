@@ -51,13 +51,14 @@ from .skill import BASELINE_INSTRUCTIONS, ROOT, Skill
 
 # Das Standardmodell und die Vergleichsmodelle. Alle laufen gegen dieselben
 # Fälle, damit die Spalten vergleichbar sind.
+# glm-5.3-flash fiel raus: 27 Minuten für sieben Fälle, der längste Einzelposten
+# im Lauf. Über EVALS_MODELS lässt es sich jederzeit wieder dazunehmen.
 DEFAULT_MODELS = (
     "gemma4:cloud",
     "mistral-large-4:cloud",
     "deepseek-v4.1-flash:cloud",
     "gpt-oss:120b-cloud",
     "nemotron-3-nano:30b-cloud",
-    "glm-5.3-flash:cloud",
 )
 
 # Ein Richter für alle Modelle. Richtet jedes Modell über sich selbst, bevorteilt
