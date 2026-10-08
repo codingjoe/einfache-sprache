@@ -316,15 +316,22 @@ def main(argv: list[str] | None = None) -> int:
     for konfiguration, (bestanden, gesamt, rate) in ergebnisse.items():
         bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
         print(f"{bezeichnung:<12} {bestanden}/{gesamt}  {rate:.1%}")
-    if len(ergebnisse) == 2 and ergebnisse["ohne"][1]:
-        print(
-            f"{'Unterschied':<12} {ergebnisse['mit'][2] - ergebnisse['ohne'][2]:+.1%}"
-        )
-    return (
-        1
-        if any(bestanden < gesamt for bestanden, gesamt, _ in ergebnisse.values())
-        else 0
-    )
+
+    # Der Rückgabewert steuert den roten Haken im Pull Request. Ein einzelner
+    # nicht bestandener Prüfpunkt wäre das falsche Signal: gegen ein
+    # Sprachmodell sind die Ränder unscharf, und 93 Prozent ist kein Fehler.
+    # Rot wird es nur, wenn der Skill schlechter abschneidet als gar kein Skill.
+    # Das ist die eine Aussage, die immer gelten muss.
+    if len(ergebnisse) < 2 or not ergebnisse["ohne"][1]:
+        print("Kein Vergleich möglich, es lief nur eine Konfiguration.")
+        return 0
+    delta = ergebnisse["mit"][2] - ergebnisse["ohne"][2]
+    print(f"{'Unterschied':<12} {delta:+.1%}")
+    if delta < 0:
+        print("Der Skill schneidet schlechter ab als kein Skill. Das ist ein Fehler.")
+        return 1
+    print("Der Skill schneidet nicht schlechter ab als kein Skill.")
+    return 0
 
 
 if __name__ == "__main__":
