@@ -55,8 +55,10 @@ DEFAULT_MODELS = (
 )
 
 # Ein Richter für alle Modelle. Richtet jedes Modell über sich selbst, bevorteilt
-# es sich, und die Zeilen der Tabelle wären nicht mehr vergleichbar.
-DEFAULT_JUDGE = "mistral-large-4:cloud"
+# es sich, und die Zeilen der Tabelle wären nicht mehr vergleichbar. Gemma
+# urteilt über alle, auch über sich selbst, und dass es sich dabei bevorzugt,
+# gilt für jede Zeile gleich.
+DEFAULT_JUDGE = "gemma4:cloud"
 
 DEFAULT_OLLAMA_URL = "https://ollama.com"
 
