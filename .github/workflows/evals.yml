@@ -18,11 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.2.0
+      - name: Check the harness
+        run: uv run --locked einfache_sprache_evals --selbsttest
       - name: Run the cases
         env:
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
           EVALS_MODEL: ${{ inputs.model || 'gemma4:cloud' }}
-        run: uv run --locked einfache_sprache_evals | tee report.txt
+        # pipefail, sonst schlägt nur tee fehl und ein kaputter Lauf sieht grün aus
+        run: |
+          set -o pipefail
+          uv run --locked einfache_sprache_evals | tee report.txt
       - name: Upload the report
         if: always()
         uses: actions/upload-artifact@v7

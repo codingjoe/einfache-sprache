@@ -17,16 +17,17 @@ cases:
           max_woerter: 20
       - InhaltBewahrt:
           patterns:
-            - '(?i)zwölf Monate'
-            - '(?i)drei Monate'
+            # Zahlwort oder Ziffer, die Tatsache zählt, nicht die Schreibweise.
+            - '(?i)\b(zwölf|12)\s+Monate\b'
+            - '(?i)\b(drei|3)\s+Monate\b'
             - '(?i)(Textform|Brief|E-Mail|schriftlich)'
             # Ein Rechenbeispiel mit Datum wurde ausdruecklich verlangt.
             - '\b\d{1,2}\.\d{1,2}\.\d{4}\b|\b\d{1,2}\.\s?(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\b'
             - '(?i)(zu spät|nicht rechtzeitig|verlängert sich)'
       - NichtsErfunden:
           # Andere Fristen als die aus der Quelle duerfen nicht auftauchen.
-          - '(?i)\b(fünf|sechs|sechzehn|achtzehn|vierundzwanzig)\s+Monate\b'
-          - '(?i)\b(ein|einen)\s+Monat\b'
+          - '(?i)\b(5|6|16|18|24|fünf|sechs|sechzehn|achtzehn|vierundzwanzig)\s+Monate\b'
+          - '(?i)\b(1|ein|einen)\s+Monat\b'
       - HatUeberschrift
       - LLMJudge:
           rubric: |

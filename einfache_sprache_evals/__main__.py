@@ -104,10 +104,15 @@ def evaluate(
 
 
 def zaehle(report: EvaluationReport[str, str, Any], zaehler: dict[str, int]) -> None:
-    """Bewertungen eines Berichts in den Zähler summieren."""
+    """Bewertungen eines Berichts in den Zähler summieren.
+
+    pydantic-evals legt Urteile als zwei getrennte Wörterbücher ab: `assertions`
+    sind die gating-Regeln, `scores` die Trendwerte. Beide werden gezählt, weil
+    ein Fall nur besteht, wenn beide Seiten sauber sind.
+    """
     for case in report.cases:
-        for lauf in case.runs:
-            for ergebnis in lauf.evaluations.values():
+        for gruppe in (case.assertions, case.scores):
+            for ergebnis in gruppe.values():
                 zaehler["gesamt"] += 1
                 if ergebnis.value is True:
                     zaehler["bestanden"] += 1
@@ -119,6 +124,85 @@ def quote(zaehler: dict[str, int]) -> float:
     )
 
 
+GUT = (
+    "**Ihre Miete wird nur zum Teil übernommen**\n\n"
+    "Für Mieten gibt es eine Grenze. Bei Ihnen liegt sie bei 640,00 Euro im Monat.\n\n"
+    "Ihre Miete ist höher als die Grenze. Deshalb übernehmen wir nur 640,00 Euro.\n"
+)
+
+SCHLECHT = (
+    "Aufgrund der Tatsache, dass die Berücksichtigung der tatsächlichen "
+    "Unterkunftskosten die maßgebliche Angemessenheitsgrenze überschreitet, werden "
+    "die Kosten der Unterkunft lediglich in Höhe von 640,00 EUR monatlich "
+    "anerkannt; eine vollständige Übernahme ist nicht möglich."
+)
+
+
+def selbsttest() -> int:
+    """Prüft das Gerüst und die Regeln, ohne einen Modellaufruf zu bezahlen.
+
+    Läuft vor jedem Eval-Lauf. Wer hier durchfällt, hat ein kaputtes Gerüst und
+    keine Aussage über den Skill.
+    """
+    from pydantic_evals import Case, Dataset
+    from pydantic_evals.evaluators import EvaluatorContext
+
+    from .evaluators import HatUeberschrift, InhaltBewahrt, KeineHartenVerstoesse
+
+    fehler = 0
+
+    def urteil(text: str, regel: object) -> bool:
+        ctx = EvaluatorContext(
+            name="selbsttest",
+            inputs=text,
+            metadata=None,
+            expected_output=None,
+            output=text,
+            duration=0.0,
+            _span_tree=None,
+            attributes={},
+            metrics={},
+        )
+        return regel.evaluate(ctx).value is True  # type: ignore[attr-defined]
+
+    if not urteil(GUT, KeineHartenVerstoesse()):
+        print("FEHLER: guter Text fällt bei KeineHartenVerstoesse durch")
+        fehler += 1
+    if urteil(SCHLECHT, KeineHartenVerstoesse()):
+        print("FEHLER: schlechter Text besteht KeineHartenVerstoesse")
+        fehler += 1
+    if not urteil(GUT, HatUeberschrift()):
+        print("FEHLER: Fettzeile wird nicht als Überschrift erkannt")
+        fehler += 1
+    if not urteil(GUT, InhaltBewahrt(patterns=[r"640[.,]00", r"Grenze"])):
+        print("FEHLER: InhaltBewahrt findet die 640 Euro nicht")
+        fehler += 1
+
+    # Und der Zähler über einen echten Bericht.
+    dataset = Dataset[str, str, None](
+        name="selbsttest",
+        cases=[
+            Case(name="gut", inputs=GUT, evaluators=[KeineHartenVerstoesse()]),
+            Case(
+                name="schlecht", inputs=SCHLECHT, evaluators=[KeineHartenVerstoesse()]
+            ),
+        ],
+    )
+    report = dataset.evaluate_sync(lambda text: text)
+    zaehler = {"bestanden": 0, "gesamt": 0}
+    zaehle(report, zaehler)
+    if zaehler["gesamt"] != 2:
+        print(f"FEHLER: Zähler sieht {zaehler['gesamt']} Urteile statt 2")
+        fehler += 1
+    if zaehler["bestanden"] != 1:
+        print(f"FEHLER: Zähler sieht {zaehler['bestanden']} Treffer statt 1")
+        fehler += 1
+
+    if fehler == 0:
+        print("Selbsttest bestanden. Gerüst und Regeln arbeiten.")
+    return 1 if fehler else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="einfache_sprache_evals")
     parser.add_argument(
@@ -126,7 +210,15 @@ def main(argv: list[str] | None = None) -> int:
         choices=CONFIGURATIONS,
         help="nur einen Lauf fahren, statt mit und ohne Skill",
     )
+    parser.add_argument(
+        "--selbsttest",
+        action="store_true",
+        help="Gerüst und Regeln prüfen, ohne Modellaufruf",
+    )
     args = parser.parse_args(argv)
+
+    if args.selbsttest:
+        return 0 if selbsttest() == 0 else 1
 
     if not (os.environ.get("OLLAMA_API_KEY") or os.environ.get("OLLAMA_BASE_URL")):
         sys.stderr.write(

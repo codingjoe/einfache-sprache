@@ -44,6 +44,13 @@ repos:
       - id: yamlfmt
   - repo: local
     hooks:
+      - id: evals-selbsttest
+        name: eval Selbsttest
+        description: Das Eval-Gerüst und seine Regeln müssen arbeiten, bevor sie messen.
+        entry: uv run --no-sync einfache_sprache_evals --selbsttest
+        language: system
+        pass_filenames: false
+        files: ^(cases/.*\.yaml|einfache_sprache_evals/.*\.py|skills/einfache-sprache/.*)$
       - id: pruefen-selbsttest
         name: pruefen.py Selbsttest
         description: Der Prüfer muss seinen eigenen Test bestehen, bevor er Texte bewertet.
