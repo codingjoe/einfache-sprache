@@ -100,7 +100,7 @@ Die Patienteninfo ist der ehrliche Gegenfall. Ihr Ausgangstext bestand schon aus
 
 Dazu kommt eine ausführbare Suite in `cases/`. Sie läuft in GitHub Actions gegen `gemma4:cloud` auf Ollama Cloud, schreibt eine kurze Zusammenfassung als Kommentar an den Pull Request und legt den vollen Bericht als Artefakt ab.
 
-Der Standardlauf misst nur mit Skill. Wer wissen will, was der Skill beiträgt, fährt `--vergleich` und bekommt zusätzlich einen Lauf ohne Skill. Das kostet doppelt so viel Kontingent, deshalb läuft es nicht bei jedem Pull Request. In einem solchen Vergleichslauf trennten sich die beiden vor allem bei der Inhaltstreue, der Struktur und der Erfindungsfreiheit, während sich die Regelquote kaum unterschied, weil das Testmodell ohnehin etwa einmal pro 100 Wörter strauchelt.
+Jedes Modell läuft über dieselben sieben Fälle und gegen denselben Richter, damit die Zeilen vergleichbar sind. Der Standardlauf misst nur mit Skill. Wer wissen will, was der Skill beiträgt, fährt `--vergleich` und bekommt zusätzlich einen Lauf ohne Skill. Das kostet doppelt so viel Kontingent, deshalb läuft es nicht bei jedem Pull Request. In einem solchen Vergleichslauf trennten sich die beiden vor allem bei der Inhaltstreue, der Struktur und der Erfindungsfreiheit, während sich die Regelquote kaum unterschied, weil das Testmodell ohnehin etwa einmal pro 100 Wörter strauchelt.
 
 Ein Beispiel aus dem Lauf. Ohne Skill erfindet das Modell gern eine Frist. Mit Skill schreibt es: "Hier fehlt die Information, bis wann Sie den Einspruch schreiben müssen." Genau das verlangt die Regel, die nach dem ersten Testlauf entstanden ist.
 

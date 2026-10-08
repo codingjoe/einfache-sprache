@@ -3,9 +3,9 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      model:
-        description: Ollama model to score with
-        default: gemma4:cloud
+      models:
+        description: Comma separated Ollama models to score with
+        default: gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud,glm-5.3-flash:cloud
 permissions:
   contents: read
 concurrency:
@@ -23,7 +23,7 @@ jobs:
       - name: Run the cases
         env:
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
-          EVALS_MODEL: ${{ inputs.model || 'gemma4:cloud' }}
+          EVALS_MODELS: ${{ inputs.models || 'gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud,glm-5.3-flash:cloud' }}
           EVALS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         # pipefail, sonst schlägt nur tee fehl und ein kaputter Lauf sieht grün aus
         run: |

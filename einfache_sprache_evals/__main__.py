@@ -5,15 +5,15 @@ zweite Lauf macht die Zahlen lesbar: ohne ihn misst man nur, wie gut das
 Modell ohnehin ist. Der Unterschied zwischen den beiden Läufen ist der
 Beitrag des Skills.
 
-Der Standardlauf misst nur mit Skill. --vergleich fährt zusätzlich ohne Skill und
-zeigt, was der Skill beiträgt. Das kostet doppelt so viel Kontingent.
+Jedes Modell läuft über dieselben Fälle, damit die Zeilen vergleichbar sind.
+Ein Modell, das nicht antwortet, steht mit seinem Fehler in der Tabelle, ohne die
+übrigen Zeilen zu verhindern.
 
 Aufruf:
   uv run --locked einfache_sprache_evals
-  uv run --locked einfache_sprache_evals --vergleich        # mit und ohne Skill
-  uv run --locked einfache_sprache_evals --nur ohne         # nur die Baseline
+  EVALS_MODELS=gemma4:cloud,glm-5.3-flash:cloud uv run --locked einfache_sprache_evals
+  uv run --locked einfache_sprache_evals --vergleich        # auch ohne Skill
   uv run --locked einfache_sprache_evals --kommentar k.md   # Kurzfassung schreiben
-  EVALS_MODEL=gemma4:cloud uv run --locked einfache_sprache_evals
 
 Der volle Bericht geht auf die Standardausgabe und wird im Workflow als Artefakt
 abgelegt. Für den Pull-Request-Kommentar schreibt --kommentar eine Kurzfassung:
@@ -43,7 +43,20 @@ from pydantic_evals.reporting import EvaluationReport
 from .evaluators import RULES
 from .skill import BASELINE_INSTRUCTIONS, ROOT, Skill
 
-DEFAULT_MODEL = "gemma4:cloud"
+# Das Standardmodell und die Vergleichsmodelle. Alle laufen gegen dieselben
+# Fälle, damit die Spalten vergleichbar sind.
+DEFAULT_MODELS = (
+    "gemma4:cloud",
+    "mistral-large-4:cloud",
+    "deepseek-v4.1-flash:cloud",
+    "gpt-oss:120b-cloud",
+    "nemotron-3-nano:30b-cloud",
+    "glm-5.3-flash:cloud",
+)
+
+# Ein Richter für alle Modelle. Richtet jedes Modell über sich selbst, bevorteilt
+# es sich, und die Zeilen der Tabelle wären nicht mehr vergleichbar.
+DEFAULT_JUDGE = "mistral-large-4:cloud"
 
 DEFAULT_OLLAMA_URL = "https://ollama.com"
 
@@ -64,39 +77,21 @@ BEZEICHNUNG = {"mit": "mit Skill", "ohne": "ohne Skill"}
 
 
 @dataclass
-class Fallkurz:
-    """Was ein Fall für die kurze Zusammenfassung beitragen muss.
+class Ergebnis:
+    """Das Ergebnis eines Modells über alle Fälle.
 
-    Bewusst ohne die Begründungen der einzelnen Prüfpunkte. Die stehen im
-    vollständigen Bericht, der als Artefakt am Workflow hängt. Ein
-    Pull-Request-Kommentar, den niemand zu Ende liest, hilft niemandem.
+    Bewusst ohne die einzelnen Fälle: die stehen im vollen Bericht, der als
+    Artefakt am Workflow hängt. Im Kommentar interessiert der Vergleich
+    zwischen den Modellen, und dafür ist eine Zeile je Modell genug.
     """
 
-    name: str
-    dauer: float
-    bestanden: int
-    gesamt: int
-    bewertungen: dict[str, float] = field(default_factory=dict)
-    gefallen: list[str] = field(default_factory=list)
-
-    @property
-    def quote(self) -> str:
-        if not self.gesamt:
-            return "—"
-        return f"{self.bestanden}/{self.gesamt}"
-
-
-@dataclass
-class Laufkurz:
-    """Ein Konfigurationslauf: Kopfzahlen und die Fälle."""
-
-    bezeichnung: str
+    modell: str
     bestanden: int
     gesamt: int
     quote: float
-    masse: dict[str, float]
-    faelle: list[Fallkurz]
-    dauer: float
+    masse: dict[str, float] = field(default_factory=dict)
+    dauer: float = 0.0
+    fehler: str = ""
 
 
 def ollama_base_url(endpoint: str) -> str:
@@ -112,11 +107,17 @@ def build_model(model_name: str) -> Model:
     )
 
 
-def model_settings() -> tuple[str, str, int]:
-    model = os.environ.get("EVALS_MODEL") or DEFAULT_MODEL
+def model_settings() -> tuple[list[str], str, int]:
+    """Modelle, Richter und Wiederholungen aus der Umgebung."""
+    roh = os.environ.get("EVALS_MODELS")
+    modelle = (
+        [m.strip() for m in roh.split(",") if m.strip()]
+        if roh
+        else list(DEFAULT_MODELS)
+    )
     return (
-        model,
-        os.environ.get("EVALS_JUDGE") or model,
+        modelle,
+        os.environ.get("EVALS_JUDGE") or DEFAULT_JUDGE,
         int(os.environ.get("EVALS_REPEATS") or 1),
     )
 
@@ -167,89 +168,42 @@ async def evaluate(
     )
 
 
-def sammle_fall(case: Any) -> Fallkurz:
-    """Zieht aus einem Berichtsfall nur das, was in den Kommentar gehört."""
-    bestanden = 0
-    gesamt = 0
-    gefallen: list[str] = []
-    bewertungen: dict[str, float] = {}
-    for gruppe in (case.assertions, case.scores):
-        for name, ergebnis in gruppe.items():
-            if isinstance(ergebnis.value, bool):
-                gesamt += 1
-                if ergebnis.value:
-                    bestanden += 1
-                else:
-                    gefallen.append(name)
-            elif isinstance(ergebnis.value, (int, float)):
-                bewertungen[name] = float(ergebnis.value)
-    dauer = float(getattr(case, "total_duration", 0.0) or 0.0)
-    return Fallkurz(
-        name=case.name,
-        dauer=dauer,
-        bestanden=bestanden,
-        gesamt=gesamt,
-        bewertungen=bewertungen,
-        gefallen=gefallen,
-    )
+def kommentar_text(
+    ergebnisse: list[Ergebnis], richter: str, lauf_url: str, vergleich: bool
+) -> str:
+    """Baut den kurzen Kommentar für den Pull Request.
 
+    Eine Zeile je Modell. Ohne die einzelnen Fälle, ohne Begründungen. Wer mehr
+    wissen will, öffnet den vollen Bericht, auf den die letzte Zeile verweist.
+    """
+    kopf = "## einfache-sprache evals"
+    richter_text = f"Richter: `{richter}`"
+    if vergleich:
+        richter_text += " · Vergleich mit und ohne Skill"
+    zeilen = [
+        kopf,
+        "",
+        richter_text,
+        "",
+        "| Modell | Prüfpunkte | Quote | Harte je 100 Wörter | Dauer |",
+        "| ------ | ---------: | ----: | ------------------: | ----: |",
+    ]
+    for e in ergebnisse:
+        if e.fehler:
+            zeilen.append(f"| `{e.modell}` | — | — | — | — |")
+            continue
+        hart = e.masse.get("HartePro100")
+        hart_text = "—" if hart is None else f"{hart:.2f}".replace(".", ",")
+        quote = f"{e.quote:.1%}".replace(".", ",")
+        zeilen.append(
+            f"| `{e.modell}` | {e.bestanden}/{e.gesamt} | {quote} "
+            f"| {hart_text} | {e.dauer:.0f} s |"
+        )
 
-def kommentar_text(laeufe: list[Laufkurz], modell: str, lauf_url: str) -> str:
-    """Baut den kurzen Kommentar für den Pull Request."""
-    zeilen = ["## einfache-sprache evals", ""]
-
-    def kopf(lauf: Laufkurz) -> str:
-        hart = lauf.masse.get("HartePro100")
-        teile = [
-            f"Modell: `{modell}`" if len(laeufe) == 1 or not lauf.bezeichnung else "",
-            f"Prüfpunkte: **{lauf.bestanden}/{lauf.gesamt}**",
-        ]
-        if hart is not None:
-            teile.append(
-                f"harte Verstöße je 100 Wörter: **{hart:.2f}**".replace(".", ",")
-            )
-        teile.append(f"Dauer: {lauf.dauer:.0f} s")
-        return " · ".join(x for x in teile if x)
-
-    if len(laeufe) == 1:
-        # Ein Lauf. Eine Tabelle mit einer Zeile wäre nur Wiederholung, also
-        # steht das Wichtigste in einer Zeile Prosa.
-        zeilen.append(kopf(laeufe[0]))
-    else:
-        zeilen += [
-            f"Modell: `{modell}`",
-            "",
-            "| Konfiguration | Prüfpunkte | Harte je 100 Wörter | Dauer |",
-            "| ------------- | ---------: | ------------------: | ----: |",
-        ]
-        for lauf in laeufe:
-            hart = lauf.masse.get("HartePro100")
-            hart_text = "—" if hart is None else f"{hart:.2f}".replace(".", ",")
-            zeilen.append(
-                f"| {lauf.bezeichnung} | {lauf.bestanden}/{lauf.gesamt} "
-                f"| {hart_text} | {lauf.dauer:.0f} s |"
-            )
-        delta = laeufe[0].quote - laeufe[1].quote
-        zeilen += ["", f"Unterschied: **{delta:+.1%}**".replace(".", ","), ""]
-
-    for lauf in laeufe:
-        if len(laeufe) > 1:
-            zeilen += ["", f"### {lauf.bezeichnung}"]
-        zeilen += [
-            "",
-            "| Fall | Dauer | Prüfpunkte | Bewertung | Nicht bestanden |",
-            "| ---- | ----: | ---------: | --------: | --------------- |",
-        ]
-        for fall in lauf.faelle:
-            bewertung = ", ".join(
-                f"{name} {wert:.2f}".replace(".", ",")
-                for name, wert in sorted(fall.bewertungen.items())
-            )
-            gefallen = ", ".join(fall.gefallen) if fall.gefallen else "—"
-            dauer = f"{fall.dauer:.1f} s".replace(".", ",")
-            zeilen.append(
-                f"| {fall.name} | {dauer} | {fall.quote} | {bewertung or '—'} | {gefallen} |"
-            )
+    gescheitert = [e for e in ergebnisse if e.fehler]
+    if gescheitert:
+        zeilen += ["", "Nicht gelaufen:"]
+        zeilen += [f"- `{e.modell}`: {e.fehler}" for e in gescheitert]
 
     hinweis = (
         f"[Vollständiger Bericht mit allen Begründungen]({lauf_url}) "
@@ -311,25 +265,43 @@ def pruefe_kommentar(
     einem Aufsatz an, den niemand liest.
     """
     fehler = 0
-    faelle = [sammle_fall(c) for c in report.cases]
-    lauf = Laufkurz(
-        bezeichnung="mit Skill",
-        bestanden=zaehler["bestanden"],
-        gesamt=zaehler["gesamt"],
-        quote=quote(zaehler),
-        masse={"HartePro100": 1.2},
-        faelle=faelle,
-        dauer=1.5,
+    ergebnisse = [
+        Ergebnis(
+            modell="testmodell:cloud",
+            bestanden=zaehler["bestanden"],
+            gesamt=zaehler["gesamt"],
+            quote=quote(zaehler),
+            masse={"HartePro100": 1.2},
+            dauer=1.5,
+        ),
+        Ergebnis(
+            modell="kaputt:cloud",
+            bestanden=0,
+            gesamt=0,
+            quote=0.0,
+            fehler="RuntimeError: keine Antwort",
+        ),
+    ]
+    text = kommentar_text(
+        ergebnisse, "richter:cloud", "https://example.invalid/run", vergleich=False
     )
-    text = kommentar_text([lauf], "testmodell:cloud", "https://example.invalid/run")
-    for erwartet in ("## einfache-sprache evals", "| Fall |", "gut", "schlecht", "1,2"):
+    for erwartet in (
+        "## einfache-sprache evals",
+        "| Modell |",
+        "testmodell:cloud",
+        "1,2",
+        "Nicht gelaufen",
+        "kaputt:cloud",
+    ):
         if erwartet not in text:
             print(f"FEHLER: Kommentar enthält {erwartet!r} nicht")
             fehler += 1
-    if "harte Verstöße auf" in text:
-        print("FEHLER: Kommentar schleppt die Begründungen mit")
-        fehler += 1
-    if len(text.splitlines()) > 25:
+    # Die einzelnen Fälle und ihre Begründungen gehören nicht in den Kommentar.
+    for verboten in ("harte Verstöße auf", "| Fall |", "Reason:"):
+        if verboten in text:
+            print(f"FEHLER: Kommentar enthält {verboten!r}")
+            fehler += 1
+    if len(text.splitlines()) > 20:
         print(f"FEHLER: Kommentar ist {len(text.splitlines())} Zeilen lang")
         fehler += 1
     return fehler
@@ -425,54 +397,76 @@ def zeige_texte(report: EvaluationReport[str, str, Any], bezeichnung: str) -> No
 
 async def fahre(
     dateien: list[Path],
-    model: Model,
+    modelle: list[str],
     repeats: int,
     konfigurationen: tuple[str, ...],
     skill: Skill,
-) -> tuple[dict[str, tuple[int, int, float]], list[Laufkurz]]:
-    """Fährt alle Fälle und liefert Kopfzahlen und die Kurzfassung je Lauf."""
-    ergebnisse: dict[str, tuple[int, int, float]] = {}
-    kurz: list[Laufkurz] = []
-    for konfiguration in konfigurationen:
-        bezeichnung = BEZEICHNUNG[konfiguration]
-        print(f"===== Lauf {bezeichnung} =====")
-        zaehler = {"bestanden": 0, "gesamt": 0}
-        masse: dict[str, list[float]] = {}
-        faelle: list[Fallkurz] = []
-        dauer = 0.0
-        for path in dateien:
-            report = await evaluate(path, model, repeats, konfiguration, skill)
-            report.print(width=100, include_output=False, include_reasons=True)
-            for failure in report.failures:
-                print(f"{failure.name}: {failure.error_message}")
-            zaehle(report, zaehler, masse)
-            for case in report.cases:
-                fall = sammle_fall(case)
-                faelle.append(fall)
-                dauer += fall.dauer
-            zeige_texte(report, bezeichnung)
-        ergebnisse[konfiguration] = (
-            zaehler["bestanden"],
-            zaehler["gesamt"],
-            quote(zaehler),
-        )
-        for name, werte in sorted(masse.items()):
-            print(
-                f"{name} im Mittel: {sum(werte) / len(werte):.2f} über {len(werte)} Fälle"
-            )
-        kurz.append(
-            Laufkurz(
-                bezeichnung=bezeichnung,
-                bestanden=zaehler["bestanden"],
-                gesamt=zaehler["gesamt"],
-                quote=quote(zaehler),
-                masse={name: sum(w) / len(w) for name, w in masse.items()},
-                faelle=faelle,
-                dauer=dauer,
-            )
-        )
-        print()
-    return ergebnisse, kurz
+) -> list[Ergebnis]:
+    """Fährt jedes Modell über alle Fälle.
+
+    Ein Modell, das nicht antwortet, darf die ganze Tabelle nicht mitreißen.
+    Sein Fehler steht in der Zeile, der Rest läuft weiter.
+    """
+    ergebnisse: list[Ergebnis] = []
+    for modell_name in modelle:
+        for konfiguration in konfigurationen:
+            bezeichnung = BEZEICHNUNG[konfiguration]
+            kopf = f"{modell_name} {bezeichnung}".strip()
+            print(f"===== {kopf} =====")
+            try:
+                model = build_model(modell_name)
+                zaehler = {"bestanden": 0, "gesamt": 0}
+                masse: dict[str, list[float]] = {}
+                dauer = 0.0
+                for path in dateien:
+                    report = await evaluate(path, model, repeats, konfiguration, skill)
+                    report.print(width=100, include_output=False, include_reasons=True)
+                    for failure in report.failures:
+                        print(f"{failure.name}: {failure.error_message}")
+                    zaehle(report, zaehler, masse)
+                    for case in report.cases:
+                        dauer += float(getattr(case, "total_duration", 0.0) or 0.0)
+                    zeige_texte(report, kopf)
+                ergebnisse.append(
+                    Ergebnis(
+                        modell=modell_name
+                        if len(konfigurationen) == 1
+                        else f"{modell_name} {bezeichnung}",
+                        bestanden=zaehler["bestanden"],
+                        gesamt=zaehler["gesamt"],
+                        quote=quote(zaehler),
+                        masse={n: sum(w) / len(w) for n, w in masse.items()},
+                        dauer=dauer,
+                    )
+                )
+            except Exception as exc:  # noqa: BLE001
+                # Ein falscher Modellname oder ein Ausfall darf die übrigen
+                # Zeilen nicht kosten. Der Fehler steht im Bericht.
+                print(f"{kopf}: abgebrochen: {type(exc).__name__}: {exc}")
+                ergebnisse.append(
+                    Ergebnis(
+                        modell=modell_name,
+                        bestanden=0,
+                        gesamt=0,
+                        quote=0.0,
+                        fehler=f"{type(exc).__name__}: {str(exc)[:120]}",
+                    )
+                )
+            print()
+    return ergebnisse
+
+
+def waehle_konfigurationen(
+    args: argparse.Namespace, parser: argparse.ArgumentParser
+) -> tuple[str, ...]:
+    """Welche Läufe gefahren werden: mit Skill, ohne, oder beide."""
+    if args.nur and args.vergleich:
+        parser.error("--nur und --vergleich schließen sich aus")
+    if args.nur:
+        return (args.nur,)
+    if args.vergleich:
+        return VERGLEICH
+    return (STANDARD_LAUF,)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -511,54 +505,48 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
-    model_name, judge_name, repeats = model_settings()
+    modelle, judge_name, repeats = model_settings()
     set_default_judge_model(build_model(judge_name))
-    model = build_model(model_name)
     skill = Skill.read()
     dateien = case_files(None)
-    if args.nur and args.vergleich:
-        parser.error("--nur und --vergleich schließen sich aus")
-    if args.nur:
-        konfigurationen = (args.nur,)
-    elif args.vergleich:
-        konfigurationen = VERGLEICH
-    else:
-        konfigurationen = (STANDARD_LAUF,)
+    konfigurationen = waehle_konfigurationen(args, parser)
 
-    print(f"Modell: {model_name}   Richter: {judge_name}   Wiederholungen: {repeats}")
+    print(f"Modelle: {', '.join(modelle)}")
+    print(f"Richter: {judge_name}   Wiederholungen: {repeats}")
     print(f"Fälle: {len(dateien)} aus {CASES_DIR}")
     print()
 
-    ergebnisse, kurz = asyncio.run(
-        fahre(dateien, model, repeats, konfigurationen, skill)
-    )
+    ergebnisse = asyncio.run(fahre(dateien, modelle, repeats, konfigurationen, skill))
 
     if args.kommentar:
         lauf_url = os.environ.get("EVALS_RUN_URL") or ""
         args.kommentar.write_text(
-            kommentar_text(kurz, model_name, lauf_url), encoding="utf-8"
+            kommentar_text(ergebnisse, judge_name, lauf_url, len(konfigurationen) > 1),
+            encoding="utf-8",
         )
         print(f"Kurzer Bericht geschrieben: {args.kommentar}")
 
     print("===== Ergebnis =====")
-    for konfiguration, (bestanden, gesamt, rate) in ergebnisse.items():
-        bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
-        print(f"{bezeichnung:<12} {bestanden}/{gesamt}  {rate:.1%}")
+    for e in ergebnisse:
+        if e.fehler:
+            print(f"{e.modell:<34} abgebrochen: {e.fehler}")
+        else:
+            print(f"{e.modell:<34} {e.bestanden}/{e.gesamt}  {e.quote:.1%}")
+    print()
 
     # Der Rückgabewert steuert den roten Haken im Pull Request. Ein einzelner
     # nicht bestandener Prüfpunkt wäre das falsche Signal: gegen ein
     # Sprachmodell sind die Ränder unscharf, und 93 Prozent ist kein Fehler.
-    # Rot wird es nur, wenn der Skill schlechter abschneidet als gar kein Skill.
-    # Das ist die eine Aussage, die immer gelten muss.
-    if len(ergebnisse) < 2 or not ergebnisse["ohne"][1]:
-        print("Kein Vergleich möglich, es lief nur eine Konfiguration.")
-        return 0
-    delta = ergebnisse["mit"][2] - ergebnisse["ohne"][2]
-    print(f"{'Unterschied':<12} {delta:+.1%}")
-    if delta < 0:
-        print("Der Skill schneidet schlechter ab als kein Skill. Das ist ein Fehler.")
+    # Rot wird es nur, wenn kein Modell durchgelaufen ist.
+    durchgelaufen = [e for e in ergebnisse if not e.fehler]
+    if not durchgelaufen:
+        print("Kein Modell ist durchgelaufen. Das ist ein Fehler.")
         return 1
-    print("Der Skill schneidet nicht schlechter ab als kein Skill.")
+    if len(durchgelaufen) < len(ergebnisse):
+        print(
+            f"{len(ergebnisse) - len(durchgelaufen)} von {len(ergebnisse)} "
+            "Modellen liefen nicht durch, der Rest schon."
+        )
     return 0
 
 
