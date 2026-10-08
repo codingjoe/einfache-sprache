@@ -5,9 +5,13 @@ zweite Lauf macht die Zahlen lesbar: ohne ihn misst man nur, wie gut das
 Modell ohnehin ist. Der Unterschied zwischen den beiden Läufen ist der
 Beitrag des Skills.
 
+Der Standardlauf misst nur mit Skill. --vergleich fährt zusätzlich ohne Skill und
+zeigt, was der Skill beiträgt. Das kostet doppelt so viel Kontingent.
+
 Aufruf:
   uv run --locked einfache_sprache_evals
-  uv run --locked einfache_sprache_evals --nur mit          # nur ein Lauf
+  uv run --locked einfache_sprache_evals --vergleich        # mit und ohne Skill
+  uv run --locked einfache_sprache_evals --nur ohne         # nur die Baseline
   uv run --locked einfache_sprache_evals --kommentar k.md   # Kurzfassung schreiben
   EVALS_MODEL=gemma4:cloud uv run --locked einfache_sprache_evals
 
@@ -47,7 +51,14 @@ CASES_DIR = ROOT / "cases"
 
 MAX_CONCURRENCY = 4
 
-CONFIGURATIONS = ("mit", "ohne")
+# Der Standardlauf misst nur mit Skill. Der Vergleich gegen einen Lauf ohne
+# Skill ist wertvoll, wenn man den Skill selbst hinterfragt, kostet aber doppelt
+# so viel Zeit und Kontingent. Für den Pull Request reicht der eine Lauf.
+STANDARD_LAUF = "mit"
+
+KONFIGURATIONEN = ("mit", "ohne")
+
+VERGLEICH = ("mit", "ohne")
 
 BEZEICHNUNG = {"mit": "mit Skill", "ohne": "ohne Skill"}
 
@@ -185,30 +196,46 @@ def sammle_fall(case: Any) -> Fallkurz:
 
 def kommentar_text(laeufe: list[Laufkurz], modell: str, lauf_url: str) -> str:
     """Baut den kurzen Kommentar für den Pull Request."""
-    zeilen = [
-        "## einfache-sprache evals",
-        "",
-        f"Modell: `{modell}`",
-        "",
-        "| Konfiguration | Prüfpunkte | Quote | Harte je 100 Wörter | Dauer |",
-        "| ------------- | ---------: | ----: | ------------------: | ----: |",
-    ]
-    for lauf in laeufe:
+    zeilen = ["## einfache-sprache evals", ""]
+
+    def kopf(lauf: Laufkurz) -> str:
         hart = lauf.masse.get("HartePro100")
-        hart_text = "—" if hart is None else f"{hart:.2f}".replace(".", ",")
-        quote = f"{lauf.quote:.1%}".replace(".", ",")
-        zeilen.append(
-            f"| {lauf.bezeichnung} | {lauf.bestanden}/{lauf.gesamt} | {quote} "
-            f"| {hart_text} | {lauf.dauer:.0f} s |"
-        )
-    if len(laeufe) == 2:
+        teile = [
+            f"Modell: `{modell}`" if len(laeufe) == 1 or not lauf.bezeichnung else "",
+            f"Prüfpunkte: **{lauf.bestanden}/{lauf.gesamt}**",
+        ]
+        if hart is not None:
+            teile.append(
+                f"harte Verstöße je 100 Wörter: **{hart:.2f}**".replace(".", ",")
+            )
+        teile.append(f"Dauer: {lauf.dauer:.0f} s")
+        return " · ".join(x for x in teile if x)
+
+    if len(laeufe) == 1:
+        # Ein Lauf. Eine Tabelle mit einer Zeile wäre nur Wiederholung, also
+        # steht das Wichtigste in einer Zeile Prosa.
+        zeilen.append(kopf(laeufe[0]))
+    else:
+        zeilen += [
+            f"Modell: `{modell}`",
+            "",
+            "| Konfiguration | Prüfpunkte | Harte je 100 Wörter | Dauer |",
+            "| ------------- | ---------: | ------------------: | ----: |",
+        ]
+        for lauf in laeufe:
+            hart = lauf.masse.get("HartePro100")
+            hart_text = "—" if hart is None else f"{hart:.2f}".replace(".", ",")
+            zeilen.append(
+                f"| {lauf.bezeichnung} | {lauf.bestanden}/{lauf.gesamt} "
+                f"| {hart_text} | {lauf.dauer:.0f} s |"
+            )
         delta = laeufe[0].quote - laeufe[1].quote
-        zeilen += ["", f"Unterschied: **{delta:+.1%}**".replace(".", ",")]
+        zeilen += ["", f"Unterschied: **{delta:+.1%}**".replace(".", ","), ""]
 
     for lauf in laeufe:
+        if len(laeufe) > 1:
+            zeilen += ["", f"### {lauf.bezeichnung}"]
         zeilen += [
-            "",
-            f"### {lauf.bezeichnung}",
             "",
             "| Fall | Dauer | Prüfpunkte | Bewertung | Nicht bestanden |",
             "| ---- | ----: | ---------: | --------: | --------------- |",
@@ -452,8 +479,13 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="einfache_sprache_evals")
     parser.add_argument(
         "--nur",
-        choices=CONFIGURATIONS,
-        help="nur einen Lauf fahren, statt mit und ohne Skill",
+        choices=KONFIGURATIONEN,
+        help="nur eine Konfiguration fahren (Standard ist mit Skill)",
+    )
+    parser.add_argument(
+        "--vergleich",
+        action="store_true",
+        help="auch ohne Skill fahren, um den Beitrag des Skills zu messen",
     )
     parser.add_argument(
         "--kommentar",
@@ -484,7 +516,14 @@ def main(argv: list[str] | None = None) -> int:
     model = build_model(model_name)
     skill = Skill.read()
     dateien = case_files(None)
-    konfigurationen = (args.nur,) if args.nur else CONFIGURATIONS
+    if args.nur and args.vergleich:
+        parser.error("--nur und --vergleich schließen sich aus")
+    if args.nur:
+        konfigurationen = (args.nur,)
+    elif args.vergleich:
+        konfigurationen = VERGLEICH
+    else:
+        konfigurationen = (STANDARD_LAUF,)
 
     print(f"Modell: {model_name}   Richter: {judge_name}   Wiederholungen: {repeats}")
     print(f"Fälle: {len(dateien)} aus {CASES_DIR}")

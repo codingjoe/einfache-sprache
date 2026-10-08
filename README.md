@@ -98,14 +98,9 @@ python3 skills/einfache-sprache/scripts/pruefen.py einfache-sprache-workspace/it
 
 Die Patienteninfo ist der ehrliche Gegenfall. Ihr Ausgangstext bestand schon aus kurzen Sätzen ohne Amtswörter, deshalb gab es nichts zu verbessern. Einfache Sprache lässt sich nicht an jeder Quelle beweisen.
 
-Dazu kommt eine ausführbare Suite in `cases/`. Sie läuft in GitHub Actions gegen `gemma4:cloud` auf Ollama Cloud und schreibt ihren Bericht als Kommentar an den Pull Request.
+Dazu kommt eine ausführbare Suite in `cases/`. Sie läuft in GitHub Actions gegen `gemma4:cloud` auf Ollama Cloud, schreibt eine kurze Zusammenfassung als Kommentar an den Pull Request und legt den vollen Bericht als Artefakt ab.
 
-| Konfiguration | Prüfpunkte | Harte Verstöße je 100 Wörter |
-| ------------- | ---------: | ---------------------------: |
-| mit Skill     |  29 von 31 |                         1,22 |
-| ohne Skill    |  27 von 31 |                         1,21 |
-
-Der Unterschied liegt bei den Prüfpunkten, nicht bei der Regelquote. Beide Seiten straucheln etwa einmal pro 100 Wörter, weil das Testmodell es nicht besser kann. Was sich trennt, ist Inhaltstreue, Struktur und Erfindungsfreiheit: ohne Skill fällt zweimal die Inhaltstreue durch und einmal die Überschrift.
+Der Standardlauf misst nur mit Skill. Wer wissen will, was der Skill beiträgt, fährt `--vergleich` und bekommt zusätzlich einen Lauf ohne Skill. Das kostet doppelt so viel Kontingent, deshalb läuft es nicht bei jedem Pull Request. In einem solchen Vergleichslauf trennten sich die beiden vor allem bei der Inhaltstreue, der Struktur und der Erfindungsfreiheit, während sich die Regelquote kaum unterschied, weil das Testmodell ohnehin etwa einmal pro 100 Wörter strauchelt.
 
 Ein Beispiel aus dem Lauf. Ohne Skill erfindet das Modell gern eine Frist. Mit Skill schreibt es: "Hier fehlt die Information, bis wann Sie den Einspruch schreiben müssen." Genau das verlangt die Regel, die nach dem ersten Testlauf entstanden ist.
 
