@@ -9,9 +9,13 @@ Jedes Modell läuft über dieselben Fälle, damit die Zeilen vergleichbar sind.
 Ein Modell, das nicht antwortet, steht mit seinem Fehler in der Tabelle, ohne die
 übrigen Zeilen zu verhindern.
 
+Alle Modelle laufen nebeneinander. EVALS_GLEICHZEITIG deckelt, wie viele
+Anfragen gleichzeitig offen sind (Standard 6).
+
 Aufruf:
   uv run --locked einfache_sprache_evals
   EVALS_MODELS=gemma4:cloud,glm-5.3-flash:cloud uv run --locked einfache_sprache_evals
+  EVALS_GLEICHZEITIG=12 uv run --locked einfache_sprache_evals
   uv run --locked einfache_sprache_evals --vergleich        # auch ohne Skill
   uv run --locked einfache_sprache_evals --kommentar k.md   # Kurzfassung schreiben
 
@@ -25,7 +29,9 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import datetime
 import os
+import re
 import sys
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
@@ -61,6 +67,11 @@ DEFAULT_MODELS = (
 DEFAULT_JUDGE = "gemma4:cloud"
 
 DEFAULT_OLLAMA_URL = "https://ollama.com"
+
+# Wie viele Anfragen gleichzeitig laufen dürfen. Ohne Deckel dauert die volle
+# Modellliste über eine halbe Stunde, weil ein Fall bei einem langsamen Modell
+# Minuten braucht. Zu hoch gedreht fängt der Anbieter an zu drosseln.
+DEFAULT_GLEICHZEITIG = 6
 
 CASES_DIR = ROOT / "cases"
 
@@ -122,6 +133,10 @@ def model_settings() -> tuple[list[str], str, int]:
         os.environ.get("EVALS_JUDGE") or DEFAULT_JUDGE,
         int(os.environ.get("EVALS_REPEATS") or 1),
     )
+
+
+def gleichzeitig_einstellung() -> int:
+    return int(os.environ.get("EVALS_GLEICHZEITIG") or DEFAULT_GLEICHZEITIG)
 
 
 def build_agent(instructions: str, name: str, model: Model) -> Agent[None, str]:
@@ -199,7 +214,7 @@ def kommentar_text(
         quote = f"{e.quote:.1%}".replace(".", ",")
         zeilen.append(
             f"| `{e.modell}` | {e.bestanden}/{e.gesamt} | {quote} "
-            f"| {hart_text} | {e.dauer:.0f} s |"
+            f"| {hart_text} | {dauer_text(e.dauer)} |"
         )
 
     gescheitert = [e for e in ergebnisse if e.fehler]
@@ -377,24 +392,109 @@ def selbsttest() -> int:
     return 1 if fehler else 0
 
 
-def zeige_texte(report: EvaluationReport[str, str, Any], bezeichnung: str) -> None:
-    """Zeigt Aufgabe und Ergebnis im Klartext.
+def dauer_text(sekunden: float) -> str:
+    """Dauer als Uhrzeit, nicht als Sekundenzahl.
 
-    Bei einem Schreib-Skill ist der erzeugte deutsche Text das Ergebnis. Eine
-    Tabelle mit Häkchen sagt nicht, ob der Text brauchbar ist. Deshalb steht er
-    mit im Bericht, damit ein Mensch ihn lesen kann.
+    "825" sagt niemandem etwas, "0:13:45" schon.
     """
+    return str(datetime.timedelta(seconds=round(sekunden)))
+
+
+def dateiname(text: str) -> str:
+    """Macht aus einem Modell- oder Fallnamen einen brauchbaren Dateinamen."""
+    return re.sub(r"[^A-Za-z0-9._-]+", "-", text).strip("-") or "unbenannt"
+
+
+def schreibe_texte(
+    report: EvaluationReport[str, str, Any], ordner: Path, bezeichnung: str
+) -> None:
+    """Schreibt Aufgabe und Ergebnis je Fall in eine eigene Datei.
+
+    Bei einem Schreib-Skill ist der erzeugte deutsche Text das Ergebnis. Er
+    gehört ins Artefakt, aber nicht in den Bericht: über neunzig Prozent der
+    Berichtsgröße waren genau diese Texte, und damit war der Bericht unlesbar.
+    Als Datei je Fall lässt sich jeder einzeln öffnen.
+    """
+    ziel = ordner / dateiname(bezeichnung)
+    ziel.mkdir(parents=True, exist_ok=True)
     for case in report.cases:
         ergebnis = "<kein Ergebnis>"
         if case.output is not None:
             ergebnis = str(case.output)
-        print(f"--- {bezeichnung}: {case.name} ---")
-        print("AUFGABE:")
-        print(str(case.inputs).strip())
-        print()
-        print("ERGEBNIS:")
-        print(ergebnis.strip())
-        print()
+        inhalt = (
+            f"# {case.name}\n\n"
+            f"## Aufgabe\n\n{str(case.inputs).strip()}\n\n"
+            f"## Ergebnis\n\n{ergebnis.strip()}\n"
+        )
+        (ziel / f"{dateiname(case.name)}.md").write_text(inhalt, encoding="utf-8")
+
+
+@dataclass
+class Auftrag:
+    """Ein Fall für ein Modell, fertig zum Ausführen."""
+
+    modell: str
+    konfiguration: str
+    pfad: Path
+
+
+@dataclass
+class Ausgang:
+    """Was eine Aufgabe zurückbringt, ob gelungen oder nicht."""
+
+    auftrag: Auftrag
+    report: EvaluationReport[str, str, Any] | None = None
+    fehler: str = ""
+
+
+async def eine_aufgabe(
+    auftrag: Auftrag,
+    repeats: int,
+    skill: Skill,
+    sperre: asyncio.Semaphore,
+) -> Ausgang:
+    """Fährt einen Fall für ein Modell, gedrosselt durch die Sperre."""
+    async with sperre:
+        try:
+            report = await evaluate(
+                auftrag.pfad,
+                build_model(auftrag.modell),
+                repeats,
+                auftrag.konfiguration,
+                skill,
+            )
+        except Exception as exc:  # noqa: BLE001
+            return Ausgang(
+                auftrag=auftrag, fehler=f"{type(exc).__name__}: {str(exc)[:160]}"
+            )
+        return Ausgang(auftrag=auftrag, report=report)
+
+
+def schreibe_ausgabe(
+    kopf: str,
+    berichte: list[Ausgang],
+    fehler: list[Ausgang],
+    ausgaben: Path | None,
+) -> None:
+    """Schreibt den Block eines Modells in den Bericht.
+
+    Gesammelt und erst hier, nicht während des Laufs. Liefen die Modelle
+    nebeneinander und schrieben sofort, wäre der Bericht ein Durcheinander aus
+    sechs Stimmen.
+    """
+    print(f"===== {kopf} =====")
+    for a in berichte:
+        assert a.report is not None
+        print(a.report.render(width=100, include_output=False, include_reasons=True))
+        for failure in a.report.failures:
+            print(f"{failure.name}: {failure.error_message}")
+    for a in fehler:
+        print(f"{a.auftrag.pfad.stem}: {a.fehler}")
+    if ausgaben is not None:
+        for a in berichte:
+            assert a.report is not None
+            schreibe_texte(a.report, ausgaben, kopf)
+    print()
 
 
 async def fahre(
@@ -403,58 +503,74 @@ async def fahre(
     repeats: int,
     konfigurationen: tuple[str, ...],
     skill: Skill,
+    gleichzeitig: int,
+    ausgaben: Path | None,
 ) -> list[Ergebnis]:
-    """Fährt jedes Modell über alle Fälle.
+    """Fährt jedes Modell über alle Fälle, alle Modelle nebeneinander.
 
-    Ein Modell, das nicht antwortet, darf die ganze Tabelle nicht mitreißen.
-    Sein Fehler steht in der Zeile, der Rest läuft weiter.
+    Nacheinander dauerte die volle Modellliste über eine halbe Stunde, weil ein
+    einzelner Fall bei einem langsamen Modell Minuten braucht. Die Sperre hält
+    die Zahl gleichzeitiger Anfragen in einem Bereich, den der Anbieter
+    mitmacht, und die Reihenfolge der Ausgabe bleibt davon unberührt.
     """
+    auftraege = [
+        Auftrag(modell=m, konfiguration=k, pfad=p)
+        for m in modelle
+        for k in konfigurationen
+        for p in dateien
+    ]
+    sperre = asyncio.Semaphore(max(1, gleichzeitig))
+    ausgaenge = await asyncio.gather(
+        *(eine_aufgabe(a, repeats, skill, sperre) for a in auftraege)
+    )
+
     ergebnisse: list[Ergebnis] = []
-    for modell_name in modelle:
+    for modell in modelle:
         for konfiguration in konfigurationen:
+            meine = [
+                a
+                for a in ausgaenge
+                if a.auftrag.modell == modell
+                and a.auftrag.konfiguration == konfiguration
+            ]
             bezeichnung = BEZEICHNUNG[konfiguration]
-            kopf = f"{modell_name} {bezeichnung}".strip()
-            print(f"===== {kopf} =====")
-            try:
-                model = build_model(modell_name)
-                zaehler = {"bestanden": 0, "gesamt": 0}
-                masse: dict[str, list[float]] = {}
-                dauer = 0.0
-                for path in dateien:
-                    report = await evaluate(path, model, repeats, konfiguration, skill)
-                    report.print(width=100, include_output=False, include_reasons=True)
-                    for failure in report.failures:
-                        print(f"{failure.name}: {failure.error_message}")
-                    zaehle(report, zaehler, masse)
-                    for case in report.cases:
-                        dauer += float(getattr(case, "total_duration", 0.0) or 0.0)
-                    zeige_texte(report, kopf)
-                ergebnisse.append(
-                    Ergebnis(
-                        modell=modell_name
-                        if len(konfigurationen) == 1
-                        else f"{modell_name} {bezeichnung}",
-                        bestanden=zaehler["bestanden"],
-                        gesamt=zaehler["gesamt"],
-                        quote=quote(zaehler),
-                        masse={n: sum(w) / len(w) for n, w in masse.items()},
-                        dauer=dauer,
-                    )
+            kopf = f"{modell} {bezeichnung}".strip()
+
+            berichte = [a for a in meine if a.report is not None]
+            fehler = [a for a in meine if a.fehler]
+            schreibe_ausgabe(kopf, berichte, fehler, ausgaben)
+
+            zaehler = {"bestanden": 0, "gesamt": 0}
+            masse: dict[str, list[float]] = {}
+            dauer = 0.0
+            for a in berichte:
+                assert a.report is not None
+                zaehle(a.report, zaehler, masse)
+                for case in a.report.cases:
+                    dauer += float(getattr(case, "total_duration", 0.0) or 0.0)
+
+            problem = ""
+            if fehler:
+                problem = (
+                    f"{len(fehler)} von {len(meine)} Fällen abgebrochen: "
+                    f"{fehler[0].fehler}"
                 )
-            except Exception as exc:  # noqa: BLE001
-                # Ein falscher Modellname oder ein Ausfall darf die übrigen
-                # Zeilen nicht kosten. Der Fehler steht im Bericht.
-                print(f"{kopf}: abgebrochen: {type(exc).__name__}: {exc}")
-                ergebnisse.append(
-                    Ergebnis(
-                        modell=modell_name,
-                        bestanden=0,
-                        gesamt=0,
-                        quote=0.0,
-                        fehler=f"{type(exc).__name__}: {str(exc)[:120]}",
-                    )
+            elif not berichte:
+                problem = "kein Fall gelaufen"
+
+            ergebnisse.append(
+                Ergebnis(
+                    modell=modell
+                    if len(konfigurationen) == 1
+                    else f"{modell} {bezeichnung}",
+                    bestanden=zaehler["bestanden"],
+                    gesamt=zaehler["gesamt"],
+                    quote=quote(zaehler),
+                    masse={n: sum(w) / len(w) for n, w in masse.items()},
+                    dauer=dauer,
+                    fehler=problem,
                 )
-            print()
+            )
     return ergebnisse
 
 
@@ -490,6 +606,12 @@ def main(argv: list[str] | None = None) -> int:
         help="kurzen Bericht für den Pull Request zusätzlich in diese Datei schreiben",
     )
     parser.add_argument(
+        "--ausgaben",
+        type=Path,
+        metavar="ORDNER",
+        help="erzeugte Texte je Fall in diesen Ordner schreiben statt in den Bericht",
+    )
+    parser.add_argument(
         "--selbsttest",
         action="store_true",
         help="Gerüst und Regeln prüfen, ohne Modellaufruf",
@@ -518,7 +640,12 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Fälle: {len(dateien)} aus {CASES_DIR}")
     print()
 
-    ergebnisse = asyncio.run(fahre(dateien, modelle, repeats, konfigurationen, skill))
+    ausgaben = args.ausgaben
+    gleichzeitig = gleichzeitig_einstellung()
+    print(f"Gleichzeitig: {gleichzeitig} Anfragen")
+    ergebnisse = asyncio.run(
+        fahre(dateien, modelle, repeats, konfigurationen, skill, gleichzeitig, ausgaben)
+    )
 
     if args.kommentar:
         lauf_url = os.environ.get("EVALS_RUN_URL") or ""
