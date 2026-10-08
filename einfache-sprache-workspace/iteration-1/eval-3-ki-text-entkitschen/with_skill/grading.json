@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "Kein Werbe-Sprech mehr",
+      "passed": true,
+      "evidence": "alle entfernt"
+    },
+    {
+      "text": "Ungefähr 60 bis 100 Wörter",
+      "passed": true,
+      "evidence": "62 Wörter"
+    },
+    {
+      "text": "Nennt Verein oder Altersgruppen",
+      "passed": true,
+      "evidence": "Vereinsname oder Altersgruppen genannt"
+    },
+    {
+      "text": "Erfindet keine Zahlen oder Termine",
+      "passed": true,
+      "evidence": "keine erfundenen Angaben"
+    },
+    {
+      "text": "Kein Satz länger als 20 Wörter",
+      "passed": true,
+      "evidence": "längster Satz: 10 Wörter"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

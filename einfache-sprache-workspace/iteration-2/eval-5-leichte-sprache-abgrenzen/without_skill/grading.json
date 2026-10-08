@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Benennt, dass Leichte Sprache gebraucht wird",
+      "passed": false,
+      "evidence": "Abgrenzung ausdrücklich benannt"
+    },
+    {
+      "text": "Verweist auf Regelwerk oder Prüfverfahren",
+      "passed": false,
+      "evidence": "DIN SPEC 33429 und Prüfgruppe genannt"
+    },
+    {
+      "text": "Nennt den gelieferten Text nicht Leichte Sprache",
+      "passed": false,
+      "evidence": "Beispieltext ist als Einfache Sprache bezeichnet"
+    },
+    {
+      "text": "Bietet dennoch konkrete Hilfe an",
+      "passed": false,
+      "evidence": "Hilfsangebot vorhanden"
+    },
+    {
+      "text": "Zwölf Monate und 1. Juli 2026 bleiben erhalten",
+      "passed": false,
+      "evidence": "Datum und Laufzeit erhalten"
+    },
+    {
+      "text": "Bittet um Entscheidung, statt still umzudeuten",
+      "passed": false,
+      "evidence": "Rückfrage oder Wahlmöglichkeit angeboten"
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 6,
+    "total": 6,
+    "pass_rate": 0.0
+  }
+}

@@ -1,0 +1,1 @@
+Unser Verein spielt eine entscheidende Rolle im lokalen Sportleben. Durch die nahtlose Integration von Sportangeboten für alle Altersgruppen schaffen wir einen echten Mehrwert für die Gemeinschaft. Es ist wichtig zu beachten, dass ein ganzheitlicher Ansatz erforderlich ist, der nicht nur die körperliche, sondern auch die soziale Dimension berücksichtigt.

@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Die Frist Freitag steht im Text",
+      "passed": true,
+      "evidence": "Freitag genannt"
+    },
+    {
+      "text": "Das Datum der Migration steht im Text",
+      "passed": true,
+      "evidence": "Migrationsdatum genannt"
+    },
+    {
+      "text": "Sagt konkret, was zurückgemeldet werden soll",
+      "passed": true,
+      "evidence": "konkrete Rückmeldung beschrieben"
+    },
+    {
+      "text": "Kein Satz länger als 20 Wörter",
+      "passed": true,
+      "evidence": "längster Satz: 10 Wörter"
+    },
+    {
+      "text": "Kürzer als die Quelle von 65 Wörtern",
+      "passed": true,
+      "evidence": "57 Wörter"
+    },
+    {
+      "text": "Floskeln sind entfernt",
+      "passed": true,
+      "evidence": "keine Behördenfloskel"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

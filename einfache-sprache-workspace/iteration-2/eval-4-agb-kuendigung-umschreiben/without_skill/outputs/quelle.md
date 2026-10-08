@@ -1,0 +1,1 @@
+Das Vertragsverhältnis verlängert sich nach Ablauf der vereinbarten Laufzeit um jeweils zwölf Monate, sofern es nicht von einer der Parteien mit einer Frist von drei Monaten zum Ende der jeweiligen Laufzeit in Textform gekündigt wird.

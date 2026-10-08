@@ -1,0 +1,13 @@
+{
+  "eval_id": 6,
+  "eval_name": "interne-email-umschreiben",
+  "prompt": "Kannst du diese Mail an mein Team kürzer und klarer machen? Die liest keiner mehr zu Ende.\n\n\"Wie bereits gestern im Jour fixe kurz angerissen, möchte ich euch hiermit darüber in Kenntnis setzen, dass die zum Jahresende anstehende Migration der Datenbank, deren Durchführung durch das Infrastruktur-Team erfolgt, eine frühzeitige Abstimmung der betroffenen Schnittstellen erfordert, weshalb ich euch bitten möchte, bis kommenden Freitag zu prüfen und mir zurückzumelden, ob aus eurer Sicht Anpassungsbedarf besteht, damit die Deadline gehalten werden kann.\"\n\nEs geht darum, dass jeder bis Freitag sagen soll, ob seine Schnittstelle angepasst werden muss. Die Migration ist am 15.12.2026.",
+  "assertions": [
+    "Die Frist Freitag steht im Text",
+    "Das Datum 15.12.2026 oder der 15. Dezember 2026 steht im Text",
+    "Der Text sagt konkret, was die Empfänger zurückmelden sollen",
+    "Kein Satz ist länger als 20 Wörter",
+    "Der Text ist kürzer als die Quelle von 65 Wörtern",
+    "Floskeln wie in Kenntnis setzen oder hiermit kommen nicht mehr vor"
+  ]
+}

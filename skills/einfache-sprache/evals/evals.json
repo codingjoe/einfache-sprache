@@ -1,0 +1,108 @@
+{
+  "skill_name": "einfache-sprache",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "behoerdenbescheid-umschreiben",
+      "prompt": "Kannst du mir diesen Absatz aus einem Bescheid vom Jobcenter so umschreiben, dass ihn meine Mutter versteht? Sie ist 68 und hat kein Studium, aber sie ist nicht dement oder so, sie liest nur nicht gern Behördendeutsch. Bitte in Einfacher Sprache.\n\n\"Aufgrund der Tatsache, dass die Berücksichtigung der tatsächlichen Unterkunftskosten die nach § 22 Abs. 1 Satz 1 SGB II maßgebliche Angemessenheitsgrenze überschreitet, werden die Kosten der Unterkunft lediglich in Höhe von 640,00 EUR monatlich anerkannt; eine vollständige Übernahme der tatsächlichen Aufwendungen ist nicht möglich.\"\n\nWichtig: die 640 Euro und die Tatsache, dass es eine Grenze gibt, müssen drin bleiben. Und sie soll wissen, was sie jetzt tun kann.",
+      "expected_output": "Absatz in Einfacher Sprache. Die 640,00 Euro, die Angemessenheitsgrenze und die Teilablehnung bleiben erhalten. Aktiv, kurze Sätze, kein Semikolon, keine Substantivierungen. Am Ende steht eine Handlungsmöglichkeit.",
+      "files": [],
+      "assertions": [
+        "Der Betrag 640,00 Euro steht im Text",
+        "Der Text enthält kein Semikolon",
+        "Der Text ist im Aktiv formuliert, keine Form von werden plus Mittelwort als Passiv",
+        "Kein Satz ist länger als 20 Wörter",
+        "Der Text nennt eine Handlungsmöglichkeit für die Leserin, etwa Widerspruch oder ein Gespräch",
+        "Der Text erklärt die Angemessenheitsgrenze, statt sie nur zu nennen"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "patienteninfo-neuschreiben",
+      "prompt": "Ich schreibe für unsere Hausarztpraxis eine Patienteninfo über Blutdruckmittel. Bitte schreib den Text komplett neu in Einfacher Sprache, so etwa 150 Wörter. Das muss rein:\n\n- Das Mittel einmal täglich morgens nehmen\n- Bei Schwindel hinsetzen und langsam aufstehen\n- Nicht absetzen ohne Rücksprache, sonst kann der Blutdruck wieder steigen\n- Bei Schwellungen an den Beinen in der Praxis anrufen\n\nMeine Patienten sind im Schnitt 70 und lesen nicht besonders gut. Bitte mit Überschrift und so, dass sie es aufhängen können.",
+      "expected_output": "Aufhängbare Patienteninfo in Einfacher Sprache, rund 150 Wörter, mit Überschrift. Alle vier Inhalte vorhanden, Dosierung unverändert. Schwellungen und Nicht-Absetzen sind als Warnungen erkennbar.",
+      "files": [],
+      "assertions": [
+        "Alle vier Inhalte sind enthalten: tägliche Einnahme morgens, Verhalten bei Schwindel, nicht eigenmächtig absetzen, Anruf bei Schwellungen",
+        "Die Praxisanweisung zum Absetzen ist als Warnung formuliert, nicht als unverbindlicher Hinweis",
+        "Der Text hat eine Überschrift",
+        "Der Text hat höchstens 200 Wörter",
+        "Kein Satz ist länger als 20 Wörter",
+        "Der Text steht im Aktiv und richtet sich direkt an die Lesenden"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "text-pruefen",
+      "prompt": "Ist dieser Text schon in Einfacher Sprache? Bitte prüf ihn und sag mir konkret, was ich ändern muss.\n\n\"Die Einhaltung der Frist ist von großer Bedeutung. Verspätet eingereichte Unterlagen können nicht berücksichtigt werden. Bei Rückfragen wenden Sie sich an die zuständige Sachbearbeitung.\"",
+      "expected_output": "Prüfbericht. Jeder Befund nennt Regel, Fundstelle und Korrekturvorschlag. Die Substantivierungen (Einhaltung, Berücksichtigung, Rückfragen, Sachbearbeitung), das Passiv und die unbestimmte Frist werden gefunden. Es wird kein Normabschnitt wörtlich zitiert.",
+      "files": [],
+      "assertions": [
+        "Der Bericht nennt die Substantivierungen Einhaltung, Berücksichtigung oder Sachbearbeitung",
+        "Der Bericht bemängelt, dass die Frist keine Zahl hat",
+        "Jeder Befund enthält einen konkreten Korrekturvorschlag",
+        "Der Bericht erfindet keine Paragrafennummer und zitiert keinen Normtext wörtlich",
+        "Der Bericht enthält einen Hinweis, dass kein Werkzeug Konformität garantieren kann"
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "ki-text-entkitschen",
+      "prompt": "Hab das mit ChatGPT für unsere Vereins-Website geschrieben und finds irgendwie schwülstig. Kannst du das in richtiges, einfaches Deutsch bringen? Sollten so um die 80 Wörter bleiben. Der Verein heißt TSV Bogenhausen und macht Breitensport für alle Altersgruppen.\n\n\"Unser Verein spielt eine entscheidende Rolle im lokalen Sportleben. Durch die nahtlose Integration von Sportangeboten für alle Altersgruppen schaffen wir einen echten Mehrwert für die Gemeinschaft. Es ist wichtig zu beachten, dass ein ganzheitlicher Ansatz erforderlich ist, der nicht nur die körperliche, sondern auch die soziale Dimension berücksichtigt.\"",
+      "expected_output": "Vereinsvorstellung in Einfacher Sprache, etwa 80 Wörter, ohne Werbe-Sprech. Die Aussage bleibt, die Füllwörter und Metaphern fallen weg. Keine erfundenen Zahlen, keine erfundenen Angebote.",
+      "files": [],
+      "assertions": [
+        "Die Wörter Mehrwert, nahtlos, ganzheitlich, entscheidende Rolle und Dimension kommen nicht mehr vor",
+        "Der Text ist ungefähr 60 bis 100 Wörter lang",
+        "Der Text nennt den Vereinsnamen TSV Bogenhausen oder die Altersgruppen",
+        "Der Text erfindet keine Zahlen, Kurse oder Termine",
+        "Kein Satz ist länger als 20 Wörter"
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "agb-kuendigung-umschreiben",
+      "prompt": "Das ist unsere Kündigungsklausel in den AGB. Ein Kunde hat sich beschwert, er habe sie nicht verstanden. Kannst du sie in Einfache Sprache bringen? Sie muss aber rechtlich dasselbe bedeuten.\n\n\"Das Vertragsverhältnis verlängert sich nach Ablauf der vereinbarten Laufzeit um jeweils zwölf Monate, sofern es nicht von einer der Parteien mit einer Frist von drei Monaten zum Ende der jeweiligen Laufzeit in Textform gekündigt wird.\"\n\nBitte auch ein Beispiel mit Datum, damit klar ist, wann man kündigen muss.",
+      "expected_output": "Klausel in Einfacher Sprache. Die zwölf Monate, die drei Monate und die Textform bleiben erhalten. Ein Datumsbeispiel rechnet die Frist vor. Keine Rechtsfolge wird abgeschwächt.",
+      "files": [],
+      "assertions": [
+        "Die zwölf Monate Verlängerung stehen im Text",
+        "Die Frist von drei Monaten steht im Text",
+        "Die Textform oder die möglichen Wege der Kündigung sind genannt",
+        "Der Text enthält ein Datumsbeispiel, das die Frist vorrechnet",
+        "Kein Satz ist länger als 20 Wörter",
+        "Der Text sagt, was bei versäumter Frist passiert"
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "leichte-sprache-abgrenzen",
+      "prompt": "Meine Oma hat eine beginnende Demenz und versteht unsere Briefe vom Amt überhaupt nicht mehr. Kannst du mir den Text hier in Leichte Sprache umschreiben? Sie soll ihn allein lesen können.\n\n\"Die Bewilligung der Leistungen erfolgt ab dem 01.07.2026 für einen Bewilligungszeitraum von zwölf Monaten. Etwaige Änderungen der Einkommensverhältnisse sind unverzüglich mitzuteilen.\"",
+      "expected_output": "Der Skill sagt, dass für eine Leserin mit Demenz Leichte Sprache nach eigenen Regeln gebraucht wird und dass Einfache Sprache dafür nicht ausreicht. Er bietet an, was er leisten kann, und liefert auf Wunsch eine Fassung in Einfacher Sprache als Zwischenschritt. Er nennt den Text nicht Leichte Sprache.",
+      "files": [],
+      "assertions": [
+        "Der Skill benennt ausdrücklich, dass Leichte Sprache hier gebraucht wird und Einfache Sprache nicht reicht",
+        "Der Skill verweist auf ein eigenes Regelwerk oder Prüfverfahren für Leichte Sprache, etwa DIN SPEC 33429 oder Prüfgruppen",
+        "Der Skill nennt den gelieferten Text nicht Leichte Sprache",
+        "Der Skill bietet dennoch konkrete Hilfe an, etwa eine Fassung in Einfacher Sprache oder Vorbereitung für die Prüfgruppe",
+        "Die zwölf Monate und der 01.07.2026 bleiben erhalten, wenn ein Text geliefert wird",
+        "Der Skill bittet um Entscheidung oder Information, statt das Ziel still umzudeuten"
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "interne-email-umschreiben",
+      "prompt": "Kannst du diese Mail an mein Team kürzer und klarer machen? Die liest keiner mehr zu Ende.\n\n\"Wie bereits gestern im Jour fixe kurz angerissen, möchte ich euch hiermit darüber in Kenntnis setzen, dass die zum Jahresende anstehende Migration der Datenbank, deren Durchführung durch das Infrastruktur-Team erfolgt, eine frühzeitige Abstimmung der betroffenen Schnittstellen erfordert, weshalb ich euch bitten möchte, bis kommenden Freitag zu prüfen und mir zurückzumelden, ob aus eurer Sicht Anpassungsbedarf besteht, damit die Deadline gehalten werden kann.\"\n\nEs geht darum, dass jeder bis Freitag sagen soll, ob seine Schnittstelle angepasst werden muss. Die Migration ist am 15.12.2026.",
+      "expected_output": "Kurze klare Mail. Ein Satz sagt, worum es geht. Die Frist Freitag und das Datum 15.12.2026 stehen drin. Ein Satz sagt konkret, was zurückgemeldet werden soll. Kein Behördendeutsch, keine Substantivierungskette.",
+      "files": [],
+      "assertions": [
+        "Die Frist Freitag steht im Text",
+        "Das Datum 15.12.2026 oder der 15. Dezember 2026 steht im Text",
+        "Der Text sagt konkret, was die Empfänger zurückmelden sollen",
+        "Kein Satz ist länger als 20 Wörter",
+        "Der Text ist kürzer als die Quelle von 65 Wörtern",
+        "Floskeln wie in Kenntnis setzen oder hiermit kommen nicht mehr vor"
+      ]
+    }
+  ]
+}

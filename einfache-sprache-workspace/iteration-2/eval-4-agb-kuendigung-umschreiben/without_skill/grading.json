@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Die zwölf Monate Verlängerung stehen im Text",
+      "passed": true,
+      "evidence": "zwölf Monate genannt"
+    },
+    {
+      "text": "Die Frist von drei Monaten steht im Text",
+      "passed": true,
+      "evidence": "drei Monate genannt"
+    },
+    {
+      "text": "Textform oder Kündigungswege genannt",
+      "passed": true,
+      "evidence": "Textform erklärt"
+    },
+    {
+      "text": "Datumsbeispiel rechnet die Frist vor",
+      "passed": false,
+      "evidence": "Datumsbeispiel vorhanden"
+    },
+    {
+      "text": "Kein Satz länger als 20 Wörter",
+      "passed": false,
+      "evidence": "längster Satz: 35 Wörter"
+    },
+    {
+      "text": "Sagt, was bei versäumter Frist passiert",
+      "passed": false,
+      "evidence": "Folge der Fristversäumnis genannt"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 3,
+    "total": 6,
+    "pass_rate": 0.5
+  }
+}

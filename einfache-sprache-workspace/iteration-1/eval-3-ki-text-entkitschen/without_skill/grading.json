@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "Kein Werbe-Sprech mehr",
+      "passed": false,
+      "evidence": "übrig: Mehrwert, nahtlos, ganzheitlich, entscheidende Rolle, Dimension"
+    },
+    {
+      "text": "Ungefähr 60 bis 100 Wörter",
+      "passed": false,
+      "evidence": "48 Wörter"
+    },
+    {
+      "text": "Nennt Verein oder Altersgruppen",
+      "passed": true,
+      "evidence": "Vereinsname oder Altersgruppen genannt"
+    },
+    {
+      "text": "Erfindet keine Zahlen oder Termine",
+      "passed": true,
+      "evidence": "keine erfundenen Angaben"
+    },
+    {
+      "text": "Kein Satz länger als 20 Wörter",
+      "passed": false,
+      "evidence": "längster Satz: 22 Wörter"
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 3,
+    "total": 5,
+    "pass_rate": 0.4
+  }
+}

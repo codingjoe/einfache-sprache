@@ -1,0 +1,515 @@
+{
+  "metadata": {
+    "skill_name": "einfache-sprache",
+    "skill_path": "/Users/johannes/GitHub/copilot-worktrees/einfache-sprache/codingjoe-verbose-memory/skills/einfache-sprache",
+    "executor_model": "kein Unteragent verfügbar",
+    "analyzer_model": "keiner",
+    "timestamp": "2026-10-08T00:00:00Z",
+    "evals_run": [
+      0,
+      4,
+      5,
+      6
+    ],
+    "runs_per_configuration": 1,
+    "baseline": "Ausgangstext, kein Modellversuch ohne Skill"
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "eval_name": "eval-0-behoerdenbescheid-umschreiben",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": 3.6,
+        "hard_violations_per_100_words": 0.9,
+        "words": 110,
+        "longest_sentence": 10
+      },
+      "expectations": [
+        {
+          "text": "Der Betrag 640,00 Euro steht im Text",
+          "passed": true,
+          "evidence": "Suchlauf nach '640,00 Euro'"
+        },
+        {
+          "text": "Der Text enthält kein Semikolon",
+          "passed": true,
+          "evidence": "Semikolon: 0"
+        },
+        {
+          "text": "Aktiv formuliert, kein Passiv",
+          "passed": true,
+          "evidence": "Passiv-Treffer: 0"
+        },
+        {
+          "text": "Kein Satz länger als 20 Wörter",
+          "passed": true,
+          "evidence": "längster Satz: 10 Wörter"
+        },
+        {
+          "text": "Nennt eine Handlungsmöglichkeit",
+          "passed": true,
+          "evidence": "Handlungshinweis vorhanden"
+        },
+        {
+          "text": "Erklärt die Angemessenheitsgrenze",
+          "passed": true,
+          "evidence": "'Grenze' wird benannt und erläutert"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "eval_name": "eval-0-behoerdenbescheid-umschreiben",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 6,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": 22.7,
+        "hard_violations_per_100_words": 18.2,
+        "words": 44,
+        "longest_sentence": 44
+      },
+      "expectations": [
+        {
+          "text": "Der Betrag 640,00 Euro steht im Text",
+          "passed": false,
+          "evidence": "Suchlauf nach '640,00 Euro'"
+        },
+        {
+          "text": "Der Text enthält kein Semikolon",
+          "passed": false,
+          "evidence": "Semikolon: 1"
+        },
+        {
+          "text": "Aktiv formuliert, kein Passiv",
+          "passed": false,
+          "evidence": "Passiv-Treffer: 1"
+        },
+        {
+          "text": "Kein Satz länger als 20 Wörter",
+          "passed": false,
+          "evidence": "längster Satz: 44 Wörter"
+        },
+        {
+          "text": "Nennt eine Handlungsmöglichkeit",
+          "passed": false,
+          "evidence": "Handlungshinweis vorhanden"
+        },
+        {
+          "text": "Erklärt die Angemessenheitsgrenze",
+          "passed": false,
+          "evidence": "'Grenze' wird benannt und erläutert"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "eval-4-agb-kuendigung-umschreiben",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": 3.5,
+        "hard_violations_per_100_words": 0.0,
+        "words": 85,
+        "longest_sentence": 11
+      },
+      "expectations": [
+        {
+          "text": "Die zwölf Monate Verlängerung stehen im Text",
+          "passed": true,
+          "evidence": "zwölf Monate genannt"
+        },
+        {
+          "text": "Die Frist von drei Monaten steht im Text",
+          "passed": true,
+          "evidence": "drei Monate genannt"
+        },
+        {
+          "text": "Textform oder Kündigungswege genannt",
+          "passed": true,
+          "evidence": "Textform erklärt"
+        },
+        {
+          "text": "Datumsbeispiel rechnet die Frist vor",
+          "passed": true,
+          "evidence": "Datumsbeispiel vorhanden"
+        },
+        {
+          "text": "Kein Satz länger als 20 Wörter",
+          "passed": true,
+          "evidence": "längster Satz: 11 Wörter"
+        },
+        {
+          "text": "Sagt, was bei versäumter Frist passiert",
+          "passed": true,
+          "evidence": "Folge der Fristversäumnis genannt"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "eval-4-agb-kuendigung-umschreiben",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 3,
+        "failed": 3,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": 8.6,
+        "hard_violations_per_100_words": 5.7,
+        "words": 35,
+        "longest_sentence": 35
+      },
+      "expectations": [
+        {
+          "text": "Die zwölf Monate Verlängerung stehen im Text",
+          "passed": true,
+          "evidence": "zwölf Monate genannt"
+        },
+        {
+          "text": "Die Frist von drei Monaten steht im Text",
+          "passed": true,
+          "evidence": "drei Monate genannt"
+        },
+        {
+          "text": "Textform oder Kündigungswege genannt",
+          "passed": true,
+          "evidence": "Textform erklärt"
+        },
+        {
+          "text": "Datumsbeispiel rechnet die Frist vor",
+          "passed": false,
+          "evidence": "Datumsbeispiel vorhanden"
+        },
+        {
+          "text": "Kein Satz länger als 20 Wörter",
+          "passed": false,
+          "evidence": "längster Satz: 35 Wörter"
+        },
+        {
+          "text": "Sagt, was bei versäumter Frist passiert",
+          "passed": false,
+          "evidence": "Folge der Fristversäumnis genannt"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "eval-5-leichte-sprache-abgrenzen",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": null,
+        "hard_violations_per_100_words": null,
+        "words": null,
+        "longest_sentence": null
+      },
+      "expectations": [
+        {
+          "text": "Benennt, dass Leichte Sprache gebraucht wird",
+          "passed": true,
+          "evidence": "Abgrenzung ausdrücklich benannt"
+        },
+        {
+          "text": "Verweist auf Regelwerk oder Prüfverfahren",
+          "passed": true,
+          "evidence": "DIN SPEC 33429 und Prüfgruppe genannt"
+        },
+        {
+          "text": "Nennt den gelieferten Text nicht Leichte Sprache",
+          "passed": true,
+          "evidence": "Beispieltext ist als Einfache Sprache bezeichnet"
+        },
+        {
+          "text": "Bietet dennoch konkrete Hilfe an",
+          "passed": true,
+          "evidence": "Hilfsangebot vorhanden"
+        },
+        {
+          "text": "Zwölf Monate und 1. Juli 2026 bleiben erhalten",
+          "passed": true,
+          "evidence": "Datum und Laufzeit erhalten"
+        },
+        {
+          "text": "Bittet um Entscheidung, statt still umzudeuten",
+          "passed": true,
+          "evidence": "Rückfrage oder Wahlmöglichkeit angeboten"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 5,
+      "eval_name": "eval-5-leichte-sprache-abgrenzen",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 6,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": null,
+        "hard_violations_per_100_words": null,
+        "words": null,
+        "longest_sentence": null
+      },
+      "expectations": [
+        {
+          "text": "Benennt, dass Leichte Sprache gebraucht wird",
+          "passed": false,
+          "evidence": "Abgrenzung ausdrücklich benannt"
+        },
+        {
+          "text": "Verweist auf Regelwerk oder Prüfverfahren",
+          "passed": false,
+          "evidence": "DIN SPEC 33429 und Prüfgruppe genannt"
+        },
+        {
+          "text": "Nennt den gelieferten Text nicht Leichte Sprache",
+          "passed": false,
+          "evidence": "Beispieltext ist als Einfache Sprache bezeichnet"
+        },
+        {
+          "text": "Bietet dennoch konkrete Hilfe an",
+          "passed": false,
+          "evidence": "Hilfsangebot vorhanden"
+        },
+        {
+          "text": "Zwölf Monate und 1. Juli 2026 bleiben erhalten",
+          "passed": false,
+          "evidence": "Datum und Laufzeit erhalten"
+        },
+        {
+          "text": "Bittet um Entscheidung, statt still umzudeuten",
+          "passed": false,
+          "evidence": "Rückfrage oder Wahlmöglichkeit angeboten"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "eval-6-interne-email-umschreiben",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": 5.3,
+        "hard_violations_per_100_words": 0.0,
+        "words": 57,
+        "longest_sentence": 10
+      },
+      "expectations": [
+        {
+          "text": "Die Frist Freitag steht im Text",
+          "passed": true,
+          "evidence": "Freitag genannt"
+        },
+        {
+          "text": "Das Datum der Migration steht im Text",
+          "passed": true,
+          "evidence": "Migrationsdatum genannt"
+        },
+        {
+          "text": "Sagt konkret, was zurückgemeldet werden soll",
+          "passed": true,
+          "evidence": "konkrete Rückmeldung beschrieben"
+        },
+        {
+          "text": "Kein Satz länger als 20 Wörter",
+          "passed": true,
+          "evidence": "längster Satz: 10 Wörter"
+        },
+        {
+          "text": "Kürzer als die Quelle von 65 Wörtern",
+          "passed": true,
+          "evidence": "57 Wörter"
+        },
+        {
+          "text": "Floskeln sind entfernt",
+          "passed": true,
+          "evidence": "keine Behördenfloskel"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 6,
+      "eval_name": "eval-6-interne-email-umschreiben",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.33,
+        "passed": 2,
+        "failed": 4,
+        "total": 6,
+        "time_seconds": 0.0,
+        "tokens": 0,
+        "tool_calls": 1,
+        "errors": 0,
+        "violations_per_100_words": 9.7,
+        "hard_violations_per_100_words": 8.1,
+        "words": 62,
+        "longest_sentence": 62
+      },
+      "expectations": [
+        {
+          "text": "Die Frist Freitag steht im Text",
+          "passed": true,
+          "evidence": "Freitag genannt"
+        },
+        {
+          "text": "Das Datum der Migration steht im Text",
+          "passed": false,
+          "evidence": "Migrationsdatum genannt"
+        },
+        {
+          "text": "Sagt konkret, was zurückgemeldet werden soll",
+          "passed": false,
+          "evidence": "konkrete Rückmeldung beschrieben"
+        },
+        {
+          "text": "Kein Satz länger als 20 Wörter",
+          "passed": false,
+          "evidence": "längster Satz: 62 Wörter"
+        },
+        {
+          "text": "Kürzer als die Quelle von 65 Wörtern",
+          "passed": true,
+          "evidence": "62 Wörter"
+        },
+        {
+          "text": "Floskeln sind entfernt",
+          "passed": false,
+          "evidence": "keine Behördenfloskel"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "violations_per_100_words": {
+        "mean": 4.13,
+        "stddev": 0.83,
+        "min": 3.5,
+        "max": 5.3
+      },
+      "hard_violations_per_100_words": {
+        "mean": 0.3,
+        "stddev": 0.42,
+        "min": 0.0,
+        "max": 0.9
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.21,
+        "stddev": 0.22,
+        "min": 0.0,
+        "max": 0.5
+      },
+      "time_seconds": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      "tokens": {
+        "mean": 0.0,
+        "stddev": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "violations_per_100_words": {
+        "mean": 13.67,
+        "stddev": 6.4,
+        "min": 8.6,
+        "max": 22.7
+      },
+      "hard_violations_per_100_words": {
+        "mean": 10.67,
+        "stddev": 5.42,
+        "min": 5.7,
+        "max": 18.2
+      }
+    },
+    "delta": {
+      "pass_rate": 0.79,
+      "violations_per_100_words": -9.54,
+      "hard_violations_per_100_words": -10.37
+    }
+  },
+  "notes": []
+}

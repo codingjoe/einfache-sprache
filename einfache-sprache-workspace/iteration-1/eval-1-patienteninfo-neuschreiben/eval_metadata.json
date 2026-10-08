@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-patienteninfo-neuschreiben",
+  "assertions": [
+    "Alle vier Inhalte enthalten",
+    "Absetzen ist als Warnung formuliert",
+    "Der Text hat eine Überschrift",
+    "Höchstens 200 Wörter",
+    "Kein Satz länger als 20 Wörter",
+    "Aktiv und direkte Anrede"
+  ]
+}

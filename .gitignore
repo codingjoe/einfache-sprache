@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.DS_Store
+einfache-sprache-workspace/**/feedback.json

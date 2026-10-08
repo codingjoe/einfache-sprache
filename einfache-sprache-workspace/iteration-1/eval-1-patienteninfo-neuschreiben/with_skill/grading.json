@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Alle vier Inhalte enthalten",
+      "passed": true,
+      "evidence": "alle vier gefunden"
+    },
+    {
+      "text": "Absetzen ist als Warnung formuliert",
+      "passed": true,
+      "evidence": "Warnhinweis vorhanden"
+    },
+    {
+      "text": "Der Text hat eine Überschrift",
+      "passed": true,
+      "evidence": "Fettzeile als Überschrift"
+    },
+    {
+      "text": "Höchstens 200 Wörter",
+      "passed": true,
+      "evidence": "127 Wörter"
+    },
+    {
+      "text": "Kein Satz länger als 20 Wörter",
+      "passed": true,
+      "evidence": "längster Satz: 9 Wörter"
+    },
+    {
+      "text": "Aktiv und direkte Anrede",
+      "passed": true,
+      "evidence": "Passiv: 0, Anrede: True"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

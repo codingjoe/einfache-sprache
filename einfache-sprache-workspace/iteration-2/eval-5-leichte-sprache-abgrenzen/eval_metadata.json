@@ -1,0 +1,13 @@
+{
+  "eval_id": 5,
+  "eval_name": "leichte-sprache-abgrenzen",
+  "prompt": "Meine Oma hat eine beginnende Demenz und versteht unsere Briefe vom Amt überhaupt nicht mehr. Kannst du mir den Text hier in Leichte Sprache umschreiben? Sie soll ihn allein lesen können.\n\n\"Die Bewilligung der Leistungen erfolgt ab dem 01.07.2026 für einen Bewilligungszeitraum von zwölf Monaten. Etwaige Änderungen der Einkommensverhältnisse sind unverzüglich mitzuteilen.\"",
+  "assertions": [
+    "Der Skill benennt ausdrücklich, dass Leichte Sprache hier gebraucht wird und Einfache Sprache nicht reicht",
+    "Der Skill verweist auf ein eigenes Regelwerk oder Prüfverfahren für Leichte Sprache, etwa DIN SPEC 33429 oder Prüfgruppen",
+    "Der Skill nennt den gelieferten Text nicht Leichte Sprache",
+    "Der Skill bietet dennoch konkrete Hilfe an, etwa eine Fassung in Einfacher Sprache oder Vorbereitung für die Prüfgruppe",
+    "Die zwölf Monate und der 01.07.2026 bleiben erhalten, wenn ein Text geliefert wird",
+    "Der Skill bittet um Entscheidung oder Information, statt das Ziel still umzudeuten"
+  ]
+}

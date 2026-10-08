@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "Benennt die Substantivierungen",
+      "passed": true,
+      "evidence": "genannt: Einhaltung, Sachbearbeitung, Rückfragen"
+    },
+    {
+      "text": "Bemängelt die fehlende Zahl bei der Frist",
+      "passed": true,
+      "evidence": "fehlende Zahl wird bemängelt"
+    },
+    {
+      "text": "Jeder Befund hat einen Korrekturvorschlag",
+      "passed": true,
+      "evidence": "5 Korrekturvorschläge"
+    },
+    {
+      "text": "Erfindet keine Paragrafennummer",
+      "passed": true,
+      "evidence": "kein erfundener Paragraf"
+    },
+    {
+      "text": "Hinweis, dass kein Werkzeug Konformität garantiert",
+      "passed": true,
+      "evidence": "Konformitätshinweis vorhanden"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

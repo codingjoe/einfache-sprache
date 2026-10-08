@@ -1,0 +1,11 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-ki-text-entkitschen",
+  "assertions": [
+    "Kein Werbe-Sprech mehr",
+    "Ungefähr 60 bis 100 Wörter",
+    "Nennt Verein oder Altersgruppen",
+    "Erfindet keine Zahlen oder Termine",
+    "Kein Satz länger als 20 Wörter"
+  ]
+}
