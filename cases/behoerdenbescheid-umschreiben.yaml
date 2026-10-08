@@ -16,7 +16,9 @@ cases:
       Wichtig: die 640 Euro und die Tatsache, dass es eine Grenze gibt, müssen drin
       bleiben. Und sie soll wissen, was sie jetzt tun kann.
     evaluators:
-      - KeineHartenVerstoesse
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
       - LaengsterSatz:
           max_woerter: 20
       - InhaltBewahrt:

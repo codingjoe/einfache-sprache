@@ -13,7 +13,9 @@ cases:
       ganzheitlicher Ansatz erforderlich ist, der nicht nur die körperliche, sondern
       auch die soziale Dimension berücksichtigt."
     evaluators:
-      - KeineHartenVerstoesse
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
       - LaengsterSatz:
           max_woerter: 20
       - NichtsErfunden:

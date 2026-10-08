@@ -16,7 +16,9 @@ cases:
       Es geht darum, dass jeder bis Freitag sagen soll, ob seine Schnittstelle
       angepasst werden muss. Die Migration ist am 15.12.2026.
     evaluators:
-      - KeineHartenVerstoesse
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
       - LaengsterSatz:
           max_woerter: 20
       - InhaltBewahrt:

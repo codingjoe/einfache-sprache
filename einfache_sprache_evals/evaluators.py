@@ -71,8 +71,29 @@ class KeineHartenVerstoesse(Evaluator[object, object, object]):
 
 
 @dataclass(repr=False)
+class HartePro100(Evaluator[object, object, object]):
+    """Misst die harten Verstöße pro 100 Wörter als Zahl.
+
+    Eine Zahl und kein Ja/Nein, weil ein längerer Text mehr Gelegenheiten hat,
+    an einer Regel zu streifen. Wer auf null Verstöße prüft, bestraft den
+    längeren und damit gründlicheren Text. Die Rate ist zwischen Texten
+    verschiedener Länge vergleichbar, die absolute Zahl nicht.
+    """
+
+    def evaluate(
+        self, ctx: EvaluatorContext[object, object, object]
+    ) -> EvaluationReason:
+        statistik = _pruefe(str(ctx.output))
+        rate = statistik["harte_pro_100_woerter"]
+        return EvaluationReason(
+            value=rate,
+            reason=f"{rate} harte pro 100 Wörter, {statistik['woerter']} Wörter",
+        )
+
+
+@dataclass(repr=False)
 class HoechstensHartePro100(Evaluator[object, object, object]):
-    """Harte Verstöße pro 100 Wörter bleiben im Budget."""
+    """Fängt grobe Ausrutscher ab, ohne Länge zu bestrafen."""
 
     budget: float
 
@@ -217,6 +238,7 @@ class NenntZielgruppe(Evaluator[object, object, object]):
 
 
 RULES = (
+    HartePro100,
     HatUeberschrift,
     HoechstensHartePro100,
     InhaltBewahrt,

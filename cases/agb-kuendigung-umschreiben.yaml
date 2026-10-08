@@ -12,7 +12,9 @@ cases:
 
       Bitte auch ein Beispiel mit Datum, damit klar ist, wann man kündigen muss.
     evaluators:
-      - KeineHartenVerstoesse
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
       - LaengsterSatz:
           max_woerter: 20
       - InhaltBewahrt:

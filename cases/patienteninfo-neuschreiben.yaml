@@ -14,7 +14,9 @@ cases:
       Meine Patienten sind im Schnitt 70 und lesen nicht besonders gut. Bitte mit
       Überschrift und so, dass sie es aufhängen können.
     evaluators:
-      - KeineHartenVerstoesse
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
       - LaengsterSatz:
           max_woerter: 20
       - InhaltBewahrt:

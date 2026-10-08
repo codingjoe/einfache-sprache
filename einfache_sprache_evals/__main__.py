@@ -111,19 +111,27 @@ async def evaluate(
     )
 
 
-def zaehle(report: EvaluationReport[str, str, Any], zaehler: dict[str, int]) -> None:
+def zaehle(
+    report: EvaluationReport[str, str, Any],
+    zaehler: dict[str, int],
+    masse: dict[str, list[float]],
+) -> None:
     """Bewertungen eines Berichts in den Zähler summieren.
 
     pydantic-evals legt Urteile als zwei getrennte Wörterbücher ab: `assertions`
-    sind die gating-Regeln, `scores` die Trendwerte. Beide werden gezählt, weil
-    ein Fall nur besteht, wenn beide Seiten sauber sind.
+    sind die gating-Regeln mit Ja oder Nein, `scores` sind Zahlen. Nur die
+    Ja/Nein-Urteile zählen für die Passquote, weil eine Zahl nichts besteht oder
+    durchfällt. Zahlen werden gesammelt und als Mittel berichtet.
     """
     for case in report.cases:
         for gruppe in (case.assertions, case.scores):
-            for ergebnis in gruppe.values():
-                zaehler["gesamt"] += 1
-                if ergebnis.value is True:
-                    zaehler["bestanden"] += 1
+            for name, ergebnis in gruppe.items():
+                if isinstance(ergebnis.value, bool):
+                    zaehler["gesamt"] += 1
+                    if ergebnis.value:
+                        zaehler["bestanden"] += 1
+                elif isinstance(ergebnis.value, (int, float)):
+                    masse.setdefault(name, []).append(float(ergebnis.value))
 
 
 def quote(zaehler: dict[str, int]) -> float:
@@ -198,7 +206,8 @@ def selbsttest() -> int:
     )
     report = dataset.evaluate_sync(lambda text: text)
     zaehler = {"bestanden": 0, "gesamt": 0}
-    zaehle(report, zaehler)
+    masse: dict[str, list[float]] = {}
+    zaehle(report, zaehler, masse)
     if zaehler["gesamt"] != 2:
         print(f"FEHLER: Zähler sieht {zaehler['gesamt']} Urteile statt 2")
         fehler += 1
@@ -240,6 +249,7 @@ async def fahre(
 ) -> dict[str, tuple[int, int, float]]:
     """Fährt alle Fälle für jede Konfiguration und zählt die Urteile."""
     ergebnisse: dict[str, tuple[int, int, float]] = {}
+    masse: dict[str, list[float]] = {}
     for konfiguration in konfigurationen:
         bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
         print(f"===== Lauf {bezeichnung} =====")
@@ -249,13 +259,17 @@ async def fahre(
             report.print(width=100, include_output=False, include_reasons=True)
             for failure in report.failures:
                 print(f"{failure.name}: {failure.error_message}")
-            zaehle(report, zaehler)
+            zaehle(report, zaehler, masse)
             zeige_texte(report, bezeichnung)
         ergebnisse[konfiguration] = (
             zaehler["bestanden"],
             zaehler["gesamt"],
             quote(zaehler),
         )
+        for name, werte in sorted(masse.items()):
+            print(
+                f"{name} im Mittel: {sum(werte) / len(werte):.2f} über {len(werte)} Fälle"
+            )
         print()
     return ergebnisse
 
