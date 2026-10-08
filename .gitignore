@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+.DS_Store
+einfache-sprache-workspace/**/feedback.json

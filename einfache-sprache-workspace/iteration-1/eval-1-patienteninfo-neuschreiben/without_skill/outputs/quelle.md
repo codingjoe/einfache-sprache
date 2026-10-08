@@ -1,0 +1,1 @@
+Das Mittel einmal täglich morgens nehmen. Bei Schwindel hinsetzen und langsam aufstehen. Nicht absetzen ohne Rücksprache, sonst kann der Blutdruck wieder steigen. Bei Schwellungen an den Beinen in der Praxis anrufen.

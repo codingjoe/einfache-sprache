@@ -1,0 +1,47 @@
+name: interne-email-umschreiben
+cases:
+  - name: mail-an-das-team
+    inputs: |
+      Kannst du diese Mail an mein Team kürzer und klarer machen? Die liest keiner
+      mehr zu Ende.
+
+      "Wie bereits gestern im Jour fixe kurz angerissen, möchte ich euch hiermit
+      darüber in Kenntnis setzen, dass die zum Jahresende anstehende Migration der
+      Datenbank, deren Durchführung durch das Infrastruktur-Team erfolgt, eine
+      frühzeitige Abstimmung der betroffenen Schnittstellen erfordert, weshalb ich
+      euch bitten möchte, bis kommenden Freitag zu prüfen und mir zurückzumelden, ob
+      aus eurer Sicht Anpassungsbedarf besteht, damit die Deadline gehalten werden
+      kann."
+
+      Es geht darum, dass jeder bis Freitag sagen soll, ob seine Schnittstelle
+      angepasst werden muss. Die Migration ist am 15.12.2026.
+    evaluators:
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
+      - LaengsterSatz:
+          max_woerter: 20
+      - InhaltBewahrt:
+          patterns:
+            - '(?i)Freitag'
+            - '(15\.12\.2026|15\. Dezember 2026)'
+            - '(?i)Schnittstelle\w*'
+            - '(?i)(anpass\w*|zurückmeld\w*|rückmeld\w*)'
+      - NichtsErfunden:
+          patterns:
+            - '(?i)(in Kenntnis|hiermit|Jour fixe)'
+            - '(?i)(Montag|Mittwoch|Donnerstag|Samstag|Sonntag)'
+      - Wortbudget:
+          max_woerter: 64
+      - LLMJudge:
+          rubric: |
+            Der Text ist deutlich kürzer als die Quelle, die 65 Wörter lang ist.
+            Verlangt ist: der Betreff oder der erste Satz sagt, worum es geht, die
+            Frist Freitag und das Datum 15.12.2026 stehen drin, und es steht konkret
+            drin, was zurückgemeldet werden soll. Floskeln wie "in Kenntnis setzen"
+            oder "hiermit" kommen nicht mehr vor. Kein Satz über 20 Wörter.
+          include_input: true
+          score:
+            evaluation_name: Klarheit
+            include_reason: true
+          assertion: false

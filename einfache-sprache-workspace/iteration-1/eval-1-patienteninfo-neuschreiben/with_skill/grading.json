@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "evidence": "alle vier gefunden",
+      "passed": true,
+      "text": "Alle vier Inhalte enthalten"
+    },
+    {
+      "evidence": "Warnhinweis vorhanden",
+      "passed": true,
+      "text": "Absetzen ist als Warnung formuliert"
+    },
+    {
+      "evidence": "Fettzeile als \u00dcberschrift",
+      "passed": true,
+      "text": "Der Text hat eine \u00dcberschrift"
+    },
+    {
+      "evidence": "127 W\u00f6rter",
+      "passed": true,
+      "text": "H\u00f6chstens 200 W\u00f6rter"
+    },
+    {
+      "evidence": "l\u00e4ngster Satz: 9 W\u00f6rter",
+      "passed": true,
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+    },
+    {
+      "evidence": "Passiv: 0, Anrede: True",
+      "passed": true,
+      "text": "Aktiv und direkte Anrede"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 6,
+    "total": 6
+  }
+}

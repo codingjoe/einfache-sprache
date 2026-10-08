@@ -1,0 +1,78 @@
+name: evals
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      models:
+        description: Comma separated Ollama models to score with
+        default: gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud
+permissions:
+  contents: read
+concurrency:
+  group: evals-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0
+      - name: Check the harness
+        run: uv run --locked einfache_sprache_evals --selbsttest
+      - name: Run the cases
+        env:
+          OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
+          EVALS_GLEICHZEITIG: ${{ vars.EVALS_GLEICHZEITIG || '6' }}
+          EVALS_MODELS: ${{ inputs.models || 'gemma4:cloud,mistral-large-4:cloud,deepseek-v4.1-flash:cloud,gpt-oss:120b-cloud,nemotron-3-nano:30b-cloud' }}
+          EVALS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        # pipefail, sonst schlägt nur tee fehl und ein kaputter Lauf sieht grün aus
+        run: |
+          set -o pipefail
+          uv run --locked einfache_sprache_evals --kommentar kommentar.md --ausgaben ausgaben | tee report.txt
+      - name: Upload the full report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: evals-report
+          path: |
+            report.txt
+            kommentar.md
+            ausgaben/
+          if-no-files-found: warn
+  comment:
+    needs: evals
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: evals-report
+      - name: Post the report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # Die Kurzfassung ist der Kommentar. Starb der Lauf vorher, gibt es sie
+          # nicht, und dann sagt der Kommentar wenigstens, dass etwas schiefging.
+          if [ -f kommentar.md ]; then
+            cp kommentar.md body.md
+          else
+            {
+              echo '## einfache-sprache evals'
+              echo
+              echo 'Der Lauf ist abgebrochen, bevor eine Kurzfassung entstand.'
+              echo 'Der vollständige Bericht hängt als Artefakt `evals-report` am Lauf.'
+            } > body.md
+          fi
+          comment_id=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PULL_REQUEST_NUMBER/comments" \
+            --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("## einfache-sprache evals")) | .id' \
+            | tail -1)
+          if [ -n "$comment_id" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$comment_id" -F body=@body.md > /dev/null
+          else
+            gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PULL_REQUEST_NUMBER/comments" -F body=@body.md > /dev/null
+          fi

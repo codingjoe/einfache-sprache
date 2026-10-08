@@ -1,0 +1,35 @@
+name: text-pruefen
+cases:
+  - name: ist-der-text-schon-einfach
+    inputs: |
+      Ist dieser Text schon in Einfacher Sprache? Bitte prüf ihn und sag mir konkret,
+      was ich ändern muss.
+
+      "Die Einhaltung der Frist ist von großer Bedeutung. Verspätet eingereichte
+      Unterlagen können nicht berücksichtigt werden. Bei Rückfragen wenden Sie sich
+      an die zuständige Sachbearbeitung."
+    evaluators:
+      - InhaltBewahrt:
+          patterns:
+            - '(?i)Einhaltung'
+            - '(?i)(Berücksichtigung|Sachbearbeitung|Rückfrage\w*)'
+            - '(?i)Korrektur'
+      - NichtsErfunden:
+          patterns:
+            # Ein Prüfbericht darf keinen Normtext woertlich zitieren.
+            - '(?i)(DIN 8581-1 sagt|laut DIN 8581-1 lautet|Abschnitt \d+(\.\d+)* der Norm)'
+      - LaengsterSatz:
+          max_woerter: 22
+      - LLMJudge:
+          rubric: |
+            Ein Prüfbericht, kein umgeschriebener Text. Verlangt ist: der Bericht
+            benennt die Substantivierungen Einhaltung, Berücksichtigung bzw.
+            Sachbearbeitung, er bemängelt, dass die Frist keine Zahl hat, jeder Befund
+            bringt einen konkreten Korrekturvorschlag, und der Bericht erfindet keine
+            Paragrafennummer und zitiert den kostenpflichtigen Normtext nicht wörtlich.
+            Ein Befund ohne Verbesserungsvorschlag gilt als Fehler.
+          include_input: true
+          score:
+            evaluation_name: Berichtsqualitaet
+            include_reason: true
+          assertion: false

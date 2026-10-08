@@ -1,0 +1,11 @@
+{
+  "assertions": [
+    "Benennt die Substantivierungen",
+    "Bem\u00e4ngelt die fehlende Zahl bei der Frist",
+    "Jeder Befund hat einen Korrekturvorschlag",
+    "Erfindet keine Paragrafennummer",
+    "Hinweis, dass kein Werkzeug Konformit\u00e4t garantiert"
+  ],
+  "eval_id": 2,
+  "eval_name": "eval-2-text-pruefen"
+}

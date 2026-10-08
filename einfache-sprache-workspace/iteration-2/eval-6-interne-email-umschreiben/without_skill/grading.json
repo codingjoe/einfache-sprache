@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "evidence": "Freitag genannt",
+      "passed": true,
+      "text": "Die Frist Freitag steht im Text"
+    },
+    {
+      "evidence": "Migrationsdatum genannt",
+      "passed": false,
+      "text": "Das Datum der Migration steht im Text"
+    },
+    {
+      "evidence": "konkrete R\u00fcckmeldung beschrieben",
+      "passed": false,
+      "text": "Sagt konkret, was zur\u00fcckgemeldet werden soll"
+    },
+    {
+      "evidence": "l\u00e4ngster Satz: 62 W\u00f6rter",
+      "passed": false,
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+    },
+    {
+      "evidence": "62 W\u00f6rter",
+      "passed": true,
+      "text": "K\u00fcrzer als die Quelle von 65 W\u00f6rtern"
+    },
+    {
+      "evidence": "keine Beh\u00f6rdenfloskel",
+      "passed": false,
+      "text": "Floskeln sind entfernt"
+    }
+  ],
+  "summary": {
+    "failed": 4,
+    "pass_rate": 0.33,
+    "passed": 2,
+    "total": 6
+  }
+}

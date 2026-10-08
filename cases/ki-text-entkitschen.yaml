@@ -1,0 +1,46 @@
+name: ki-text-entkitschen
+cases:
+  - name: vereinsseite-ohne-werbesprech
+    inputs: |
+      Hab das mit ChatGPT für unsere Vereins-Website geschrieben und finds irgendwie
+      schwülstig. Kannst du das in richtiges, simples Deutsch bringen? Sollten so um
+      die 80 Wörter bleiben. Der Verein heißt TSV Bogenhausen und macht Breitensport
+      für alle Altersgruppen.
+
+      "Unser Verein spielt eine entscheidende Rolle im lokalen Sportleben. Durch die
+      nahtlose Integration von Sportangeboten für alle Altersgruppen schaffen wir einen
+      echten Mehrwert für die Gemeinschaft. Es ist wichtig zu beachten, dass ein
+      ganzheitlicher Ansatz erforderlich ist, der nicht nur die körperliche, sondern
+      auch die soziale Dimension berücksichtigt."
+    evaluators:
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
+      - LaengsterSatz:
+          max_woerter: 20
+      - NichtsErfunden:
+          patterns:
+            - '(?i)\b(Mehrwert|nahtlos|ganzheitlich|entscheidende Rolle|Dimension)\b'
+            # Keine Zahl, kein Kurs und kein Termin steht in der Quelle.
+            - '\b\d{1,2}[.:]\d{2}\b'
+            - '(?i)\b(monat|dienstag|donnerstag|Kurs|Training)\b.{0,30}\b\d{1,2}[:.]?\d{0,2}\b'
+      - NenntZielgruppe:
+          patterns:
+            - '(?i)(TSV Bogenhausen|Altersgruppe\w*|Breitensport)'
+      - Wortbudget:
+          min_woerter: 45
+          max_woerter: 110
+      - LLMJudge:
+          rubric: |
+            Eine Vereinsvorstellung in Einfacher Sprache, ohne Werbesprech. Die
+            Aussage bleibt, die Füllwörter fallen weg. Verlangt ist: die Wörter
+            Mehrwert, nahtlos, ganzheitlich, entscheidende Rolle und Dimension kommen
+            nicht mehr vor, der Text liegt zwischen 45 und 110 Wörtern, und er nennt
+            entweder den TSV Bogenhausen oder die Altersgruppen. Verboten ist alles
+            Erfundene: keine Zahlen, keine Kurse, keine Trainingszeiten, keine
+            Termine.
+          include_input: true
+          score:
+            evaluation_name: Tonfall
+            include_reason: true
+          assertion: false

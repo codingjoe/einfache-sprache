@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "evidence": "zw\u00f6lf Monate genannt",
+      "passed": true,
+      "text": "Die zw\u00f6lf Monate Verl\u00e4ngerung stehen im Text"
+    },
+    {
+      "evidence": "drei Monate genannt",
+      "passed": true,
+      "text": "Die Frist von drei Monaten steht im Text"
+    },
+    {
+      "evidence": "Textform erkl\u00e4rt",
+      "passed": true,
+      "text": "Textform oder K\u00fcndigungswege genannt"
+    },
+    {
+      "evidence": "Datumsbeispiel vorhanden",
+      "passed": false,
+      "text": "Datumsbeispiel rechnet die Frist vor"
+    },
+    {
+      "evidence": "l\u00e4ngster Satz: 35 W\u00f6rter",
+      "passed": false,
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+    },
+    {
+      "evidence": "Folge der Fristvers\u00e4umnis genannt",
+      "passed": false,
+      "text": "Sagt, was bei vers\u00e4umter Frist passiert"
+    }
+  ],
+  "summary": {
+    "failed": 3,
+    "pass_rate": 0.5,
+    "passed": 3,
+    "total": 6
+  }
+}

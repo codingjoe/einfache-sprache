@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "Die zw\u00f6lf Monate Verl\u00e4ngerung stehen im Text",
+    "Die Frist von drei Monaten steht im Text",
+    "Die Textform oder die m\u00f6glichen Wege der K\u00fcndigung sind genannt",
+    "Der Text enth\u00e4lt ein Datumsbeispiel, das die Frist vorrechnet",
+    "Kein Satz ist l\u00e4nger als 20 W\u00f6rter",
+    "Der Text sagt, was bei vers\u00e4umter Frist passiert"
+  ],
+  "eval_id": 4,
+  "eval_name": "agb-kuendigung-umschreiben",
+  "prompt": "Das ist unsere K\u00fcndigungsklausel in den AGB. Ein Kunde hat sich beschwert, er habe sie nicht verstanden. Kannst du sie in Einfache Sprache bringen? Sie muss aber rechtlich dasselbe bedeuten.\n\n\"Das Vertragsverh\u00e4ltnis verl\u00e4ngert sich nach Ablauf der vereinbarten Laufzeit um jeweils zw\u00f6lf Monate, sofern es nicht von einer der Parteien mit einer Frist von drei Monaten zum Ende der jeweiligen Laufzeit in Textform gek\u00fcndigt wird.\"\n\nBitte auch ein Beispiel mit Datum, damit klar ist, wann man k\u00fcndigen muss."
+}

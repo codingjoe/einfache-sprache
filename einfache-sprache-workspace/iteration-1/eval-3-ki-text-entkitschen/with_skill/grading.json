@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "evidence": "alle entfernt",
+      "passed": true,
+      "text": "Kein Werbe-Sprech mehr"
+    },
+    {
+      "evidence": "62 W\u00f6rter",
+      "passed": true,
+      "text": "Ungef\u00e4hr 60 bis 100 W\u00f6rter"
+    },
+    {
+      "evidence": "Vereinsname oder Altersgruppen genannt",
+      "passed": true,
+      "text": "Nennt Verein oder Altersgruppen"
+    },
+    {
+      "evidence": "keine erfundenen Angaben",
+      "passed": true,
+      "text": "Erfindet keine Zahlen oder Termine"
+    },
+    {
+      "evidence": "l\u00e4ngster Satz: 10 W\u00f6rter",
+      "passed": true,
+      "text": "Kein Satz l\u00e4nger als 20 W\u00f6rter"
+    }
+  ],
+  "summary": {
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 5,
+    "total": 5
+  }
+}

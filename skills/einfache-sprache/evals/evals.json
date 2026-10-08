@@ -1,0 +1,108 @@
+{
+  "evals": [
+    {
+      "assertions": [
+        "Der Betrag 640,00 Euro steht im Text",
+        "Der Text enth\u00e4lt kein Semikolon",
+        "Der Text ist im Aktiv formuliert, keine Form von werden plus Mittelwort als Passiv",
+        "Kein Satz ist l\u00e4nger als 20 W\u00f6rter",
+        "Der Text nennt eine Handlungsm\u00f6glichkeit f\u00fcr die Leserin, etwa Widerspruch oder ein Gespr\u00e4ch",
+        "Der Text erkl\u00e4rt die Angemessenheitsgrenze, statt sie nur zu nennen"
+      ],
+      "eval_name": "behoerdenbescheid-umschreiben",
+      "expected_output": "Absatz in Einfacher Sprache. Die 640,00 Euro, die Angemessenheitsgrenze und die Teilablehnung bleiben erhalten. Aktiv, kurze S\u00e4tze, kein Semikolon, keine Substantivierungen. Am Ende steht eine Handlungsm\u00f6glichkeit.",
+      "files": [],
+      "id": 0,
+      "prompt": "Kannst du mir diesen Absatz aus einem Bescheid vom Jobcenter so umschreiben, dass ihn meine Mutter versteht? Sie ist 68 und hat kein Studium, aber sie ist nicht dement oder so, sie liest nur nicht gern Beh\u00f6rdendeutsch. Bitte in Einfacher Sprache.\n\n\"Aufgrund der Tatsache, dass die Ber\u00fccksichtigung der tats\u00e4chlichen Unterkunftskosten die nach \u00a7 22 Abs. 1 Satz 1 SGB II ma\u00dfgebliche Angemessenheitsgrenze \u00fcberschreitet, werden die Kosten der Unterkunft lediglich in H\u00f6he von 640,00 EUR monatlich anerkannt; eine vollst\u00e4ndige \u00dcbernahme der tats\u00e4chlichen Aufwendungen ist nicht m\u00f6glich.\"\n\nWichtig: die 640 Euro und die Tatsache, dass es eine Grenze gibt, m\u00fcssen drin bleiben. Und sie soll wissen, was sie jetzt tun kann."
+    },
+    {
+      "assertions": [
+        "Alle vier Inhalte sind enthalten: t\u00e4gliche Einnahme morgens, Verhalten bei Schwindel, nicht eigenm\u00e4chtig absetzen, Anruf bei Schwellungen",
+        "Die Praxisanweisung zum Absetzen ist als Warnung formuliert, nicht als unverbindlicher Hinweis",
+        "Der Text hat eine \u00dcberschrift",
+        "Der Text hat h\u00f6chstens 200 W\u00f6rter",
+        "Kein Satz ist l\u00e4nger als 20 W\u00f6rter",
+        "Der Text steht im Aktiv und richtet sich direkt an die Lesenden"
+      ],
+      "eval_name": "patienteninfo-neuschreiben",
+      "expected_output": "Aufh\u00e4ngbare Patienteninfo in Einfacher Sprache, rund 150 W\u00f6rter, mit \u00dcberschrift. Alle vier Inhalte vorhanden, Dosierung unver\u00e4ndert. Schwellungen und Nicht-Absetzen sind als Warnungen erkennbar.",
+      "files": [],
+      "id": 1,
+      "prompt": "Ich schreibe f\u00fcr unsere Hausarztpraxis eine Patienteninfo \u00fcber Blutdruckmittel. Bitte schreib den Text komplett neu in Einfacher Sprache, so etwa 150 W\u00f6rter. Das muss rein:\n\n- Das Mittel einmal t\u00e4glich morgens nehmen\n- Bei Schwindel hinsetzen und langsam aufstehen\n- Nicht absetzen ohne R\u00fccksprache, sonst kann der Blutdruck wieder steigen\n- Bei Schwellungen an den Beinen in der Praxis anrufen\n\nMeine Patienten sind im Schnitt 70 und lesen nicht besonders gut. Bitte mit \u00dcberschrift und so, dass sie es aufh\u00e4ngen k\u00f6nnen."
+    },
+    {
+      "assertions": [
+        "Der Bericht nennt die Substantivierungen Einhaltung, Ber\u00fccksichtigung oder Sachbearbeitung",
+        "Der Bericht bem\u00e4ngelt, dass die Frist keine Zahl hat",
+        "Jeder Befund enth\u00e4lt einen konkreten Korrekturvorschlag",
+        "Der Bericht erfindet keine Paragrafennummer und zitiert keinen Normtext w\u00f6rtlich",
+        "Der Bericht enth\u00e4lt einen Hinweis, dass kein Werkzeug Konformit\u00e4t garantieren kann"
+      ],
+      "eval_name": "text-pruefen",
+      "expected_output": "Pr\u00fcfbericht. Jeder Befund nennt Regel, Fundstelle und Korrekturvorschlag. Die Substantivierungen (Einhaltung, Ber\u00fccksichtigung, R\u00fcckfragen, Sachbearbeitung), das Passiv und die unbestimmte Frist werden gefunden. Es wird kein Normabschnitt w\u00f6rtlich zitiert.",
+      "files": [],
+      "id": 2,
+      "prompt": "Ist dieser Text schon in Einfacher Sprache? Bitte pr\u00fcf ihn und sag mir konkret, was ich \u00e4ndern muss.\n\n\"Die Einhaltung der Frist ist von gro\u00dfer Bedeutung. Versp\u00e4tet eingereichte Unterlagen k\u00f6nnen nicht ber\u00fccksichtigt werden. Bei R\u00fcckfragen wenden Sie sich an die zust\u00e4ndige Sachbearbeitung.\""
+    },
+    {
+      "assertions": [
+        "Die W\u00f6rter Mehrwert, nahtlos, ganzheitlich, entscheidende Rolle und Dimension kommen nicht mehr vor",
+        "Der Text ist ungef\u00e4hr 60 bis 100 W\u00f6rter lang",
+        "Der Text nennt den Vereinsnamen TSV Bogenhausen oder die Altersgruppen",
+        "Der Text erfindet keine Zahlen, Kurse oder Termine",
+        "Kein Satz ist l\u00e4nger als 20 W\u00f6rter"
+      ],
+      "eval_name": "ki-text-entkitschen",
+      "expected_output": "Vereinsvorstellung in Einfacher Sprache, etwa 80 W\u00f6rter, ohne Werbe-Sprech. Die Aussage bleibt, die F\u00fcllw\u00f6rter und Metaphern fallen weg. Keine erfundenen Zahlen, keine erfundenen Angebote.",
+      "files": [],
+      "id": 3,
+      "prompt": "Hab das mit ChatGPT f\u00fcr unsere Vereins-Website geschrieben und finds irgendwie schw\u00fclstig. Kannst du das in richtiges, einfaches Deutsch bringen? Sollten so um die 80 W\u00f6rter bleiben. Der Verein hei\u00dft TSV Bogenhausen und macht Breitensport f\u00fcr alle Altersgruppen.\n\n\"Unser Verein spielt eine entscheidende Rolle im lokalen Sportleben. Durch die nahtlose Integration von Sportangeboten f\u00fcr alle Altersgruppen schaffen wir einen echten Mehrwert f\u00fcr die Gemeinschaft. Es ist wichtig zu beachten, dass ein ganzheitlicher Ansatz erforderlich ist, der nicht nur die k\u00f6rperliche, sondern auch die soziale Dimension ber\u00fccksichtigt.\""
+    },
+    {
+      "assertions": [
+        "Die zw\u00f6lf Monate Verl\u00e4ngerung stehen im Text",
+        "Die Frist von drei Monaten steht im Text",
+        "Die Textform oder die m\u00f6glichen Wege der K\u00fcndigung sind genannt",
+        "Der Text enth\u00e4lt ein Datumsbeispiel, das die Frist vorrechnet",
+        "Kein Satz ist l\u00e4nger als 20 W\u00f6rter",
+        "Der Text sagt, was bei vers\u00e4umter Frist passiert"
+      ],
+      "eval_name": "agb-kuendigung-umschreiben",
+      "expected_output": "Klausel in Einfacher Sprache. Die zw\u00f6lf Monate, die drei Monate und die Textform bleiben erhalten. Ein Datumsbeispiel rechnet die Frist vor. Keine Rechtsfolge wird abgeschw\u00e4cht.",
+      "files": [],
+      "id": 4,
+      "prompt": "Das ist unsere K\u00fcndigungsklausel in den AGB. Ein Kunde hat sich beschwert, er habe sie nicht verstanden. Kannst du sie in Einfache Sprache bringen? Sie muss aber rechtlich dasselbe bedeuten.\n\n\"Das Vertragsverh\u00e4ltnis verl\u00e4ngert sich nach Ablauf der vereinbarten Laufzeit um jeweils zw\u00f6lf Monate, sofern es nicht von einer der Parteien mit einer Frist von drei Monaten zum Ende der jeweiligen Laufzeit in Textform gek\u00fcndigt wird.\"\n\nBitte auch ein Beispiel mit Datum, damit klar ist, wann man k\u00fcndigen muss."
+    },
+    {
+      "assertions": [
+        "Der Skill benennt ausdr\u00fccklich, dass Leichte Sprache hier gebraucht wird und Einfache Sprache nicht reicht",
+        "Der Skill verweist auf ein eigenes Regelwerk oder Pr\u00fcfverfahren f\u00fcr Leichte Sprache, etwa DIN SPEC 33429 oder Pr\u00fcfgruppen",
+        "Der Skill nennt den gelieferten Text nicht Leichte Sprache",
+        "Der Skill bietet dennoch konkrete Hilfe an, etwa eine Fassung in Einfacher Sprache oder Vorbereitung f\u00fcr die Pr\u00fcfgruppe",
+        "Die zw\u00f6lf Monate und der 01.07.2026 bleiben erhalten, wenn ein Text geliefert wird",
+        "Der Skill bittet um Entscheidung oder Information, statt das Ziel still umzudeuten"
+      ],
+      "eval_name": "leichte-sprache-abgrenzen",
+      "expected_output": "Der Skill sagt, dass f\u00fcr eine Leserin mit Demenz Leichte Sprache nach eigenen Regeln gebraucht wird und dass Einfache Sprache daf\u00fcr nicht ausreicht. Er bietet an, was er leisten kann, und liefert auf Wunsch eine Fassung in Einfacher Sprache als Zwischenschritt. Er nennt den Text nicht Leichte Sprache.",
+      "files": [],
+      "id": 5,
+      "prompt": "Meine Oma hat eine beginnende Demenz und versteht unsere Briefe vom Amt \u00fcberhaupt nicht mehr. Kannst du mir den Text hier in Leichte Sprache umschreiben? Sie soll ihn allein lesen k\u00f6nnen.\n\n\"Die Bewilligung der Leistungen erfolgt ab dem 01.07.2026 f\u00fcr einen Bewilligungszeitraum von zw\u00f6lf Monaten. Etwaige \u00c4nderungen der Einkommensverh\u00e4ltnisse sind unverz\u00fcglich mitzuteilen.\""
+    },
+    {
+      "assertions": [
+        "Die Frist Freitag steht im Text",
+        "Das Datum 15.12.2026 oder der 15. Dezember 2026 steht im Text",
+        "Der Text sagt konkret, was die Empf\u00e4nger zur\u00fcckmelden sollen",
+        "Kein Satz ist l\u00e4nger als 20 W\u00f6rter",
+        "Der Text ist k\u00fcrzer als die Quelle von 65 W\u00f6rtern",
+        "Floskeln wie in Kenntnis setzen oder hiermit kommen nicht mehr vor"
+      ],
+      "eval_name": "interne-email-umschreiben",
+      "expected_output": "Kurze klare Mail. Ein Satz sagt, worum es geht. Die Frist Freitag und das Datum 15.12.2026 stehen drin. Ein Satz sagt konkret, was zur\u00fcckgemeldet werden soll. Kein Beh\u00f6rdendeutsch, keine Substantivierungskette.",
+      "files": [],
+      "id": 6,
+      "prompt": "Kannst du diese Mail an mein Team k\u00fcrzer und klarer machen? Die liest keiner mehr zu Ende.\n\n\"Wie bereits gestern im Jour fixe kurz angerissen, m\u00f6chte ich euch hiermit dar\u00fcber in Kenntnis setzen, dass die zum Jahresende anstehende Migration der Datenbank, deren Durchf\u00fchrung durch das Infrastruktur-Team erfolgt, eine fr\u00fchzeitige Abstimmung der betroffenen Schnittstellen erfordert, weshalb ich euch bitten m\u00f6chte, bis kommenden Freitag zu pr\u00fcfen und mir zur\u00fcckzumelden, ob aus eurer Sicht Anpassungsbedarf besteht, damit die Deadline gehalten werden kann.\"\n\nEs geht darum, dass jeder bis Freitag sagen soll, ob seine Schnittstelle angepasst werden muss. Die Migration ist am 15.12.2026."
+    }
+  ],
+  "skill_name": "einfache-sprache"
+}

@@ -1,0 +1,47 @@
+name: patienteninfo-neuschreiben
+cases:
+  - name: blutdruckmittel-fuer-senioren
+    inputs: |
+      Ich schreibe für unsere Hausarztpraxis eine Patienteninfo über Blutdruckmittel.
+      Bitte schreib den Text komplett neu in Einfacher Sprache, so etwa 150 Wörter.
+      Das muss rein:
+
+      - Das Mittel einmal täglich morgens nehmen
+      - Bei Schwindel hinsetzen und langsam aufstehen
+      - Nicht absetzen ohne Rücksprache, sonst kann der Blutdruck wieder steigen
+      - Bei Schwellungen an den Beinen in der Praxis anrufen
+
+      Meine Patienten sind im Schnitt 70 und lesen nicht besonders gut. Bitte mit
+      Überschrift und so, dass sie es aufhängen können.
+    evaluators:
+      - HartePro100
+      - HoechstensHartePro100:
+          budget: 4.0
+      - LaengsterSatz:
+          max_woerter: 20
+      - InhaltBewahrt:
+          patterns:
+            - '(?i)morgens'
+            - '(?i)(schwindelig|schwindel)'
+            - '(?i)(langsam aufstehen|langsam auf)'
+            - '(?i)(nicht\s+von\s+selbst|nicht\s+allein|nicht\s+eigenmächtig|ohne\s+Rücksprache|einfach\s+absetz\w*|sprechen\s+Sie\s+(zuerst|vorher))'
+            - '(?i)(ge)?schwoll\w*|schwell\w*'
+            - '(?i)(anruf\w*|meld\w*|Praxis)'
+      - Wortbudget:
+          min_woerter: 100
+          max_woerter: 220
+      - HatUeberschrift
+      - LLMJudge:
+          rubric: |
+            Eine Patienteninfo zum Aufhängen, in Einfacher Sprache, für Leserinnen
+            und Leser um die 70 mit schwacher Lesefähigkeit. Verlangt sind alle vier
+            Inhalte, unverändert: einmal täglich morgens, bei Schwindel hinsetzen und
+            langsam aufstehen, nicht ohne Rücksprache absetzen, bei Schwellungen
+            anrufen. Das Absetzen muss als Warnung erkennbar sein und nicht als
+            unverbindlicher Hinweis. Dosierung und Warnzeichen dürfen nicht
+            abgeschwächt oder erfunden werden. Kein Satz über 20 Wörter.
+          include_input: true
+          score:
+            evaluation_name: Vollstaendigkeit
+            include_reason: true
+          assertion: false

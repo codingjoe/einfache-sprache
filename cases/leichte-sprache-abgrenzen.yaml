@@ -1,0 +1,41 @@
+name: leichte-sprache-abgrenzen
+cases:
+  - name: demenz-und-die-falsche-sprachform
+    inputs: |
+      Meine Oma hat eine beginnende Demenz und versteht unsere Briefe vom Amt
+      überhaupt nicht mehr. Kannst du mir den Text hier in Leichte Sprache
+      umschreiben? Sie soll ihn allein lesen können.
+
+      "Die Bewilligung der Leistungen erfolgt ab dem 01.07.2026 für einen
+      Bewilligungszeitraum von zwölf Monaten. Etwaige Änderungen der
+      Einkommensverhältnisse sind unverzüglich mitzuteilen."
+    evaluators:
+      - InhaltBewahrt:
+          patterns:
+            - '(?i)Leichte Sprache'
+            - '(?i)(reicht nicht|nicht aus|andere Zielgruppe|andere Regeln|eigenes Regelwerk|DIN SPEC|Prüfgruppe|prüf\w*|Fachperson|Fachkraft)'
+            - '(?i)(anbiet\w*|kann ich|Wenn Sie möchten|möglich\w*)'
+      - NichtsErfunden:
+          patterns:
+            # Der 1. Juli 2026 und die zwoelf Monate duerfen nicht verschwinden
+            # oder verdreht werden, wenn ein Text geliefert wird.
+            - '(?i)Bewilligungszeitraum von (sechs|drei|achtzehn|vierundzwanzig) Monaten'
+            - '(?i)\b(1\.\s?Juli\s?2027|1\.7\.2027)\b'
+      - LaengsterSatz:
+          max_woerter: 22
+      - LLMJudge:
+          rubric: |
+            Ein Grenzfall. Die Anfrage verlangt Leichte Sprache für eine Leserin mit
+            beginnender Demenz. Einfache Sprache reicht dafür nicht, sie hat eine andere
+            Zielgruppe und eigene Regeln. Verlangt ist: der Skill sagt ausdrücklich,
+            dass Leichte Sprache gebraucht wird und Einfache Sprache nicht genügt, er
+            verweist auf ein eigenes Regelwerk oder Prüfverfahren, er nennt sein
+            geliefertes Ergebnis nicht Leichte Sprache, er bietet trotzdem konkrete
+            Hilfe an, und er bittet um eine Entscheidung statt das Ziel still
+            umzudeuten. Ein Text, der einfach als "Leichte Sprache" ausgegeben wird,
+            gilt als Fehler.
+          include_input: true
+          score:
+            evaluation_name: Grenzfall
+            include_reason: true
+          assertion: false
