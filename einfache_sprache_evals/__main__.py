@@ -470,6 +470,23 @@ async def eine_aufgabe(
         return Ausgang(auftrag=auftrag, report=report)
 
 
+def fehlschlaege(report: EvaluationReport[str, str, Any]) -> list[str]:
+    """Listet nur die gefallenen Prüfpunkte mit ihrer Begründung.
+
+    Von 228 Urteilen in einem Lauf fallen etwa 40. Für die übrigen 188 eine
+    Begründung zu drucken, kostet ein Vielfaches des Berichts und hilft
+    niemandem.
+    """
+    zeilen: list[str] = []
+    for case in report.cases:
+        for gruppe in (case.assertions, case.scores):
+            for name, ergebnis in gruppe.items():
+                if isinstance(ergebnis.value, bool) and not ergebnis.value:
+                    grund = (ergebnis.reason or "").strip().replace("\n", " ")
+                    zeilen.append(f"FEHLGESCHLAGEN {case.name} · {name}: {grund}")
+    return zeilen
+
+
 def schreibe_ausgabe(
     kopf: str,
     berichte: list[Ausgang],
@@ -485,9 +502,14 @@ def schreibe_ausgabe(
     print(f"===== {kopf} =====")
     for a in berichte:
         assert a.report is not None
-        print(a.report.render(width=100, include_output=False, include_reasons=True))
+        # Ohne Begründungen. Sie stehen weiter unten, und zwar nur für die
+        # Prüfpunkte, die gefallen sind. Eine Begründung für jeden bestandenen
+        # Prüfpunkt war der Grund, warum der Bericht unlesbar groß wurde.
+        print(a.report.render(width=100, include_output=False, include_reasons=False))
         for failure in a.report.failures:
             print(f"{failure.name}: {failure.error_message}")
+        for zeile in fehlschlaege(a.report):
+            print(zeile)
     for a in fehler:
         print(f"{a.auftrag.pfad.stem}: {a.fehler}")
     if ausgaben is not None:
