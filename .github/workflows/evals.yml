@@ -24,16 +24,20 @@ jobs:
         env:
           OLLAMA_API_KEY: ${{ secrets.OLLAMA_API_KEY }}
           EVALS_MODEL: ${{ inputs.model || 'gemma4:cloud' }}
+          EVALS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         # pipefail, sonst schlägt nur tee fehl und ein kaputter Lauf sieht grün aus
         run: |
           set -o pipefail
-          uv run --locked einfache_sprache_evals | tee report.txt
-      - name: Upload the report
+          uv run --locked einfache_sprache_evals --kommentar kommentar.md | tee report.txt
+      - name: Upload the full report
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: evals-report
-          path: report.txt
+          path: |
+            report.txt
+            kommentar.md
+          if-no-files-found: warn
   comment:
     needs: evals
     if: always() && github.event_name == 'pull_request'
@@ -50,13 +54,18 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          {
-            echo '## einfache-sprache evals'
-            echo
-            echo '```text'
-            cat report.txt
-            echo '```'
-          } > body.md
+          # Die Kurzfassung ist der Kommentar. Starb der Lauf vorher, gibt es sie
+          # nicht, und dann sagt der Kommentar wenigstens, dass etwas schiefging.
+          if [ -f kommentar.md ]; then
+            cp kommentar.md body.md
+          else
+            {
+              echo '## einfache-sprache evals'
+              echo
+              echo 'Der Lauf ist abgebrochen, bevor eine Kurzfassung entstand.'
+              echo 'Der vollständige Bericht hängt als Artefakt `evals-report` am Lauf.'
+            } > body.md
+          fi
           comment_id=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PULL_REQUEST_NUMBER/comments" \
             --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("## einfache-sprache evals")) | .id' \
             | tail -1)

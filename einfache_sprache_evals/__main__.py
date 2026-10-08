@@ -7,8 +7,14 @@ Beitrag des Skills.
 
 Aufruf:
   uv run --locked einfache_sprache_evals
-  uv run --locked einfache_sprache_evals --nur mit       # nur ein Lauf
+  uv run --locked einfache_sprache_evals --nur mit          # nur ein Lauf
+  uv run --locked einfache_sprache_evals --kommentar k.md   # Kurzfassung schreiben
   EVALS_MODEL=gemma4:cloud uv run --locked einfache_sprache_evals
+
+Der volle Bericht geht auf die Standardausgabe und wird im Workflow als Artefakt
+abgelegt. Für den Pull-Request-Kommentar schreibt --kommentar eine Kurzfassung:
+Kopfzahlen, die Fälle mit Dauer und Bewertung, und die Namen der nicht
+bestandenen Prüfpunkte. Ohne deren Begründungen, die stehen im vollen Bericht.
 """
 
 from __future__ import annotations
@@ -18,6 +24,7 @@ import asyncio
 import os
 import sys
 from collections.abc import Awaitable, Callable
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -41,6 +48,44 @@ CASES_DIR = ROOT / "cases"
 MAX_CONCURRENCY = 4
 
 CONFIGURATIONS = ("mit", "ohne")
+
+BEZEICHNUNG = {"mit": "mit Skill", "ohne": "ohne Skill"}
+
+
+@dataclass
+class Fallkurz:
+    """Was ein Fall für die kurze Zusammenfassung beitragen muss.
+
+    Bewusst ohne die Begründungen der einzelnen Prüfpunkte. Die stehen im
+    vollständigen Bericht, der als Artefakt am Workflow hängt. Ein
+    Pull-Request-Kommentar, den niemand zu Ende liest, hilft niemandem.
+    """
+
+    name: str
+    dauer: float
+    bestanden: int
+    gesamt: int
+    bewertungen: dict[str, float] = field(default_factory=dict)
+    gefallen: list[str] = field(default_factory=list)
+
+    @property
+    def quote(self) -> str:
+        if not self.gesamt:
+            return "—"
+        return f"{self.bestanden}/{self.gesamt}"
+
+
+@dataclass
+class Laufkurz:
+    """Ein Konfigurationslauf: Kopfzahlen und die Fälle."""
+
+    bezeichnung: str
+    bestanden: int
+    gesamt: int
+    quote: float
+    masse: dict[str, float]
+    faelle: list[Fallkurz]
+    dauer: float
 
 
 def ollama_base_url(endpoint: str) -> str:
@@ -111,6 +156,82 @@ async def evaluate(
     )
 
 
+def sammle_fall(case: Any) -> Fallkurz:
+    """Zieht aus einem Berichtsfall nur das, was in den Kommentar gehört."""
+    bestanden = 0
+    gesamt = 0
+    gefallen: list[str] = []
+    bewertungen: dict[str, float] = {}
+    for gruppe in (case.assertions, case.scores):
+        for name, ergebnis in gruppe.items():
+            if isinstance(ergebnis.value, bool):
+                gesamt += 1
+                if ergebnis.value:
+                    bestanden += 1
+                else:
+                    gefallen.append(name)
+            elif isinstance(ergebnis.value, (int, float)):
+                bewertungen[name] = float(ergebnis.value)
+    dauer = float(getattr(case, "total_duration", 0.0) or 0.0)
+    return Fallkurz(
+        name=case.name,
+        dauer=dauer,
+        bestanden=bestanden,
+        gesamt=gesamt,
+        bewertungen=bewertungen,
+        gefallen=gefallen,
+    )
+
+
+def kommentar_text(laeufe: list[Laufkurz], modell: str, lauf_url: str) -> str:
+    """Baut den kurzen Kommentar für den Pull Request."""
+    zeilen = [
+        "## einfache-sprache evals",
+        "",
+        f"Modell: `{modell}`",
+        "",
+        "| Konfiguration | Prüfpunkte | Quote | Harte je 100 Wörter | Dauer |",
+        "| ------------- | ---------: | ----: | ------------------: | ----: |",
+    ]
+    for lauf in laeufe:
+        hart = lauf.masse.get("HartePro100")
+        hart_text = "—" if hart is None else f"{hart:.2f}".replace(".", ",")
+        quote = f"{lauf.quote:.1%}".replace(".", ",")
+        zeilen.append(
+            f"| {lauf.bezeichnung} | {lauf.bestanden}/{lauf.gesamt} | {quote} "
+            f"| {hart_text} | {lauf.dauer:.0f} s |"
+        )
+    if len(laeufe) == 2:
+        delta = laeufe[0].quote - laeufe[1].quote
+        zeilen += ["", f"Unterschied: **{delta:+.1%}**".replace(".", ",")]
+
+    for lauf in laeufe:
+        zeilen += [
+            "",
+            f"### {lauf.bezeichnung}",
+            "",
+            "| Fall | Dauer | Prüfpunkte | Bewertung | Nicht bestanden |",
+            "| ---- | ----: | ---------: | --------: | --------------- |",
+        ]
+        for fall in lauf.faelle:
+            bewertung = ", ".join(
+                f"{name} {wert:.2f}".replace(".", ",")
+                for name, wert in sorted(fall.bewertungen.items())
+            )
+            gefallen = ", ".join(fall.gefallen) if fall.gefallen else "—"
+            dauer = f"{fall.dauer:.1f} s".replace(".", ",")
+            zeilen.append(
+                f"| {fall.name} | {dauer} | {fall.quote} | {bewertung or '—'} | {gefallen} |"
+            )
+
+    hinweis = (
+        f"[Vollständiger Bericht mit allen Begründungen]({lauf_url}) "
+        "(Artefakt `evals-report` am Workflow-Lauf)."
+    )
+    zeilen += ["", hinweis, ""]
+    return "\n".join(zeilen)
+
+
 def zaehle(
     report: EvaluationReport[str, str, Any],
     zaehler: dict[str, int],
@@ -152,6 +273,39 @@ SCHLECHT = (
     "die Kosten der Unterkunft lediglich in Höhe von 640,00 EUR monatlich "
     "anerkannt; eine vollständige Übernahme ist nicht möglich."
 )
+
+
+def pruefe_kommentar(
+    report: EvaluationReport[str, str, Any], zaehler: dict[str, int]
+) -> int:
+    """Prüft den kurzen Kommentar.
+
+    Er darf die Begründungen nicht mitschleppen, sonst wächst er wieder zu
+    einem Aufsatz an, den niemand liest.
+    """
+    fehler = 0
+    faelle = [sammle_fall(c) for c in report.cases]
+    lauf = Laufkurz(
+        bezeichnung="mit Skill",
+        bestanden=zaehler["bestanden"],
+        gesamt=zaehler["gesamt"],
+        quote=quote(zaehler),
+        masse={"HartePro100": 1.2},
+        faelle=faelle,
+        dauer=1.5,
+    )
+    text = kommentar_text([lauf], "testmodell:cloud", "https://example.invalid/run")
+    for erwartet in ("## einfache-sprache evals", "| Fall |", "gut", "schlecht", "1,2"):
+        if erwartet not in text:
+            print(f"FEHLER: Kommentar enthält {erwartet!r} nicht")
+            fehler += 1
+    if "harte Verstöße auf" in text:
+        print("FEHLER: Kommentar schleppt die Begründungen mit")
+        fehler += 1
+    if len(text.splitlines()) > 25:
+        print(f"FEHLER: Kommentar ist {len(text.splitlines())} Zeilen lang")
+        fehler += 1
+    return fehler
 
 
 def selbsttest() -> int:
@@ -215,6 +369,8 @@ def selbsttest() -> int:
         print(f"FEHLER: Zähler sieht {zaehler['bestanden']} Treffer statt 1")
         fehler += 1
 
+    fehler += pruefe_kommentar(report, zaehler)
+
     if fehler == 0:
         print("Selbsttest bestanden. Gerüst und Regeln arbeiten.")
     return 1 if fehler else 0
@@ -246,20 +402,27 @@ async def fahre(
     repeats: int,
     konfigurationen: tuple[str, ...],
     skill: Skill,
-) -> dict[str, tuple[int, int, float]]:
-    """Fährt alle Fälle für jede Konfiguration und zählt die Urteile."""
+) -> tuple[dict[str, tuple[int, int, float]], list[Laufkurz]]:
+    """Fährt alle Fälle und liefert Kopfzahlen und die Kurzfassung je Lauf."""
     ergebnisse: dict[str, tuple[int, int, float]] = {}
-    masse: dict[str, list[float]] = {}
+    kurz: list[Laufkurz] = []
     for konfiguration in konfigurationen:
-        bezeichnung = "mit Skill" if konfiguration == "mit" else "ohne Skill"
+        bezeichnung = BEZEICHNUNG[konfiguration]
         print(f"===== Lauf {bezeichnung} =====")
         zaehler = {"bestanden": 0, "gesamt": 0}
+        masse: dict[str, list[float]] = {}
+        faelle: list[Fallkurz] = []
+        dauer = 0.0
         for path in dateien:
             report = await evaluate(path, model, repeats, konfiguration, skill)
             report.print(width=100, include_output=False, include_reasons=True)
             for failure in report.failures:
                 print(f"{failure.name}: {failure.error_message}")
             zaehle(report, zaehler, masse)
+            for case in report.cases:
+                fall = sammle_fall(case)
+                faelle.append(fall)
+                dauer += fall.dauer
             zeige_texte(report, bezeichnung)
         ergebnisse[konfiguration] = (
             zaehler["bestanden"],
@@ -270,8 +433,19 @@ async def fahre(
             print(
                 f"{name} im Mittel: {sum(werte) / len(werte):.2f} über {len(werte)} Fälle"
             )
+        kurz.append(
+            Laufkurz(
+                bezeichnung=bezeichnung,
+                bestanden=zaehler["bestanden"],
+                gesamt=zaehler["gesamt"],
+                quote=quote(zaehler),
+                masse={name: sum(w) / len(w) for name, w in masse.items()},
+                faelle=faelle,
+                dauer=dauer,
+            )
+        )
         print()
-    return ergebnisse
+    return ergebnisse, kurz
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -280,6 +454,12 @@ def main(argv: list[str] | None = None) -> int:
         "--nur",
         choices=CONFIGURATIONS,
         help="nur einen Lauf fahren, statt mit und ohne Skill",
+    )
+    parser.add_argument(
+        "--kommentar",
+        type=Path,
+        metavar="PFAD",
+        help="kurzen Bericht für den Pull Request zusätzlich in diese Datei schreiben",
     )
     parser.add_argument(
         "--selbsttest",
@@ -310,7 +490,16 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Fälle: {len(dateien)} aus {CASES_DIR}")
     print()
 
-    ergebnisse = asyncio.run(fahre(dateien, model, repeats, konfigurationen, skill))
+    ergebnisse, kurz = asyncio.run(
+        fahre(dateien, model, repeats, konfigurationen, skill)
+    )
+
+    if args.kommentar:
+        lauf_url = os.environ.get("EVALS_RUN_URL") or ""
+        args.kommentar.write_text(
+            kommentar_text(kurz, model_name, lauf_url), encoding="utf-8"
+        )
+        print(f"Kurzer Bericht geschrieben: {args.kommentar}")
 
     print("===== Ergebnis =====")
     for konfiguration, (bestanden, gesamt, rate) in ergebnisse.items():
