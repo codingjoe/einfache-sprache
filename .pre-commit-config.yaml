@@ -61,3 +61,5 @@ repos:
 ci:
   skip:
     - no-commit-to-branch
+    # Dem pre-commit.ci-Image fehlt uv; den Selbsttest fährt die evals-Action.
+    - evals-selbsttest
