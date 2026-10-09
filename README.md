@@ -37,4 +37,4 @@ Der Aufbau ist inspiriert von [AminBlg/SimpleEnglish](https://github.com/AminBlg
 
 ## Lizenz
 
-AGPL-3.0. Inoffizielles Projekt, nicht mit DIN oder DIN Media verbunden und nicht von ihnen geprüft.
+AGPL-3.0. Inoffizielles Projekt, nicht mit DIN oder DIN Media verbunden und nicht von ihnen geprüft. Keine Rechtsauskunft.
