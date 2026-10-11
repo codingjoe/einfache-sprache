@@ -31,6 +31,7 @@ cases:
           patterns:
             - '(?i)(in Kenntnis|hiermit|Jour fixe)'
             - '(?i)(Montag|Mittwoch|Donnerstag|Samstag|Sonntag)'
+      - KeinMetaSatz
       - Wortbudget:
           max_woerter: 64
       - LLMJudge:

@@ -21,12 +21,13 @@ cases:
           max_woerter: 20
       - InhaltBewahrt:
           patterns:
-            - '(?i)morgens'
+            - '(?i)(morgens|am\s+morgen\b|jeden\s+morgen\b)'
             - '(?i)(schwindelig|schwindel)'
             - '(?i)(langsam aufstehen|langsam auf)'
             - '(?i)(nicht\s+von\s+selbst|nicht\s+allein|nicht\s+eigenmächtig|ohne\s+Rücksprache|einfach\s+absetz\w*|sprechen\s+Sie\s+(zuerst|vorher))'
             - '(?i)(ge)?schwoll\w*|schwell\w*'
             - '(?i)(anruf\w*|meld\w*|Praxis)'
+      - KeinMetaSatz
       - Wortbudget:
           min_woerter: 100
           max_woerter: 220

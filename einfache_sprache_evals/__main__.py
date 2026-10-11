@@ -273,6 +273,23 @@ SCHLECHT = (
     "anerkannt; eine vollständige Übernahme ist nicht möglich."
 )
 
+MIT_META = (
+    "**Ihre Miete wird nur zum Teil übernommen**\n\n"
+    "Für Mieten gibt es eine Grenze. Bei Ihnen liegt sie bei 640,00 Euro im Monat.\n\n"
+    "Kein Werkzeug kann die Einhaltung der Norm garantieren.\n"
+)
+"""Ein guter Text mit dem Werkzeughinweis am Ende. Der Hinweis gehört in die
+Antwort, nicht in den Bescheid."""
+
+PATIENTENINFO = (
+    "**Blutdruckmittel richtig nehmen**\n\n"
+    "Nehmen Sie das Mittel jeden Morgen ein. Wenn Sie sich schwindelig fühlen, "
+    "setzen Sie sich hin. Stehen Sie dann langsam auf. Setzen Sie das Mittel nicht "
+    "ohne Rücksprache ab. Rufen Sie die Praxis an, wenn Ihre Beine anschwellen.\n"
+)
+"""Eine Patienteninfo, die den Fall erfüllt. Jeden Morgen ist die Formulierung,
+an der eine zu enge Musterliste gescheitert ist."""
+
 
 def pruefe_kommentar(
     report: EvaluationReport[str, str, Any], zaehler: dict[str, int]
@@ -325,6 +342,76 @@ def pruefe_kommentar(
     return fehler
 
 
+def _urteil(text: str, regel: object) -> bool:
+    """Wendet eine Regel auf einen Text an, ohne einen Modellaufruf."""
+    from pydantic_evals.evaluators import EvaluatorContext
+
+    ctx = EvaluatorContext(
+        name="selbsttest",
+        inputs=text,
+        metadata=None,
+        expected_output=None,
+        output=text,
+        duration=0.0,
+        _span_tree=None,
+        attributes={},
+        metrics={},
+    )
+    return regel.evaluate(ctx).value is True  # type: ignore[attr-defined]
+
+
+def pruefe_regeln() -> int:
+    """Die Regeln gegen bekannte Texte: die guten bestehen, die schlechten nicht."""
+    from .evaluators import (
+        HatUeberschrift,
+        InhaltBewahrt,
+        KeineHartenVerstoesse,
+        KeinMetaSatz,
+    )
+
+    fehler = 0
+
+    if not _urteil(GUT, KeineHartenVerstoesse()):
+        print("FEHLER: guter Text fällt bei KeineHartenVerstoesse durch")
+        fehler += 1
+    if _urteil(SCHLECHT, KeineHartenVerstoesse()):
+        print("FEHLER: schlechter Text besteht KeineHartenVerstoesse")
+        fehler += 1
+    if not _urteil(GUT, HatUeberschrift()):
+        print("FEHLER: Fettzeile wird nicht als Überschrift erkannt")
+        fehler += 1
+    if not _urteil(GUT, InhaltBewahrt(patterns=[r"640[.,]00", r"Grenze"])):
+        print("FEHLER: InhaltBewahrt findet die 640 Euro nicht")
+        fehler += 1
+    if not _urteil(GUT, KeinMetaSatz()):
+        print("FEHLER: sauberer Text fällt bei KeinMetaSatz durch")
+        fehler += 1
+    if _urteil(MIT_META, KeinMetaSatz()):
+        print("FEHLER: Werkzeughinweis im Text besteht KeinMetaSatz")
+        fehler += 1
+    return fehler
+
+
+def pruefe_fallmuster() -> int:
+    """Die Musterlisten der Fälle gegen einen Text, der sie erfüllen soll.
+
+    Eine zu enge Liste bestraft gutes Deutsch. Das fällt sonst erst im
+    bezahlten Lauf auf, und dann als Fehler des Modells statt des Falls.
+    """
+    from .evaluators import InhaltBewahrt
+
+    fehler = 0
+    patienteninfo = Dataset[str, str, Any].from_file(
+        CASES_DIR / "patienteninfo-neuschreiben.yaml", custom_evaluator_types=RULES
+    )
+    for fall in patienteninfo.cases:
+        for regel in fall.evaluators:
+            if isinstance(regel, InhaltBewahrt) and not _urteil(PATIENTENINFO, regel):
+                print(f"FEHLER: {fall.name} lehnt eine gültige Patienteninfo ab")
+                fehler += 1
+    return fehler
+
+
 def selbsttest() -> int:
     """Prüft das Gerüst und die Regeln, ohne einen Modellaufruf zu bezahlen.
 
@@ -332,38 +419,10 @@ def selbsttest() -> int:
     keine Aussage über den Skill.
     """
     from pydantic_evals import Case, Dataset
-    from pydantic_evals.evaluators import EvaluatorContext
 
-    from .evaluators import HatUeberschrift, InhaltBewahrt, KeineHartenVerstoesse
+    from .evaluators import KeineHartenVerstoesse
 
-    fehler = 0
-
-    def urteil(text: str, regel: object) -> bool:
-        ctx = EvaluatorContext(
-            name="selbsttest",
-            inputs=text,
-            metadata=None,
-            expected_output=None,
-            output=text,
-            duration=0.0,
-            _span_tree=None,
-            attributes={},
-            metrics={},
-        )
-        return regel.evaluate(ctx).value is True  # type: ignore[attr-defined]
-
-    if not urteil(GUT, KeineHartenVerstoesse()):
-        print("FEHLER: guter Text fällt bei KeineHartenVerstoesse durch")
-        fehler += 1
-    if urteil(SCHLECHT, KeineHartenVerstoesse()):
-        print("FEHLER: schlechter Text besteht KeineHartenVerstoesse")
-        fehler += 1
-    if not urteil(GUT, HatUeberschrift()):
-        print("FEHLER: Fettzeile wird nicht als Überschrift erkannt")
-        fehler += 1
-    if not urteil(GUT, InhaltBewahrt(patterns=[r"640[.,]00", r"Grenze"])):
-        print("FEHLER: InhaltBewahrt findet die 640 Euro nicht")
-        fehler += 1
+    fehler = pruefe_regeln() + pruefe_fallmuster()
 
     # Und der Zähler über einen echten Bericht.
     dataset = Dataset[str, str, None](

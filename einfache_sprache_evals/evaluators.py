@@ -44,6 +44,19 @@ def _pruefe(text: str) -> dict:
     return statistik
 
 
+META_MUSTER = (
+    r"(?i)kein\s+werkzeug",
+    r"(?i)werkzeug\w*[^.\n]{0,80}(garantier|sicherstell|gewährleist)",
+    r"(?i)einhaltung\s+(der|von)\s+(norm|din)",
+    r"(?i)\b(sprachmodell|ki-modell|als\s+ki)\b",
+)
+"""Sätze, die über die eigene Arbeit sprechen statt über die Sache.
+
+Im gelieferten Text haben sie nichts zu suchen. Der Prüfer druckt den Hinweis
+zur Norm selbst, das Modell muss ihn nicht wiederholen.
+"""
+
+
 @dataclass(repr=False)
 class KeineHartenVerstoesse(Evaluator[object, object, object]):
     """Kein harter Verstoß gegen die Regeln.
@@ -67,6 +80,44 @@ class KeineHartenVerstoesse(Evaluator[object, object, object]):
             value=True,
             reason=f"0 harte Verstöße auf {statistik['woerter']} Wörter "
             f"({statistik['hinweise']} Hinweise)",
+        )
+
+
+@dataclass(repr=False)
+class KeinMetaSatz(Evaluator[object, object, object]):
+    """Der gelieferte Text spricht nicht über die eigene Arbeit.
+
+    Ein Satz wie "Kein Werkzeug kann die Einhaltung der Norm garantieren"
+    gehört in die Antwort, nicht in den Bescheid, die AGB-Klausel oder die
+    Patienteninfo. Dort spricht die Organisation zu den Lesenden. Im
+    Prüfbericht ist ein solcher Satz dagegen richtig. Deshalb gehört diese
+    Regel nur in die Fälle, die einen Text liefern, nicht in den Prüffall.
+    """
+
+    patterns: Sequence[str] = META_MUSTER
+
+    def __post_init__(self) -> None:
+        self.patterns = _liste(self.patterns)
+
+    def evaluate(
+        self, ctx: EvaluatorContext[object, object, object]
+    ) -> EvaluationReason:
+        ausgabe = str(ctx.output)
+        treffer = [
+            m.group(0)
+            for p in self.patterns
+            if (m := re.search(p, ausgabe, re.IGNORECASE))
+        ]
+        if treffer:
+            return EvaluationReason(
+                value=False,
+                reason=(
+                    "Aussage über Werkzeuge, Modelle oder die Norm im Text: "
+                    f"{', '.join(map(repr, treffer))}. Sie gehört in die Antwort."
+                ),
+            )
+        return EvaluationReason(
+            value=True, reason="kein Satz über die eigene Arbeit im Text"
         )
 
 
@@ -243,6 +294,7 @@ RULES = (
     HoechstensHartePro100,
     InhaltBewahrt,
     KeineHartenVerstoesse,
+    KeinMetaSatz,
     LaengsterSatz,
     NenntZielgruppe,
     NichtsErfunden,

@@ -27,6 +27,7 @@ cases:
       - NenntZielgruppe:
           patterns:
             - '(?i)(TSV Bogenhausen|Altersgruppe\w*|Breitensport)'
+      - KeinMetaSatz
       - Wortbudget:
           min_woerter: 45
           max_woerter: 110
