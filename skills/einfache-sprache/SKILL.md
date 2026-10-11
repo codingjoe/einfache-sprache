@@ -67,7 +67,7 @@ Dasselbe gilt für Beträge, Adressen, Ansprechpersonen, Dosierungen und Aktenze
 1. **Beheben.** Jeder Fund ohne "(Hinweis)" ist hart. Bau um, ohne den Inhalt zu ändern, und prüfe erneut.
 1. **Hinweise beurteilen.** Bleibt ein Hinweis stehen, braucht er einen Grund. Eine Warnung mit "nicht" ist richtig.
 
-Ein harter Verstoß, der sich nur mit Inhaltsverlust beheben lässt, bleibt stehen und wird in der Antwort benannt. Sag in der Antwort in einem Satz, was der Prüfer meldet. Dieser Satz gehört in die Antwort, nicht an das Ende des Textes. Ohne Terminal arbeite die Selbstprüfung unten von Hand ab. Der Prüfer ist Musterabgleich, kein Normurteil.
+Ein harter Verstoß, der sich nur mit Inhaltsverlust beheben lässt, bleibt stehen und wird in der Antwort benannt. Sag in der Antwort in einem Satz, was der Prüfer meldet, und sonst nichts über die Arbeit. Ohne Terminal arbeite die Selbstprüfung unten von Hand ab. Der Prüfer ist Musterabgleich, kein Normurteil.
 
 ## Der Text
 
@@ -192,9 +192,9 @@ Korrektur: "…" (zwei Sätze)
 1. Prüfe jede Zahl, jede Frist, jeden Betrag und jede Rechtsfolge gegen die Quelle. Einfachere Sprache darf keine Zahl verändern.
 1. Prüfe, ob du eine Angabe erfunden hast. Vergleiche jede Zahl in deinem Text mit der Quelle. Steht sie nicht in der Quelle, wird sie zur Lücke im Text.
 1. Prüfe, ob der Text sagt, was die Person tun soll.
-1. Sag einmal, dass kein Werkzeug die Einhaltung der Norm garantieren kann, wenn der Nutzer Konformität verlangt hat. Den Hinweis druckt der Prüfer selbst, im gelieferten Text steht er nie.
+1. Bei der Frage nach Konformität sag, dass der Prüfer nur Musterabgleich ist und ein Test mit echten Lesenden bleibt. Den Satz über Werkzeuge und die Norm druckt der Prüfer selbst. Wiederhole ihn nicht, auch nicht in der Antwort.
 
-**Der Hinweis gehört in die Antwort, nie in den Text.** Ein Satz wie "Kein Werkzeug kann die Einhaltung der Norm garantieren" ist eine Aussage über deine Arbeit. In einem Bescheid, einer AGB-Klausel oder einer Patienteninfo hat er nichts zu suchen, denn dort spricht die Organisation zu den Lesenden. Im Testlauf hat ein Modell genau diesen Satz an das Ende einer Kündigungsklausel gehängt. Damit hat es die Rechtsfolge verwässert und sich zwei Regelverstöße eingehandelt. Prüfe zum Schluss: Steht im Text etwas über dich, das Modell, die Norm oder Werkzeuge? Dann streichen.
+**Kein Satz über deine Arbeit.** Ein Satz wie "Kein Werkzeug kann die Einhaltung der Norm garantieren" ist eine Aussage über das Werkzeug, nicht über die Sache. In einem Bescheid, einer AGB-Klausel oder einer Patienteninfo hat er nichts zu suchen, denn dort spricht die Organisation zu den Lesenden. In der Antwort steht er auch nicht, denn der Prüfer druckt ihn selbst. Im Testlauf hat ein Modell genau diesen Satz an das Ende einer Kündigungsklausel gehängt. Damit hat es die Rechtsfolge verwässert und sich zwei Regelverstöße eingehandelt. Prüfe zum Schluss: Steht irgendwo etwas über dich, das Modell, die Norm oder Werkzeuge? Dann streichen.
 
 ## Grenzen
 
