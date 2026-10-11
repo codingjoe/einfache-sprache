@@ -30,6 +30,7 @@ cases:
           # Andere Fristen als die aus der Quelle duerfen nicht auftauchen.
           - '(?i)\b(5|6|16|18|24|fünf|sechs|sechzehn|achtzehn|vierundzwanzig)\s+Monate\b'
           - '(?i)\b(1|ein|einen)\s+Monat\b'
+      - KeinMetaSatz
       - HatUeberschrift
       - LLMJudge:
           rubric: |

@@ -31,6 +31,7 @@ cases:
             # Kein Datum und keine Frist in der Quelle, also darf hier keine stehen.
             - '\b\d{1,2}\.\s?(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)\b'
             - '(?i)\b(innerhalb|binnen)\s+von\s+\w+\s+(Tagen|Wochen|Monaten)\b'
+      - KeinMetaSatz
       - HatUeberschrift
       - LLMJudge:
           rubric: |

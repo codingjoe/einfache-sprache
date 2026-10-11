@@ -59,6 +59,16 @@ Deshalb gilt: Fehlt im Quelltext eine Angabe, die die Lesenden brauchen, **erfin
 
 Dasselbe gilt für Beträge, Adressen, Ansprechpersonen, Dosierungen und Aktenzeichen. Eine offene Stelle im Text ist ein brauchbarer Text mit einer Frage daran. Eine erfundene Zahl ist ein falscher Text.
 
+## Der Prüfer läuft immer
+
+`scripts/pruefen.py` läuft bei jeder Aufgabe auf dem Ergebnis, auch beim Umschreiben und beim Neuschreiben. Der Text geht erst raus, wenn keine harten Verstöße mehr kommen.
+
+1. **Starten.** `python3 scripts/pruefen.py text.md`, für kurze Stücke `--text "…"`. Rückgabewert 1 allein sagt nicht, ob ein Fund hart ist. Lies den Bericht.
+1. **Beheben.** Jeder Fund ohne "(Hinweis)" ist hart. Bau um, ohne den Inhalt zu ändern, und prüfe erneut.
+1. **Hinweise beurteilen.** Bleibt ein Hinweis stehen, braucht er einen Grund. Eine Warnung mit "nicht" ist richtig.
+
+Ein harter Verstoß, der sich nur mit Inhaltsverlust beheben lässt, bleibt stehen und wird in der Antwort benannt. Sag in der Antwort in einem Satz, was der Prüfer meldet, und sonst nichts über die Arbeit. Ohne Terminal arbeite die Selbstprüfung unten von Hand ab. Der Prüfer ist Musterabgleich, kein Normurteil.
+
 ## Der Text
 
 ### Textebene
@@ -175,16 +185,16 @@ Korrektur: "…" (zwei Sätze)
 
 ## Selbstprüfung vor der Abgabe
 
-1. Zähle die Wörter in deinen drei längsten Sätzen. Über 20: teilen.
+1. Lass `scripts/pruefen.py` auf dem fertigen Text laufen und behebe jeden harten Verstoß. Über 20 Wörter im längsten Satz: teilen.
 1. Suche nach `;`, `–`, `—`, `z. B.`, `u. a.`, `usw.`, `bzw.`, `erfolgt`, `erfolgen`, `vornehmen`, `durchführen`, `wird` und `werden`. Jeder Treffer braucht einen Grund, sonst umbauen.
 1. Suche nach den Füllwörtern aus `references/wortliste.md`. Streichen, wenn sie keine Tatsache tragen.
 1. Lies jeden Absatz und frag: Welche eine Frage beantwortet er?
 1. Prüfe jede Zahl, jede Frist, jeden Betrag und jede Rechtsfolge gegen die Quelle. Einfachere Sprache darf keine Zahl verändern.
 1. Prüfe, ob du eine Angabe erfunden hast. Vergleiche jede Zahl in deinem Text mit der Quelle. Steht sie nicht in der Quelle, wird sie zur Lücke im Text.
 1. Prüfe, ob der Text sagt, was die Person tun soll.
-1. Sag einmal, dass kein Werkzeug die Einhaltung der Norm garantieren kann, wenn der Nutzer Konformität verlangt hat.
+1. Bei der Frage nach Konformität sag, dass der Prüfer nur Musterabgleich ist und ein Test mit echten Lesenden bleibt. Den Satz über Werkzeuge und die Norm druckt der Prüfer selbst. Wiederhole ihn nicht, auch nicht in der Antwort.
 
-**Der Hinweis gehört in die Antwort, nie in den Text.** Ein Satz wie "Kein Werkzeug kann die Einhaltung der Norm garantieren" ist eine Aussage über deine Arbeit. In einem Bescheid, einer AGB-Klausel oder einer Patienteninfo hat er nichts zu suchen, denn dort spricht die Organisation zu den Lesenden. Im Testlauf hat ein Modell genau diesen Satz an das Ende einer Kündigungsklausel gehängt. Damit hat es die Rechtsfolge verwässert und sich zwei Regelverstöße eingehandelt. Prüfe zum Schluss: Steht im Text etwas über dich, das Modell, die Norm oder Werkzeuge? Dann streichen.
+**Kein Satz über deine Arbeit.** Ein Satz wie "Kein Werkzeug kann die Einhaltung der Norm garantieren" ist eine Aussage über das Werkzeug, nicht über die Sache. In einem Bescheid, einer AGB-Klausel oder einer Patienteninfo hat er nichts zu suchen, denn dort spricht die Organisation zu den Lesenden. In der Antwort steht er auch nicht, denn der Prüfer druckt ihn selbst. Im Testlauf hat ein Modell genau diesen Satz an das Ende einer Kündigungsklausel gehängt. Damit hat es die Rechtsfolge verwässert und sich zwei Regelverstöße eingehandelt. Prüfe zum Schluss: Steht irgendwo etwas über dich, das Modell, die Norm oder Werkzeuge? Dann streichen.
 
 ## Grenzen
 

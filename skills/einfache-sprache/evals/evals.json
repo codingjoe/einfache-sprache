@@ -36,7 +36,7 @@
         "Der Bericht bem\u00e4ngelt, dass die Frist keine Zahl hat",
         "Jeder Befund enth\u00e4lt einen konkreten Korrekturvorschlag",
         "Der Bericht erfindet keine Paragrafennummer und zitiert keinen Normtext w\u00f6rtlich",
-        "Der Bericht enth\u00e4lt einen Hinweis, dass kein Werkzeug Konformit\u00e4t garantieren kann"
+        "Der Bericht nennt die Grenze des Verfahrens, etwa dass kein Werkzeug die Norm garantieren kann oder dass der Pr\u00fcfer nur Musterabgleich ist und ein Test mit echten Lesenden bleibt"
       ],
       "eval_name": "text-pruefen",
       "expected_output": "Pr\u00fcfbericht. Jeder Befund nennt Regel, Fundstelle und Korrekturvorschlag. Die Substantivierungen (Einhaltung, Ber\u00fccksichtigung, R\u00fcckfragen, Sachbearbeitung), das Passiv und die unbestimmte Frist werden gefunden. Es wird kein Normabschnitt w\u00f6rtlich zitiert.",

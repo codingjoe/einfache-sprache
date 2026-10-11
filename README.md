@@ -6,13 +6,15 @@ Amtsdeutsch, Fachjargon und Modell-Sprech werden zu Sätzen, die eine Leserin oh
 
 Der Skill ist Prompt + Script welches sicherstellt das ein Agent keine Regel halluziniert.
 
+Der Prüfer läuft in jedem Modus, bis keine harten Verstöße mehr kommen.
+
 ## Installieren
 
 ```bash
 npx skills add codingjoe/einfache-sprache
 ```
 
-oder 
+oder
 
 ```
 /plugin marketplace add codingjoe/claude-plugins
