@@ -14,7 +14,7 @@ Der Prüfer läuft in jedem Modus, bis keine harten Verstöße mehr kommen.
 npx skills add codingjoe/einfache-sprache
 ```
 
-oder 
+oder
 
 ```
 /plugin marketplace add codingjoe/claude-plugins
