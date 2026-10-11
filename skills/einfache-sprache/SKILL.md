@@ -59,6 +59,16 @@ Deshalb gilt: Fehlt im Quelltext eine Angabe, die die Lesenden brauchen, **erfin
 
 Dasselbe gilt für Beträge, Adressen, Ansprechpersonen, Dosierungen und Aktenzeichen. Eine offene Stelle im Text ist ein brauchbarer Text mit einer Frage daran. Eine erfundene Zahl ist ein falscher Text.
 
+## Der Prüfer läuft immer
+
+`scripts/pruefen.py` läuft bei jeder Aufgabe auf dem Ergebnis, auch beim Umschreiben und beim Neuschreiben. Der Text geht erst raus, wenn keine harten Verstöße mehr kommen.
+
+1. **Starten.** `python3 scripts/pruefen.py text.md`, für kurze Stücke `--text "…"`. Rückgabewert 1 allein sagt nicht, ob ein Fund hart ist. Lies den Bericht.
+1. **Beheben.** Jeder Fund ohne "(Hinweis)" ist hart. Bau um, ohne den Inhalt zu ändern, und prüfe erneut.
+1. **Hinweise beurteilen.** Bleibt ein Hinweis stehen, braucht er einen Grund. Eine Warnung mit "nicht" ist richtig.
+
+Ein harter Verstoß, der sich nur mit Inhaltsverlust beheben lässt, bleibt stehen und wird in der Antwort benannt. Sag in der Antwort in einem Satz, was der Prüfer meldet. Ohne Terminal arbeite die Selbstprüfung unten von Hand ab. Der Prüfer ist Musterabgleich, kein Normurteil.
+
 ## Der Text
 
 ### Textebene
@@ -175,7 +185,7 @@ Korrektur: "…" (zwei Sätze)
 
 ## Selbstprüfung vor der Abgabe
 
-1. Zähle die Wörter in deinen drei längsten Sätzen. Über 20: teilen.
+1. Lass `scripts/pruefen.py` auf dem fertigen Text laufen und behebe jeden harten Verstoß. Über 20 Wörter im längsten Satz: teilen.
 1. Suche nach `;`, `–`, `—`, `z. B.`, `u. a.`, `usw.`, `bzw.`, `erfolgt`, `erfolgen`, `vornehmen`, `durchführen`, `wird` und `werden`. Jeder Treffer braucht einen Grund, sonst umbauen.
 1. Suche nach den Füllwörtern aus `references/wortliste.md`. Streichen, wenn sie keine Tatsache tragen.
 1. Lies jeden Absatz und frag: Welche eine Frage beantwortet er?
